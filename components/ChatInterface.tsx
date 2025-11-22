@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, Info, Menu, FileDown, CheckCircle } from 'lucide-react';
+import { Send, Loader2, Menu, FileDown, CheckCircle } from 'lucide-react';
 import { Message, Role, RecueilData } from '../types';
 import { streamChatResponse } from '../services/geminiService';
 import MarkdownRenderer from './MarkdownRenderer';
@@ -44,6 +44,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     scrollToBottom();
   }, [messages, isLoading]);
 
+  // Reset internal state if messages are cleared externally
+  useEffect(() => {
+    if (messages.length === 0) {
+      setRecueilJson(null);
+      setIsLoading(false);
+      setInput('');
+    }
+  }, [messages]);
+
   // Check for Recueil JSON in the last message
   useEffect(() => {
     if (messages.length > 0) {
@@ -66,8 +75,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'inherit';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 120)}px`;
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 160)}px`;
     }
   }, [input]);
 
@@ -156,9 +165,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto text-center space-y-8">
-            <div className="w-16 h-16 bg-ref-green/20 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-4">
-              <Info size={32} />
-            </div>
             <div>
               <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">{activeTitle}</h2>
               <p className="text-slate-600 dark:text-slate-400">
@@ -242,30 +248,33 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
       {/* Input Area */}
       <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div className="max-w-3xl mx-auto relative">
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Posez votre question..."
-            className="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-ref-blue focus:border-transparent outline-none resize-none max-h-32 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 shadow-inner transition-colors"
-            rows={1}
-          />
-          <button
-            onClick={() => handleSendMessage()}
-            disabled={!input.trim() || isLoading}
-            className={`
-              absolute right-2 bottom-2 p-2 rounded-lg transition-colors
-              ${!input.trim() || isLoading 
-                ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed' 
-                : 'bg-ref-blue text-white hover:bg-sky-600'}
-            `}
-          >
-            {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
-          </button>
+        <div className="max-w-3xl mx-auto relative flex items-end gap-2">
+          <div className="relative w-full">
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Posez votre question..."
+              className="w-full pl-5 pr-14 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-ref-blue/50 focus:border-ref-blue outline-none resize-none max-h-48 min-h-[56px] text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 shadow-sm transition-all text-sm leading-relaxed"
+              rows={1}
+              style={{ overflow: 'hidden' }}
+            />
+            <button
+              onClick={() => handleSendMessage()}
+              disabled={!input.trim() || isLoading}
+              className={`
+                absolute right-2 bottom-2 p-2.5 rounded-xl transition-all duration-200 flex items-center justify-center
+                ${!input.trim() || isLoading 
+                  ? 'bg-transparent text-slate-300 dark:text-slate-600 cursor-not-allowed' 
+                  : 'bg-ref-blue text-white shadow-md hover:bg-sky-600 hover:scale-105'}
+              `}
+            >
+              {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
+            </button>
+          </div>
         </div>
-        <p className="text-center text-xs text-slate-400 dark:text-slate-500 mt-2">
+        <p className="text-center text-[10px] md:text-xs text-slate-400 dark:text-slate-500 mt-3 select-none">
           L'IA peut faire des erreurs. Vérifiez les informations auprès de votre direction juridique ou DSI.
         </p>
       </div>

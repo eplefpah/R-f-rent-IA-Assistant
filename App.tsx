@@ -25,6 +25,7 @@ const App: React.FC = () => {
   const [parcoursMessages, setParcoursMessages] = useState<Message[]>([]);
   const [recueilMessages, setRecueilMessages] = useState<Message[]>([]);
   const [currentView, setCurrentView] = useState<AppView>('welcome');
+  const [resetKey, setResetKey] = useState(0); // Clé pour forcer le re-render des composants
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const toggleSidebarCollapse = () => setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -40,17 +41,21 @@ const App: React.FC = () => {
   }, [isDarkMode]);
 
   const handleClearChat = () => {
-    if (window.confirm("Êtes-vous sûr de vouloir effacer la conversation actuelle ?")) {
-      if (currentView === 'chat') {
-        setMessages([]);
-      } else if (currentView === 'parcours') {
-        setParcoursMessages([]);
-      } else if (currentView === 'recueil') {
-        setRecueilMessages([]);
-      }
-      if (window.innerWidth < 768) {
-         setIsSidebarOpen(false);
-      }
+    // Action immédiate sans confirmation
+    if (currentView === 'chat') {
+      setMessages([]);
+    } else if (currentView === 'parcours') {
+      setParcoursMessages([]);
+    } else if (currentView === 'recueil') {
+      setRecueilMessages([]);
+    }
+    
+    // Incrémenter la clé pour forcer un montage propre du composant (Hard Reset)
+    // Cela garantit que l'état interne du chat (texte saisi, fichiers) est bien purgé
+    setResetKey(prev => prev + 1);
+    
+    if (window.innerWidth < 768) {
+       setIsSidebarOpen(false);
     }
   };
 
@@ -70,6 +75,7 @@ const App: React.FC = () => {
       case 'chat':
         return (
           <ChatInterface 
+            key={`chat-${resetKey}`} // Force refresh
             toggleSidebar={toggleSidebar} 
             messages={messages}
             setMessages={setMessages}
@@ -78,6 +84,7 @@ const App: React.FC = () => {
       case 'parcours':
         return (
           <ChatInterface 
+            key={`parcours-${resetKey}`} // Force refresh
             toggleSidebar={toggleSidebar} 
             messages={parcoursMessages}
             setMessages={setParcoursMessages}
@@ -90,6 +97,7 @@ const App: React.FC = () => {
       case 'recueil':
         return (
           <ChatInterface 
+            key={`recueil-${resetKey}`} // Force refresh
             toggleSidebar={toggleSidebar} 
             messages={recueilMessages}
             setMessages={setRecueilMessages}

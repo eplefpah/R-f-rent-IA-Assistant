@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Référent IA - Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              'ref-blue': '#6B9BD2',
+              'ref-green': '#90E4C1',
+              'ref-yellow': '#FFEE8C',
+              'ref-dark': '#1e293b',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+      }
+      /* Custom scrollbar for chat */
+      .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+      }
+      .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 20px;
+      }
+      .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: #475569;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "jspdf": "https://esm.sh/jspdf@2.5.1",
+    "jspdf-autotable": "https://esm.sh/jspdf-autotable@3.8.2"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

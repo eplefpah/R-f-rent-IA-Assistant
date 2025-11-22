@@ -1,0 +1,5 @@
+{
+  "name": "Référent IA - Assistant",
+  "description": "Assistant conversationnel intelligent pour les référents IA de l'administration publique française, basé sur le Kit Référent IA.",
+  "requestFramePermissions": []
+}

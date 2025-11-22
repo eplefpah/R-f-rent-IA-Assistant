@@ -1,0 +1,347 @@
+import { TrainingCourse } from "./types";
+
+export const TRAINING_COURSES: TrainingCourse[] = [
+  // Niveau 1 - Distant
+  {
+    id: "mooc-fondamentaux",
+    title: "MOOC Les fondamentaux de l'IA",
+    organizer: "CNFPT / ARNia",
+    modality: "À distance (MOOC gratuit)",
+    duration: "3 séances thématiques",
+    cost: "Gratuit",
+    level: "Niveau 1 - Distant",
+    isRecommended: false,
+    objectives: ["Concepts de base de l'IA", "Cas d'usage dans le secteur public local", "Limites et précautions d'usage"],
+    url: "#"
+  },
+  {
+    id: "mooc-intro-ia",
+    title: "MOOC Introduction à l'Intelligence Artificielle",
+    organizer: "Campus du numérique public / MinnaLearn / Université d'Helsinki",
+    modality: "À distance (MOOC gratuit)",
+    duration: "15 heures",
+    cost: "Gratuit",
+    level: "Niveau 1 - Distant",
+    isRecommended: false,
+    objectives: ["Comprendre la notion d'IA et ses principes", "Distinguer les différentes techniques d'IA", "Savoir comment l'IA va affecter notre travail"],
+    url: "#"
+  },
+  {
+    id: "pix-ia",
+    title: "Parcours PIX Intelligence artificielle",
+    organizer: "PIX Fonction publique d'État / Campus du numérique public",
+    modality: "À distance (parcours d'évaluation)",
+    duration: "45 minutes",
+    cost: "Gratuit",
+    level: "Niveau 1 - Distant",
+    isRecommended: true,
+    objectives: ["Généralités sur l'intelligence artificielle", "Application de l'intelligence artificielle", "Apprentissage automatique des données"],
+    url: "#"
+  },
+  {
+    id: "decouvrir-iag",
+    title: "Découvrir les IA génératives",
+    organizer: "DINUM / Inria / Campus du numérique public",
+    modality: "À distance (formation en ligne)",
+    duration: "Variable",
+    cost: "Gratuit",
+    level: "Niveau 1 - Distant",
+    isRecommended: true,
+    objectives: ["Découvrir le fonctionnement des IA génératives", "Mesurer le potentiel et identifier les usages pertinents", "Apprendre à formuler des instructions efficaces (prompts)"],
+    url: "#"
+  },
+  {
+    id: "prompter-initiation",
+    title: "Prompter avec l'IA Générative - Initiation",
+    organizer: "EN3S",
+    modality: "Présentiel",
+    duration: "1 jour",
+    cost: "Payant",
+    level: "Niveau 1 - Distant",
+    isRecommended: false,
+    objectives: ["Les fondamentaux de l'IA", "L'Intelligence Artificielle Générative (IAG)", "Ateliers pratiques : découverte et perfectionnement du prompt"],
+    url: "#"
+  },
+  {
+    id: "objectif-ia",
+    title: "Objectif IA : Initiez-vous à l'intelligence artificielle",
+    organizer: "France Num / Mentor.gouv.fr",
+    modality: "À distance",
+    duration: "Variable",
+    cost: "Gratuit",
+    level: "Niveau 1 - Distant",
+    isRecommended: false,
+    objectives: ["Initiation générale"],
+    url: "#"
+  },
+
+  // Niveau 2 - Confirmé
+  {
+    id: "formation-rgpd-ia",
+    title: "Formation RGPD & IA Act",
+    organizer: "Actecil Academy",
+    modality: "Présentiel ou à distance",
+    duration: "7 heures (1 jour)",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: true,
+    objectives: ["Comprendre les enjeux liés à l'utilisation de l'IA", "Acquérir les connaissances pour mener des projets IA conformes au RGPD", "Maîtriser les principes de l'IA Act"],
+    url: "#"
+  },
+  {
+    id: "rgpd-ria",
+    title: "RGPD : Comprendre le nouveau Règlement IA",
+    organizer: "IB Formation",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: false,
+    objectives: ["Introduction à l'IA (buts, enjeux, risques RGPD)", "Présentation du RIA (cadre éthique, définitions)", "Exigences clefs du RIA"],
+    url: "#"
+  },
+  {
+    id: "prompter-perfectionnement",
+    title: "Prompter avec l'IA Générative - Perfectionnement",
+    organizer: "EN3S",
+    modality: "Présentiel",
+    duration: "1 jour",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: true,
+    objectives: ["Fondamentaux du prompt Engineering", "Techniques avancées du prompt", "Cas d'usage du quotidien : exercices pratiques"],
+    url: "#"
+  },
+  {
+    id: "chatgpt-advanced",
+    title: "ChatGPT - Prompt engineering et fonctions avancées",
+    organizer: "M2i Formation",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: false,
+    objectives: ["Techniques avancées de prompting", "Few-shot learning", "Chain-of-thought"],
+    url: "#"
+  },
+  {
+    id: "iag-secteur-public",
+    title: "IA Générative : mise en œuvre dans le Secteur Public",
+    organizer: "Institut Capgemini",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: true,
+    objectives: ["Identifier les principes fondamentaux de l'IA, ML et IA générative", "Analyser des cas d'usage concrets de l'IAG dans le secteur public", "Expérimenter des outils d'IAG adaptés"],
+    url: "#"
+  },
+  {
+    id: "management-ia",
+    title: "Management et Intelligence Artificielle",
+    organizer: "EN3S",
+    modality: "Présentiel",
+    duration: "2 jours",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: false,
+    objectives: ["L'IA et la gestion des organisations", "Les impacts de l'IA dans le management", "Enjeux éthiques et managériaux de l'IA"],
+    url: "#"
+  },
+  {
+    id: "ethique-reglementation",
+    title: "Éthique et réglementation : encadrer l'usage de l'IA",
+    organizer: "CCI Formation",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: false,
+    objectives: ["Cadre éthique de l'IA", "IA Act et implications", "RGPD et protection des données"],
+    url: "#"
+  },
+  {
+    id: "ia-durable",
+    title: "IA durable et écoconception",
+    organizer: "The Green Compagnon",
+    modality: "Présentiel ou à distance",
+    duration: "1 jour",
+    cost: "Payant",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: true,
+    objectives: ["Identifier, analyser et limiter les risques et impacts potentiels", "Appliquer des outils pour mesurer, évaluer et limiter les impacts", "Définir et promouvoir des pratiques d'éco-conception"],
+    url: "#"
+  },
+  {
+    id: "module-ia-environnement",
+    title: "Module pédagogique IA & Environnement",
+    organizer: "ADEME / Arcep / IGN / ECOLAB / DGE / Inria / Sciences Po",
+    modality: "À distance (libre accès)",
+    duration: "Variable",
+    cost: "Gratuit",
+    level: "Niveau 2 - Confirmé",
+    isRecommended: false,
+    objectives: ["Réinsérer les questionnements sur l'impact environnemental de l'IA", "Faire le point sur les études disponibles", "Revenir sur les apports possibles de l'IA"],
+    url: "#"
+  },
+
+  // Niveau 3 - Expert
+  {
+    id: "cycle-superieur-ia",
+    title: "Cycle supérieur d'Intelligence artificielle",
+    organizer: "IHEMI",
+    modality: "Hybride (présentiel + voyage d'étude)",
+    duration: "154 heures",
+    cost: "2000-2500€",
+    level: "Niveau 3 - Expert",
+    isRecommended: true,
+    objectives: ["Acquérir une culture stratégique de l'IA", "Prioriser des cas d'usage à fort impact", "Maîtriser les enjeux budgétaires et organisationnels"],
+    url: "#"
+  },
+  {
+    id: "multi-agents",
+    title: "IA Générative : maîtrise et développement des Multi Agents Intelligents",
+    organizer: "Institut Capgemini",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "2295€ HT",
+    level: "Niveau 3 - Expert",
+    isRecommended: false,
+    objectives: ["MultiGPT", "MetaGPT", "Langchain"],
+    url: "#"
+  },
+  {
+    id: "gouvernance-ia",
+    title: "Gouvernance de l'IA : processus et outils pour la conformité",
+    organizer: "Institut Capgemini",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "2295€ HT",
+    level: "Niveau 3 - Expert",
+    isRecommended: false,
+    objectives: ["Mettre en place des processus de gouvernance de l'IA", "Maîtriser les outils de conformité", "Auditer et contrôler les projets IA"],
+    url: "#"
+  },
+  {
+    id: "ia-conformite-juridique",
+    title: "L'IA dans votre organisation : conformité et usages juridiques",
+    organizer: "Institut Capgemini",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "2295€ HT",
+    level: "Niveau 3 - Expert",
+    isRecommended: false,
+    objectives: ["Assurer la conformité de vos projets IA", "Identifier les usages à vocation juridique", "Cadre réglementaire avancé"],
+    url: "#"
+  },
+  {
+    id: "ia-rh",
+    title: "L'IA au service des RH : de la théorie à la pratique",
+    organizer: "Institut Capgemini",
+    modality: "Présentiel ou à distance",
+    duration: "2 jours",
+    cost: "2295€ HT",
+    level: "Niveau 3 - Expert",
+    isRecommended: false,
+    objectives: ["IA en gestion des ressources humaines", "Recrutement assisté par IA", "Gestion des compétences et formations personnalisées"],
+    url: "#"
+  },
+  {
+    id: "ia-niveau2-savoiria",
+    title: "Formation IA Niveau 2 - Ingénierie avancée",
+    organizer: "SavoirIA",
+    modality: "Présentiel (local)",
+    duration: "2 jours",
+    cost: "Payant",
+    level: "Niveau 3 - Expert",
+    isRecommended: false,
+    objectives: ["Ingénierie des prompts avancée", "Techniques de création et d'amélioration de contenus", "Reverse-prompting et arbre de pensées"],
+    url: "#"
+  },
+  {
+    id: "strategie-implementation",
+    title: "Formation IA Éligible CPF - Stratégie d'implémentation",
+    organizer: "SavoirIA",
+    modality: "Présentiel ou à distance",
+    duration: "Variable",
+    cost: "Payant",
+    level: "Niveau 3 - Expert",
+    isRecommended: true,
+    objectives: ["Définir une stratégie d'implémentation de l'IA", "Utiliser efficacement l'IA Générative", "Analyser et résoudre les problématiques éthiques"],
+    url: "#"
+  },
+  {
+    id: "piloter-transformation",
+    title: "Piloter la transformation numérique de l'action publique",
+    organizer: "INSP",
+    modality: "Présentiel",
+    duration: "Variable",
+    cost: "Payant",
+    level: "Niveau 3 - Expert",
+    isRecommended: false,
+    objectives: ["Transformation digitale de l'État", "Stratégie numérique", "Pilotage de projets IA complexes"],
+    url: "#"
+  },
+  {
+    id: "ecoconception",
+    title: "Ecoconception de service numérique",
+    organizer: "ENI Service",
+    modality: "Présentiel ou à distance",
+    duration: "3 jours",
+    cost: "Payant",
+    level: "Niveau 3 - Expert",
+    isRecommended: true,
+    objectives: ["Sensibilisation à l'écoconception", "Principes de l'écoconception", "Lutter contre l'obsolescence"],
+    url: "#"
+  },
+
+  // Transversal
+  {
+    id: "albert-formation",
+    title: "Albert - IA générative de l'État",
+    organizer: "DINUM / DataLab",
+    modality: "Documentation et API en ligne",
+    duration: "Variable",
+    cost: "Gratuit",
+    level: "Transversal",
+    isRecommended: true,
+    objectives: ["Utiliser Albert France Services", "Intégrer l'API Albert dans services tiers", "Utiliser Albert Tchap et Albert Chat"],
+    url: "#"
+  },
+  {
+    id: "cahiers-vacances",
+    title: "Cahiers de vacances du Campus - Module IA",
+    organizer: "Campus du numérique public",
+    modality: "À distance (programme estival)",
+    duration: "Variable",
+    cost: "Gratuit",
+    level: "Transversal",
+    isRecommended: false,
+    objectives: ["Vidéos courtes sur l'IA générative", "Fiches pratiques", "Outils concrets à expérimenter"],
+    url: "#"
+  },
+  {
+    id: "ia-fonction-publique",
+    title: "Intelligence Artificielle et Fonction Publique",
+    organizer: "Action First",
+    modality: "Présentiel",
+    duration: "2 jours",
+    cost: "Payant",
+    level: "Transversal",
+    isRecommended: false,
+    objectives: ["Utiliser l'IA dans les tâches administratives", "Optimiser les processus avec l'IA", "Connaître les outils adaptés à la fonction publique"],
+    url: "#"
+  },
+  {
+    id: "ia-droit",
+    title: "L'IA et le droit : RGPD, droit d'auteur",
+    organizer: "ADBS",
+    modality: "Présentiel ou à distance",
+    duration: "1 jour",
+    cost: "Payant",
+    level: "Transversal",
+    isRecommended: false,
+    objectives: ["RGPD et IA : articulation", "Droit d'auteur et contenus générés par IA", "Propriété intellectuelle"],
+    url: "#"
+  }
+];

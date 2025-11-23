@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Loader2, Menu, FileDown, CheckCircle } from 'lucide-react';
 import { Message, Role, RecueilData } from '../types';
 import { streamChatResponse } from '../services/geminiService';
+import { streamOllamaResponse } from '../services/ollamaService';
 import MarkdownRenderer from './MarkdownRenderer';
 import { APP_NAME, SUGGESTED_QUESTIONS } from '../constants';
 import { generateRecueilPDF } from '../utils/pdfGenerator';
@@ -114,8 +115,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         [...messages, userMsg],
         text,
         (chunk) => {
-          setMessages(prev => prev.map(msg => 
-            msg.id === aiMsgId 
+          setMessages(prev => prev.map(msg =>
+            msg.id === aiMsgId
               ? { ...msg, text: msg.text + chunk }
               : msg
           ));
@@ -123,15 +124,39 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         systemInstruction
       );
     } catch (error) {
-      setMessages(prev => prev.map(msg => 
-        msg.id === aiMsgId 
-          ? { ...msg, text: "Désolé, une erreur est survenue lors de la connexion à l'assistant. Veuillez vérifier votre clé API ou réessayer plus tard." }
-          : msg
-      ));
+      console.warn("Gemini failed, trying Ollama fallback...", error);
+
+      try {
+        setMessages(prev => prev.map(msg =>
+          msg.id === aiMsgId
+            ? { ...msg, text: "" }
+            : msg
+        ));
+
+        await streamOllamaResponse(
+          [...messages, userMsg],
+          text,
+          (chunk) => {
+            setMessages(prev => prev.map(msg =>
+              msg.id === aiMsgId
+                ? { ...msg, text: msg.text + chunk }
+                : msg
+            ));
+          },
+          systemInstruction
+        );
+      } catch (ollamaError) {
+        console.error("Both Gemini and Ollama failed:", ollamaError);
+        setMessages(prev => prev.map(msg =>
+          msg.id === aiMsgId
+            ? { ...msg, text: "Désolé, une erreur est survenue lors de la connexion aux assistants IA. Veuillez vérifier votre connexion et réessayer." }
+            : msg
+        ));
+      }
     } finally {
       setIsLoading(false);
-      setMessages(prev => prev.map(msg => 
-        msg.id === aiMsgId 
+      setMessages(prev => prev.map(msg =>
+        msg.id === aiMsgId
           ? { ...msg, isStreaming: false }
           : msg
       ));

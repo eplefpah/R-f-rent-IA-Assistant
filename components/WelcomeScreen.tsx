@@ -2,6 +2,7 @@
 import React from 'react';
 import { MessageSquare, FolderOpen, Users, Settings, Menu } from 'lucide-react';
 import { AppView } from '../types';
+import Card3D from './Card3D';
 
 interface WelcomeScreenProps {
   onNavigate: (view: AppView) => void;
@@ -45,52 +46,27 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[500px] bg-white/50 dark:bg-[#1e1b4b]/40 blur-3xl rounded-[100%] -z-10" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 justify-items-center">
-            
-            {/* Card 1: Mon Coach */}
-            <button 
+            <Card3D
+              icon={<MessageSquare size={48} strokeWidth={1} />}
+              label="Mon Coach"
               onClick={() => onNavigate('chat')}
-              className="group flex flex-col items-center space-y-4 transition-transform hover:scale-105 focus:outline-none"
-            >
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl border border-slate-300 dark:border-white/20 bg-white/50 dark:bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:border-ref-blue group-hover:shadow-lg group-hover:shadow-ref-blue/20 transition-all duration-300">
-                <MessageSquare 
-                  size={48} 
-                  strokeWidth={1} 
-                  className="text-slate-700 dark:text-white group-hover:text-ref-blue transition-colors" 
-                />
-              </div>
-              <span className="text-lg font-medium text-slate-700 dark:text-white tracking-widest uppercase">Mon Coach</span>
-            </button>
-
-            {/* Card 2: Mes Ressources */}
-            <button 
+              hoverColor="ref-blue"
+              shadowColor="ref-blue/20"
+            />
+            <Card3D
+              icon={<FolderOpen size={48} strokeWidth={1} />}
+              label="Mes Ressources"
               onClick={() => onNavigate('docs')}
-              className="group flex flex-col items-center space-y-4 transition-transform hover:scale-105 focus:outline-none"
-            >
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl border border-slate-300 dark:border-white/20 bg-white/50 dark:bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:border-ref-green group-hover:shadow-lg group-hover:shadow-ref-green/20 transition-all duration-300">
-                <FolderOpen 
-                  size={48} 
-                  strokeWidth={1} 
-                  className="text-slate-700 dark:text-white group-hover:text-ref-green transition-colors" 
-                />
-              </div>
-              <span className="text-lg font-medium text-slate-700 dark:text-white tracking-widest uppercase">Mes Ressources</span>
-            </button>
-
-            {/* Card 3: Mon Réseau */}
-            <button 
+              hoverColor="ref-green"
+              shadowColor="ref-green/20"
+            />
+            <Card3D
+              icon={<Users size={48} strokeWidth={1} />}
+              label="Mon Réseau"
               onClick={() => onNavigate('contacts')}
-              className="group flex flex-col items-center space-y-4 transition-transform hover:scale-105 focus:outline-none"
-            >
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl border border-slate-300 dark:border-white/20 bg-white/50 dark:bg-white/5 backdrop-blur-sm flex items-center justify-center group-hover:border-ref-yellow group-hover:shadow-lg group-hover:shadow-ref-yellow/20 transition-all duration-300">
-                <Users 
-                  size={48} 
-                  strokeWidth={1} 
-                  className="text-slate-700 dark:text-white group-hover:text-ref-yellow transition-colors" 
-                />
-              </div>
-              <span className="text-lg font-medium text-slate-700 dark:text-white tracking-widest uppercase">Mon Réseau</span>
-            </button>
-
+              hoverColor="ref-yellow"
+              shadowColor="ref-yellow/20"
+            />
           </div>
         </div>
 

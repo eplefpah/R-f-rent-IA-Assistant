@@ -22,6 +22,7 @@ interface Satellite {
 const SpaceBackground: React.FC = () => {
   const [stars, setStars] = useState<Star[]>([]);
   const [satellites, setSatellites] = useState<Satellite[]>([]);
+  const [styles, setStyles] = useState<string>('');
 
   useEffect(() => {
     // Generate stars
@@ -63,6 +64,28 @@ const SpaceBackground: React.FC = () => {
       };
     });
     setSatellites(generatedSatellites);
+
+    // Generate CSS for each satellite with unique keyframes
+    const satelliteStyles = generatedSatellites.map((sat) => `
+      @keyframes satelliteMove${sat.id} {
+        0% {
+          transform: translate(${sat.startX}%, ${sat.startY}%);
+          opacity: 0;
+        }
+        5% {
+          opacity: 1;
+        }
+        95% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(${sat.endX}%, ${sat.endY}%);
+          opacity: 0;
+        }
+      }
+    `).join('');
+
+    setStyles(satelliteStyles);
   }, []);
 
   return (
@@ -76,23 +99,6 @@ const SpaceBackground: React.FC = () => {
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(15px); }
-        }
-
-        @keyframes satelliteMove {
-          0% {
-            transform: translate(var(--start-x), var(--start-y)) scale(1);
-            opacity: 0;
-          }
-          5% {
-            opacity: 1;
-          }
-          95% {
-            opacity: 1;
-          }
-          100% {
-            transform: translate(var(--end-x), var(--end-y)) scale(0.5);
-            opacity: 0;
-          }
         }
 
         .star {
@@ -111,6 +117,8 @@ const SpaceBackground: React.FC = () => {
           box-shadow: 0 0 6px rgba(147, 197, 253, 0.8);
           filter: drop-shadow(0 0 3px rgba(147, 197, 253, 0.6));
         }
+
+        ${styles}
       `}</style>
 
       {/* Stars */}
@@ -135,11 +143,7 @@ const SpaceBackground: React.FC = () => {
           key={`satellite-${satellite.id}`}
           className="satellite dark:block hidden"
           style={{
-            '--start-x': `${satellite.startX}%`,
-            '--start-y': `${satellite.startY}%`,
-            '--end-x': `${satellite.endX}%`,
-            '--end-y': `${satellite.endY}%`,
-            animation: `satelliteMove ${satellite.duration}s linear infinite`,
+            animation: `satelliteMove${satellite.id} ${satellite.duration}s linear infinite`,
             animationDelay: `${satellite.delay}s`,
           } as React.CSSProperties}
         />

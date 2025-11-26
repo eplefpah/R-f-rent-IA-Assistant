@@ -37,20 +37,20 @@ const SpaceBackground: React.FC = () => {
     setStars(generatedStars);
 
     // Generate satellites
-    const generatedSatellites: Satellite[] = Array.from({ length: 8 }, (_, i) => {
+    const generatedSatellites: Satellite[] = Array.from({ length: 12 }, (_, i) => {
       const startSide = Math.random() > 0.5 ? 'left' : 'top';
       let startX, startY, endX, endY;
 
       if (startSide === 'left') {
-        startX = -10;
+        startX = -5;
         startY = Math.random() * 100;
-        endX = 110;
-        endY = startY + (Math.random() - 0.5) * 30;
+        endX = 105;
+        endY = startY + (Math.random() - 0.5) * 40;
       } else {
         startX = Math.random() * 100;
-        startY = -10;
-        endX = startX + (Math.random() - 0.5) * 30;
-        endY = 110;
+        startY = -5;
+        endX = startX + (Math.random() - 0.5) * 40;
+        endY = 105;
       }
 
       return {
@@ -59,8 +59,8 @@ const SpaceBackground: React.FC = () => {
         startY,
         endX,
         endY,
-        duration: Math.random() * 20 + 15,
-        delay: Math.random() * 10,
+        duration: Math.random() * 15 + 20,
+        delay: i * 2,
       };
     });
     setSatellites(generatedSatellites);
@@ -110,12 +110,12 @@ const SpaceBackground: React.FC = () => {
 
         .satellite {
           position: absolute;
-          width: 6px;
-          height: 6px;
-          background: radial-gradient(circle, #93c5fd 0%, #3b82f6 100%);
+          width: 8px;
+          height: 8px;
+          background: #60a5fa;
           border-radius: 50%;
-          box-shadow: 0 0 6px rgba(147, 197, 253, 0.8);
-          filter: drop-shadow(0 0 3px rgba(147, 197, 253, 0.6));
+          box-shadow: 0 0 8px rgba(96, 165, 250, 1), 0 0 12px rgba(96, 165, 250, 0.8);
+          filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.8));
         }
 
         ${styles}
@@ -141,7 +141,7 @@ const SpaceBackground: React.FC = () => {
       {satellites.map((satellite) => (
         <div
           key={`satellite-${satellite.id}`}
-          className="satellite dark:block hidden"
+          className="satellite"
           style={{
             animation: `satelliteMove${satellite.id} ${satellite.duration}s linear infinite`,
             animationDelay: `${satellite.delay}s`,

@@ -16,16 +16,15 @@ interface Satellite {
   endX: number;
   endY: number;
   duration: number;
-  delay: number;
+  startTime: number;
 }
 
 const SpaceBackground: React.FC = () => {
   const [stars, setStars] = useState<Star[]>([]);
   const [satellites, setSatellites] = useState<Satellite[]>([]);
-  const [styles, setStyles] = useState<string>('');
+  const [satellitePositions, setSatellitePositions] = useState<Record<number, { x: number; y: number; opacity: number }>>({});
 
   useEffect(() => {
-    // Generate stars
     const generatedStars: Star[] = Array.from({ length: 50 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
@@ -36,7 +35,7 @@ const SpaceBackground: React.FC = () => {
     }));
     setStars(generatedStars);
 
-    // Generate satellites
+    const now = Date.now();
     const generatedSatellites: Satellite[] = Array.from({ length: 12 }, (_, i) => {
       const startSide = Math.random() > 0.5 ? 'left' : 'top';
       let startX, startY, endX, endY;
@@ -60,33 +59,49 @@ const SpaceBackground: React.FC = () => {
         endX,
         endY,
         duration: Math.random() * 15 + 20,
-        delay: i * 2,
+        startTime: now + i * 2000,
       };
     });
     setSatellites(generatedSatellites);
-
-    // Generate CSS for each satellite with unique keyframes
-    const satelliteStyles = generatedSatellites.map((sat) => `
-      @keyframes satelliteMove${sat.id} {
-        0% {
-          transform: translate(${sat.startX}%, ${sat.startY}%);
-          opacity: 0;
-        }
-        5% {
-          opacity: 1;
-        }
-        95% {
-          opacity: 1;
-        }
-        100% {
-          transform: translate(${sat.endX}%, ${sat.endY}%);
-          opacity: 0;
-        }
-      }
-    `).join('');
-
-    setStyles(satelliteStyles);
   }, []);
+
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const updateSatellites = () => {
+      const now = Date.now();
+      const positions: Record<number, { x: number; y: number; opacity: number }> = {};
+
+      satellites.forEach((satellite) => {
+        const elapsed = now - satellite.startTime;
+        const progress = (elapsed % (satellite.duration * 1000)) / (satellite.duration * 1000);
+
+        let opacity = 0;
+        if (progress < 0.05) {
+          opacity = progress / 0.05;
+        } else if (progress > 0.95) {
+          opacity = (1 - progress) / 0.05;
+        } else {
+          opacity = 1;
+        }
+
+        positions[satellite.id] = {
+          x: satellite.startX + (satellite.endX - satellite.startX) * progress,
+          y: satellite.startY + (satellite.endY - satellite.startY) * progress,
+          opacity,
+        };
+      });
+
+      setSatellitePositions(positions);
+      animationFrameId = requestAnimationFrame(updateSatellites);
+    };
+
+    if (satellites.length > 0) {
+      animationFrameId = requestAnimationFrame(updateSatellites);
+    }
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [satellites]);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -109,19 +124,17 @@ const SpaceBackground: React.FC = () => {
         }
 
         .satellite {
-          position: absolute;
+          position: fixed;
           width: 8px;
           height: 8px;
           background: #60a5fa;
           border-radius: 50%;
           box-shadow: 0 0 8px rgba(96, 165, 250, 1), 0 0 12px rgba(96, 165, 250, 0.8);
           filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.8));
+          pointer-events: none;
         }
-
-        ${styles}
       `}</style>
 
-      {/* Stars */}
       {stars.map((star) => (
         <div
           key={`star-${star.id}`}
@@ -137,19 +150,24 @@ const SpaceBackground: React.FC = () => {
         />
       ))}
 
-      {/* Satellites */}
-      {satellites.map((satellite) => (
-        <div
-          key={`satellite-${satellite.id}`}
-          className="satellite"
-          style={{
-            animation: `satelliteMove${satellite.id} ${satellite.duration}s linear infinite`,
-            animationDelay: `${satellite.delay}s`,
-          } as React.CSSProperties}
-        />
-      ))}
+      {satellites.map((satellite) => {
+        const pos = satellitePositions[satellite.id];
+        if (!pos) return null;
 
-      {/* Light stars for light mode */}
+        return (
+          <div
+            key={`satellite-${satellite.id}`}
+            className="satellite dark:block hidden"
+            style={{
+              left: `${pos.x}%`,
+              top: `${pos.y}%`,
+              opacity: pos.opacity,
+              transform: 'translate(-50%, -50%)',
+            } as React.CSSProperties}
+          />
+        );
+      })}
+
       {stars.slice(0, 20).map((star) => (
         <div
           key={`light-star-${star.id}`}

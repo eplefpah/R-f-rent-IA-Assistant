@@ -175,11 +175,11 @@ const Sidebar: React.FC<SidebarProps> = ({
             `}>
                 <NavItem view="missions" icon={Target} label="•Missions du Réf’IA" />
                 <NavItem view="ethics" icon={Scale} label="•Déontologie & éthique" />
-                <NavItem view="charters" icon={FileText} label="Ma charte" />
+                <NavItem view="charters" icon={FileText} label="Carte du Réf'IA" />
                 <NavItem view="environmental" icon={Leaf} label="Impact Environnemental" />
-                <NavItem view="tools" icon={Cpu} label="Mes outils" />
-                <NavItem view="training" icon={GraduationCap} label="Mes Formations" />
-                <NavItem view="veille" icon={Activity} label="Ma veille IA (live)" />
+                <NavItem view="tools" icon={Cpu} label="Outils disponibles" />
+                <NavItem view="training" icon={GraduationCap} label="Formations IA" />
+                <NavItem view="veille" icon={Activity} label="Veille IA (live)" />
             </div>
           </div>
 

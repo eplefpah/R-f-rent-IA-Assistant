@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   useEffect(() => {
     if (['chat', 'parcours', 'recueil'].includes(currentView)) {
       setOpenSection('coach');
-    } else if (['docs', 'tools', 'training', 'veille', 'contacts', 'missions', 'ethics'].includes(currentView)) {
+    } else if (['docs', 'tools', 'training', 'veille', 'contacts', 'missions', 'ethics', 'charters'].includes(currentView)) {
       setOpenSection('resources');
     }
   }, [currentView]);
@@ -169,11 +169,12 @@ const Sidebar: React.FC<SidebarProps> = ({
             
             <div className={`
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
-                ${openSection === 'resources' || isCollapsed ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}
+                ${openSection === 'resources' || isCollapsed ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
             `}>
                 <NavItem view="docs" icon={BookOpen} label="Base documentaire" />
                 <NavItem view="missions" icon={Target} label="Missions" />
                 <NavItem view="ethics" icon={Scale} label="Éthique et réglementation" />
+                <NavItem view="charters" icon={FileText} label="Chartes" />
                 <NavItem view="tools" icon={Cpu} label="Catalogue outils" />
                 <NavItem view="training" icon={GraduationCap} label="Formations" />
                 <NavItem view="veille" icon={Activity} label="Veille IA (live)" />

@@ -29,6 +29,9 @@ const getIcon = (iconName: string) => {
 const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, activeTab }) => {
   const [aiTools, setAiTools] = useState<AiTool[]>([]);
   const [loadingTools, setLoadingTools] = useState(false);
+  const [filterLevel, setFilterLevel] = useState<string>('all');
+  const [filterModality, setFilterModality] = useState<string>('all');
+  const [filterCost, setFilterCost] = useState<string>('all');
 
   useEffect(() => {
     if (activeTab === 'outils') {
@@ -236,15 +239,82 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
 
         {activeTab === 'formations' && (
             <div className="max-w-6xl mx-auto">
+                {/* Filtres */}
+                <div className="mb-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Filtres</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Filtre Niveau */}
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 block">Niveau</label>
+                      <select
+                        value={filterLevel}
+                        onChange={(e) => setFilterLevel(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ref-blue dark:focus:ring-blue-500 text-slate-700 dark:text-slate-300"
+                      >
+                        <option value="all">Tous les niveaux</option>
+                        <option value="Niveau 1 - Distant">Niveau 1 - Distant</option>
+                        <option value="Niveau 2 - Confirmé">Niveau 2 - Confirmé</option>
+                        <option value="Niveau 3 - Expert">Niveau 3 - Expert</option>
+                        <option value="Transversal">Transversal</option>
+                      </select>
+                    </div>
+
+                    {/* Filtre Modalité */}
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 block">Modalité</label>
+                      <select
+                        value={filterModality}
+                        onChange={(e) => setFilterModality(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ref-blue dark:focus:ring-blue-500 text-slate-700 dark:text-slate-300"
+                      >
+                        <option value="all">Toutes les modalités</option>
+                        <option value="À distance">À distance</option>
+                        <option value="Présentiel">Présentiel</option>
+                        <option value="Hybride">Hybride</option>
+                      </select>
+                    </div>
+
+                    {/* Filtre Coût */}
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 block">Coût</label>
+                      <select
+                        value={filterCost}
+                        onChange={(e) => setFilterCost(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ref-blue dark:focus:ring-blue-500 text-slate-700 dark:text-slate-300"
+                      >
+                        <option value="all">Tous les coûts</option>
+                        <option value="Gratuit">Gratuit</option>
+                        <option value="Payant">Payant</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="mb-6 flex justify-between items-center">
                    <div className="text-sm text-slate-500 dark:text-slate-400">
-                      <span className="font-semibold text-slate-700 dark:text-slate-200">{TRAINING_COURSES.length}</span> formations identifiées
+                      <span className="font-semibold text-slate-700 dark:text-slate-200">
+                        {TRAINING_COURSES.filter(course => {
+                          const levelMatch = filterLevel === 'all' || course.level === filterLevel;
+                          const modalityMatch = filterModality === 'all' || course.modality.includes(filterModality);
+                          const costMatch = filterCost === 'all' ||
+                            (filterCost === 'Gratuit' && course.cost === 'Gratuit') ||
+                            (filterCost === 'Payant' && course.cost !== 'Gratuit');
+                          return levelMatch && modalityMatch && costMatch;
+                        }).length}
+                      </span> formations trouvées
                    </div>
                    <div className="text-xs text-slate-400 dark:text-slate-500">Mise à jour : Octobre 2025</div>
                 </div>
-                
+
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {TRAINING_COURSES.map((course) => (
+                    {TRAINING_COURSES.filter(course => {
+                      const levelMatch = filterLevel === 'all' || course.level === filterLevel;
+                      const modalityMatch = filterModality === 'all' || course.modality.includes(filterModality);
+                      const costMatch = filterCost === 'all' ||
+                        (filterCost === 'Gratuit' && course.cost === 'Gratuit') ||
+                        (filterCost === 'Payant' && course.cost !== 'Gratuit');
+                      return levelMatch && modalityMatch && costMatch;
+                    }).map((course) => (
                         <div key={course.id} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col relative">
                             {course.isRecommended && (
                                 <div className="absolute top-0 right-0 bg-ref-yellow dark:bg-amber-500 text-amber-800 dark:text-amber-950 text-[10px] font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg border-l border-b border-amber-100 dark:border-amber-600 shadow-sm">

@@ -53,21 +53,21 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
             <Card3D
               icon={<MessageSquare size={48} strokeWidth={1} />}
               label="Ma navigation IA"
-              onClick={() => onNavigate('chat')}
+              onClick={() => onNavigate('navigation-hub')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"
             />
             <Card3D
               icon={<FolderOpen size={48} strokeWidth={1} />}
               label="Mes Ressources"
-              onClick={() => onNavigate('docs')}
+              onClick={() => onNavigate('resources-hub')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
             />
             <Card3D
               icon={<Users size={48} strokeWidth={1} />}
               label="Mon Réseau"
-              onClick={() => onNavigate('contacts')}
+              onClick={() => onNavigate('network-hub')}
               hoverColor="ref-yellow"
               shadowColor="ref-yellow/20"
             />

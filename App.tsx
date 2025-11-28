@@ -11,6 +11,9 @@ import EnvironmentalImpactInterface from './components/EnvironmentalImpactInterf
 import ProjectsInterface from './components/ProjectsInterface';
 import ForumInterface from './components/ForumInterface';
 import WelcomeScreen from './components/WelcomeScreen';
+import NavigationHub from './components/NavigationHub';
+import ResourcesHub from './components/ResourcesHub';
+import NetworkHub from './components/NetworkHub';
 import { Message, AppView } from './types';
 import { PARCOURS_SYSTEM_INSTRUCTION, PARCOURS_SUGGESTIONS, RECUEIL_SYSTEM_INSTRUCTION, RECUEIL_SUGGESTIONS } from './constants';
 
@@ -73,11 +76,17 @@ const App: React.FC = () => {
     switch (currentView) {
       case 'welcome':
         return (
-            <WelcomeScreen 
-                onNavigate={handleNavigate} 
+            <WelcomeScreen
+                onNavigate={handleNavigate}
                 toggleSidebar={toggleSidebar}
             />
         );
+      case 'navigation-hub':
+        return <NavigationHub onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
+      case 'resources-hub':
+        return <ResourcesHub onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
+      case 'network-hub':
+        return <NetworkHub onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'chat':
         return (
           <ChatInterface 

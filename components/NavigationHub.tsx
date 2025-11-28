@@ -32,9 +32,14 @@ const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 -mt-10">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-slate-800 dark:text-white mb-16 tracking-tight">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-slate-800 dark:text-white mb-6 tracking-tight">
           Ma navigation IA
         </h1>
+
+        <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-16 font-light leading-relaxed px-4">
+          Vous serez constamment accompagné par une IA qui connaît parfaitement la plateforme.
+          Elle agira comme un guide initiatique, un compagnon quotidien et une aide au recueil des cas d'usage.
+        </p>
 
         <div className="w-full max-w-5xl relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[500px] bg-white/50 dark:bg-[#1e1b4b]/40 blur-3xl rounded-[100%] -z-10" />

@@ -1,9 +1,10 @@
 
-import React from 'react';
-import { Menu, Trophy, Target, Cpu, Shield, Scale, FileText, ExternalLink, CheckCircle, GraduationCap, Clock, Euro, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, Trophy, Target, Cpu, Shield, Scale, FileText, ExternalLink, CheckCircle, GraduationCap, Clock, Euro, MapPin, Loader2 } from 'lucide-react';
 import { KNOWLEDGE_BASE_SECTIONS } from '../constants';
-import { AI_TOOLS_DATA } from '../toolsData';
 import { TRAINING_COURSES } from '../trainingData';
+import { aiToolsService } from '../services/aiToolsService';
+import { AiTool } from '../types';
 import MarkdownRenderer from './MarkdownRenderer';
 import VeilleInterface from './VeilleInterface';
 
@@ -26,6 +27,26 @@ const getIcon = (iconName: string) => {
 };
 
 const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, activeTab }) => {
+  const [aiTools, setAiTools] = useState<AiTool[]>([]);
+  const [loadingTools, setLoadingTools] = useState(false);
+
+  useEffect(() => {
+    if (activeTab === 'outils') {
+      loadAiTools();
+    }
+  }, [activeTab]);
+
+  const loadAiTools = async () => {
+    setLoadingTools(true);
+    try {
+      const tools = await aiToolsService.getAllTools();
+      setAiTools(tools);
+    } catch (error) {
+      console.error('Failed to load AI tools:', error);
+    } finally {
+      setLoadingTools(false);
+    }
+  };
 
   const getDifficultyColor = (level: string) => {
     switch (level?.toLowerCase()) {
@@ -133,8 +154,19 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
 
         {activeTab === 'outils' && (
           <div className="max-w-6xl mx-auto">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {AI_TOOLS_DATA.map((tool) => (
+            {loadingTools ? (
+              <div className="flex flex-col items-center justify-center h-64 space-y-4">
+                <Loader2 className="w-10 h-10 text-ref-blue animate-spin" />
+                <p className="text-slate-500 dark:text-slate-400">Chargement des outils IA...</p>
+              </div>
+            ) : aiTools.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-64 space-y-4">
+                <Cpu className="w-16 h-16 text-slate-300 dark:text-slate-700" />
+                <p className="text-slate-500 dark:text-slate-400">Aucun outil disponible</p>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {aiTools.map((tool) => (
                 <div key={tool.id} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col">
                    <div className="p-5 border-b border-slate-50 dark:border-slate-800 flex justify-between items-start">
                       <div>
@@ -195,8 +227,9 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
                       )}
                    </div>
                 </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

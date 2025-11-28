@@ -1,7 +1,8 @@
 
-import React, { useState, useMemo } from 'react';
-import { Menu, Search, MapPin, Building2, ExternalLink, Mail, BadgeCheck } from 'lucide-react';
-import { CONTACTS_DATA } from '../contactsData';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Menu, Search, MapPin, Building2, ExternalLink, Mail, BadgeCheck, Loader2 } from 'lucide-react';
+import { contactsService } from '../services/contactsService';
+import { Contact } from '../types';
 
 interface ContactsInterfaceProps {
   toggleSidebar: () => void;
@@ -10,27 +11,43 @@ interface ContactsInterfaceProps {
 const ContactsInterface: React.FC<ContactsInterfaceProps> = ({ toggleSidebar }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState<string>('Tous');
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [loadingContacts, setLoadingContacts] = useState(true);
 
-  // Extraire les types uniques pour les filtres
-  const contactTypes = useMemo(() => {
-    const types = new Set(CONTACTS_DATA.map(c => c.contact_type).filter(Boolean));
-    return ['Tous', ...Array.from(types)];
+  useEffect(() => {
+    loadContacts();
   }, []);
 
-  // Filtrer les contacts
+  const loadContacts = async () => {
+    setLoadingContacts(true);
+    try {
+      const data = await contactsService.getAllContacts();
+      setContacts(data);
+    } catch (error) {
+      console.error('Failed to load contacts:', error);
+    } finally {
+      setLoadingContacts(false);
+    }
+  };
+
+  const contactTypes = useMemo(() => {
+    const types = new Set(contacts.map(c => c.contact_type).filter(Boolean));
+    return ['Tous', ...Array.from(types)];
+  }, [contacts]);
+
   const filteredContacts = useMemo(() => {
-    return CONTACTS_DATA.filter(contact => {
-      const matchesSearch = 
+    return contacts.filter(contact => {
+      const matchesSearch =
         contact.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         contact.organization.toLowerCase().includes(searchQuery.toLowerCase()) ||
         contact.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
         contact.expertise_areas.some(area => area.toLowerCase().includes(searchQuery.toLowerCase()));
-      
+
       const matchesType = selectedType === 'Tous' || contact.contact_type === selectedType;
 
       return matchesSearch && matchesType;
     });
-  }, [searchQuery, selectedType]);
+  }, [contacts, searchQuery, selectedType]);
 
   return (
     <div className="flex-1 flex flex-col h-full bg-slate-50 dark:bg-slate-950 relative overflow-hidden transition-colors duration-300">
@@ -88,7 +105,12 @@ const ContactsInterface: React.FC<ContactsInterfaceProps> = ({ toggleSidebar }) 
 
       {/* Contacts Grid */}
       <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-8 scrollbar-thin">
-        {filteredContacts.length > 0 ? (
+        {loadingContacts ? (
+          <div className="flex flex-col items-center justify-center h-64 space-y-4">
+            <Loader2 className="w-10 h-10 text-ref-blue animate-spin" />
+            <p className="text-slate-500 dark:text-slate-400">Chargement des contacts...</p>
+          </div>
+        ) : filteredContacts.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
             {filteredContacts.map((contact) => (
               <div 

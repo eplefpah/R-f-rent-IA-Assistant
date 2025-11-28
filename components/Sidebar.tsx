@@ -147,7 +147,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
                 ${openSection === 'coach' || isCollapsed ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
             `}>
-                <NavItem view="chat" icon={MessageSquare} label="Au quotidien" />
+                <NavItem view="chat" icon={MessageSquare} label="Pose ta question !" />
                 <NavItem view="parcours" icon={Map} label="Pour m'initier" />
                 <NavItem view="recueil" icon={ClipboardList} label="Pour recueillir" />
             </div>

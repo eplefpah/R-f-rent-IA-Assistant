@@ -7,15 +7,14 @@ export const aiToolsService = {
       const { data, error } = await supabase
         .from('ai_tools')
         .select('*')
-        .eq('is_validated', true)
         .order('name', { ascending: true });
 
       if (error) {
         console.error('Error fetching AI tools:', error);
-        throw error;
+        return [];
       }
 
-      return data as AiTool[];
+      return (data || []) as AiTool[];
     } catch (error) {
       console.error('Failed to fetch AI tools:', error);
       return [];

@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import ChatInterface from './components/ChatInterface';
 import ResourcesInterface from './components/ResourcesInterface';
 import ContactsInterface from './components/ContactsInterface';
+import MissionsInterface from './components/MissionsInterface';
 import WelcomeScreen from './components/WelcomeScreen';
 import { Message, AppView } from './types';
 import { PARCOURS_SYSTEM_INSTRUCTION, PARCOURS_SUGGESTIONS, RECUEIL_SYSTEM_INSTRUCTION, RECUEIL_SUGGESTIONS } from './constants';
@@ -118,6 +119,12 @@ const App: React.FC = () => {
       case 'contacts':
         return (
           <ContactsInterface
+            toggleSidebar={toggleSidebar}
+          />
+        );
+      case 'missions':
+        return (
+          <MissionsInterface
             toggleSidebar={toggleSidebar}
           />
         );

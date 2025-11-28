@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck } from 'lucide-react';
+import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target } from 'lucide-react';
 import { AppView } from '../types';
 
 // Icône Hamburger personnalisée (traits épais)
@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   useEffect(() => {
     if (['chat', 'parcours', 'recueil'].includes(currentView)) {
       setOpenSection('coach');
-    } else if (['docs', 'tools', 'training', 'veille', 'contacts'].includes(currentView)) {
+    } else if (['docs', 'tools', 'training', 'veille', 'contacts', 'missions'].includes(currentView)) {
       setOpenSection('resources');
     }
   }, [currentView]);
@@ -172,6 +172,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 ${openSection === 'resources' || isCollapsed ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
             `}>
                 <NavItem view="docs" icon={BookOpen} label="Base documentaire" />
+                <NavItem view="missions" icon={Target} label="Missions" />
                 <NavItem view="tools" icon={Cpu} label="Catalogue outils" />
                 <NavItem view="training" icon={GraduationCap} label="Formations" />
                 <NavItem view="veille" icon={Activity} label="Veille IA (live)" />

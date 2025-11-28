@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Plus, FileText, AlertCircle, Loader2 } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 import { RequirementForm } from '../types';
+import RequirementsFormModal from './RequirementsFormModal';
 
 interface ProjectsInterfaceProps {
   toggleSidebar: () => void;
@@ -11,6 +12,7 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
   const [loading, setLoading] = useState(true);
   const [requirementsForms, setRequirementsForms] = useState<RequirementForm[]>([]);
   const [selectedRequirement, setSelectedRequirement] = useState<RequirementForm | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     loadRequirementsForms();
@@ -103,12 +105,19 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
             >
               <Menu size={24} className="text-slate-600 dark:text-slate-400" />
             </button>
-            <div>
+            <div className="flex-1">
               <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Diagnostics de besoins métier</h1>
               <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
                 Identifiez et documentez les besoins terrain pour orienter les solutions IA
               </p>
             </div>
+            <button
+              onClick={() => setShowForm(true)}
+              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all font-medium"
+            >
+              <Plus className="w-5 h-5" />
+              <span className="hidden sm:inline">Créer un diagnostic</span>
+            </button>
           </div>
         </div>
       </div>
@@ -131,8 +140,16 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
               </h2>
 
               <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg leading-relaxed">
-                Les diagnostics de besoins métier seront affichés ici une fois créés.
+                Créez votre premier diagnostic de besoin pour identifier les opportunités d'automatisation par l'IA.
               </p>
+
+              <button
+                onClick={() => setShowForm(true)}
+                className="inline-flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-xl hover:shadow-xl transform hover:-translate-y-1 transition-all text-lg font-semibold"
+              >
+                <Plus className="w-6 h-6" />
+                <span>Créer mon premier diagnostic</span>
+              </button>
             </div>
           </div>
         ) : (
@@ -202,6 +219,16 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
               ))}
             </div>
           </div>
+        )}
+
+        {showForm && (
+          <RequirementsFormModal
+            onClose={() => setShowForm(false)}
+            onSuccess={() => {
+              setShowForm(false);
+              loadRequirementsForms();
+            }}
+          />
         )}
 
         {selectedRequirement && (

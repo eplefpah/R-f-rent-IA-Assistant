@@ -173,8 +173,8 @@ const Sidebar: React.FC<SidebarProps> = ({
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
                 ${openSection === 'resources' || isCollapsed ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0'}
             `}>
-                <NavItem view="missions" icon={Target} label="Mes missions" />
-                <NavItem view="ethics" icon={Scale} label="Éthique et réglementation" />
+                <NavItem view="missions" icon={Target} label="•Missions du Réf’IA" />
+                <NavItem view="ethics" icon={Scale} label="•Déontologie & éthique" />
                 <NavItem view="charters" icon={FileText} label="Ma charte" />
                 <NavItem view="environmental" icon={Leaf} label="Impact Environnemental" />
                 <NavItem view="tools" icon={Cpu} label="Mes outils" />

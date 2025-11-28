@@ -13,7 +13,7 @@ const EthicsInterface: React.FC<EthicsInterfaceProps> = ({ toggleSidebar }) => {
         <button onClick={toggleSidebar} className="mr-3 text-slate-600 dark:text-slate-300">
           <Menu size={24} />
         </button>
-        <h1 className="font-semibold text-slate-800 dark:text-white">Éthique et réglementation</h1>
+        <h1 className="font-semibold text-slate-800 dark:text-white">•	Déontologie & éthique</h1>
       </header>
 
       {/* Header Desktop */}

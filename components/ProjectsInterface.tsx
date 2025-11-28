@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Plus, FileText, AlertCircle, Loader2 } from 'lucide-react';
+import { Menu, Plus, FileText, AlertCircle, Loader2, Sparkles } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 import { RequirementForm } from '../types';
 import RequirementsFormModal from './RequirementsFormModal';
+import { generateAISolution } from '../services/aiSolutionService';
+import MarkdownRenderer from './MarkdownRenderer';
 
 interface ProjectsInterfaceProps {
   toggleSidebar: () => void;
@@ -13,6 +15,9 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
   const [requirementsForms, setRequirementsForms] = useState<RequirementForm[]>([]);
   const [selectedRequirement, setSelectedRequirement] = useState<RequirementForm | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [generatingSolution, setGeneratingSolution] = useState<string | null>(null);
+  const [aiSolution, setAiSolution] = useState<string>('');
+  const [showSolutionModal, setShowSolutionModal] = useState(false);
 
   useEffect(() => {
     loadRequirementsForms();
@@ -91,6 +96,26 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
       setSelectedRequirement(data);
     } catch (error) {
       console.error('Error loading requirement details:', error);
+    }
+  };
+
+  const handleGenerateSolution = async (requirement: RequirementForm) => {
+    setGeneratingSolution(requirement.id);
+    setAiSolution('');
+    setShowSolutionModal(true);
+
+    try {
+      await generateAISolution(
+        requirement,
+        (chunk) => {
+          setAiSolution(prev => prev + chunk);
+        }
+      );
+    } catch (error) {
+      console.error('Error generating solution:', error);
+      setAiSolution('Erreur lors de la génération de la solution. Veuillez réessayer.');
+    } finally {
+      setGeneratingSolution(null);
     }
   };
 
@@ -207,12 +232,31 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
                           </div>
                         </div>
                       </div>
-                      <button
-                        onClick={() => handleViewRequirement(form.id)}
-                        className="ml-6 px-6 py-2.5 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-sm font-medium whitespace-nowrap"
-                      >
-                        Consulter
-                      </button>
+                      <div className="ml-6 flex flex-col space-y-2">
+                        <button
+                          onClick={() => handleViewRequirement(form.id)}
+                          className="px-6 py-2.5 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-sm font-medium whitespace-nowrap"
+                        >
+                          Consulter
+                        </button>
+                        <button
+                          onClick={() => handleGenerateSolution(form)}
+                          disabled={generatingSolution === form.id}
+                          className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-600 dark:to-pink-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-sm font-medium whitespace-nowrap flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {generatingSolution === form.id ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              <span>Génération...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Sparkles className="w-4 h-4" />
+                              <span>Solution IA</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -344,6 +388,45 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
                         </div>
                       ))}
                     </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showSolutionModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="sticky top-0 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-600 dark:to-pink-600 text-white p-6 flex items-center justify-between rounded-t-2xl z-10">
+                <div className="flex items-center space-x-3">
+                  <Sparkles className="w-6 h-6" />
+                  <h2 className="text-2xl font-bold">Solution IA Générée</h2>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowSolutionModal(false);
+                    setAiSolution('');
+                  }}
+                  className="p-2 hover:bg-white/20 rounded-lg transition"
+                >
+                  <span className="text-2xl">&times;</span>
+                </button>
+              </div>
+
+              <div className="p-6">
+                {generatingSolution ? (
+                  <div className="flex items-center justify-center py-8">
+                    <Loader2 className="w-8 h-8 text-purple-500 dark:text-purple-400 animate-spin" />
+                    <span className="ml-3 text-slate-600 dark:text-slate-400">Génération de la solution en cours...</span>
+                  </div>
+                ) : aiSolution ? (
+                  <div className="prose prose-slate dark:prose-invert max-w-none">
+                    <MarkdownRenderer content={aiSolution} />
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-slate-600 dark:text-slate-400">
+                    Aucune solution générée
                   </div>
                 )}
               </div>

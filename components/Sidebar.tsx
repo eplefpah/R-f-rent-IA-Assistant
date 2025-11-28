@@ -44,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       setOpenSection('coach');
     } else if (['docs', 'tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
       setOpenSection('resources');
-    } else if (['contacts'].includes(currentView)) {
+    } else if (['contacts', 'projects'].includes(currentView)) {
       setOpenSection('network');
     }
   }, [currentView]);
@@ -203,6 +203,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 ${openSection === 'network' || isCollapsed ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
             `}>
                 <NavItem view="contacts" icon={Users} label="Annuaire" />
+                <NavItem view="projects" icon={ClipboardList} label="Projets" />
             </div>
           </div>
 

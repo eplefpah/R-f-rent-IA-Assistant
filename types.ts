@@ -26,7 +26,7 @@ export interface KnowledgeBaseSection {
   category: string;
 }
 
-export type AppView = 'welcome' | 'chat' | 'parcours' | 'recueil' | 'docs' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental';
+export type AppView = 'welcome' | 'chat' | 'parcours' | 'recueil' | 'docs' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects';
 
 // Types pour la Veille
 export interface VeilleNewsItem {
@@ -123,4 +123,32 @@ export interface RecueilData {
   fichiers: string;
   contraintes: string;
   solutions_actuelles: string;
+}
+
+// Types pour les Projets
+export interface RequirementForm {
+  id: string;
+  user_id: string;
+  project_id: string | null;
+  title: string;
+  business_context: string | null;
+  problem_description: string | null;
+  frequency: string | null;
+  business_impact: 'faible' | 'moyen' | 'fort' | 'critique';
+  desired_deadline: string | null;
+  data_resources: string | null;
+  specific_constraints: string | null;
+  current_solutions: string | null;
+  ai_summary: string | null;
+  attachments: AttachmentFile[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AttachmentFile {
+  name: string;
+  url: string;
+  type: string;
+  size: number;
+  uploaded_at: string;
 }

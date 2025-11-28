@@ -14,6 +14,8 @@ import WelcomeScreen from './components/WelcomeScreen';
 import NavigationHub from './components/NavigationHub';
 import ResourcesHub from './components/ResourcesHub';
 import NetworkHub from './components/NetworkHub';
+import OnboardingChoice from './components/OnboardingChoice';
+import OnboardingManual from './components/OnboardingManual';
 import { Message, AppView } from './types';
 import { PARCOURS_SYSTEM_INSTRUCTION, PARCOURS_SUGGESTIONS, RECUEIL_SYSTEM_INSTRUCTION, RECUEIL_SUGGESTIONS } from './constants';
 
@@ -87,6 +89,10 @@ const App: React.FC = () => {
         return <ResourcesHub onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'network-hub':
         return <NetworkHub onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
+      case 'onboarding-choice':
+        return <OnboardingChoice onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
+      case 'onboarding-manual':
+        return <OnboardingManual onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'chat':
         return (
           <ChatInterface 

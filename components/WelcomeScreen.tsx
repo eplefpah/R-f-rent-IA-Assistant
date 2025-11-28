@@ -80,6 +80,15 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
             Félicitations pour votre nomination en tant que<br/>
             <span className="font-normal text-slate-800 dark:text-white block mt-2 text-xl md:text-2xl">Référent Intelligence Artificielle !</span>
           </p>
+
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => onNavigate('onboarding-choice')}
+              className="px-8 py-4 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] text-white rounded-xl font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-lg"
+            >
+              Je suis nouveau
+            </button>
+          </div>
         </div>
 
       </div>

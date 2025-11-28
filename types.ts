@@ -26,7 +26,7 @@ export interface KnowledgeBaseSection {
   category: string;
 }
 
-export type AppView = 'welcome' | 'chat' | 'parcours' | 'recueil' | 'docs' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions';
+export type AppView = 'welcome' | 'chat' | 'parcours' | 'recueil' | 'docs' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics';
 
 // Types pour la Veille
 export interface VeilleNewsItem {

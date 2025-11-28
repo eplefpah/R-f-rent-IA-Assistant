@@ -174,7 +174,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 ${openSection === 'resources' || isCollapsed ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0'}
             `}>
                 <NavItem view="missions" icon={Target} label="•Missions du Réf’IA" />
-                <NavItem view="ethics" icon={Scale} label="•Déontologie & éthique" />
+                <NavItem view="ethics" icon={Scale} label="Déontologie & éthique" />
                 <NavItem view="charters" icon={FileText} label="Carte du Réf'IA" />
                 <NavItem view="environmental" icon={Leaf} label="Impact Environnemental" />
                 <NavItem view="tools" icon={Cpu} label="Outils disponibles" />

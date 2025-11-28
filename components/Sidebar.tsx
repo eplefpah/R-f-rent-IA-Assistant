@@ -135,7 +135,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => toggleSection('coach')}
                 className={`flex items-center justify-between w-full p-2 text-xs font-bold text-slate-400 uppercase tracking-wider hover:text-ref-blue transition-colors ${isCollapsed ? 'justify-center' : ''}`}
             >
-                {!isCollapsed && <span>MON COACH IA</span>}
+                {!isCollapsed && <span>MON CHATBOT IA</span>}
                 {isCollapsed ? (
                     <MessageSquare size={20} className={openSection === 'coach' ? 'text-ref-blue' : ''} />
                 ) : (

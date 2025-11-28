@@ -26,7 +26,7 @@ export interface KnowledgeBaseSection {
   category: string;
 }
 
-export type AppView = 'welcome' | 'chat' | 'parcours' | 'recueil' | 'docs' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects';
+export type AppView = 'welcome' | 'chat' | 'parcours' | 'recueil' | 'docs' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum';
 
 // Types pour la Veille
 export interface VeilleNewsItem {
@@ -151,4 +151,61 @@ export interface AttachmentFile {
   type: string;
   size: number;
   uploaded_at: string;
+}
+
+// Types pour le Forum
+export interface ForumCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  icon: string | null;
+  color: string | null;
+  order_index: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ForumThread {
+  id: string;
+  category_id: string;
+  author_id: string;
+  title: string;
+  content: string;
+  is_pinned: boolean;
+  is_locked: boolean;
+  views_count: number;
+  replies_count: number;
+  last_reply_at: string | null;
+  last_reply_by: string | null;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+  author?: {
+    full_name: string;
+    avatar_url: string | null;
+    role: string;
+  };
+  category?: ForumCategory;
+  last_reply_author?: {
+    full_name: string;
+    avatar_url: string | null;
+  };
+}
+
+export interface ForumReply {
+  id: string;
+  thread_id: string;
+  author_id: string;
+  content: string;
+  is_solution: boolean;
+  likes_count: number;
+  created_at: string;
+  updated_at: string;
+  author?: {
+    full_name: string;
+    avatar_url: string | null;
+    role: string;
+    organization: string;
+  };
 }

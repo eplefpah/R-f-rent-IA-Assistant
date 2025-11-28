@@ -9,6 +9,7 @@ import EthicsInterface from './components/EthicsInterface';
 import ChartersInterface from './components/ChartersInterface';
 import EnvironmentalImpactInterface from './components/EnvironmentalImpactInterface';
 import ProjectsInterface from './components/ProjectsInterface';
+import ForumInterface from './components/ForumInterface';
 import WelcomeScreen from './components/WelcomeScreen';
 import { Message, AppView } from './types';
 import { PARCOURS_SYSTEM_INSTRUCTION, PARCOURS_SUGGESTIONS, RECUEIL_SYSTEM_INSTRUCTION, RECUEIL_SUGGESTIONS } from './constants';
@@ -153,6 +154,12 @@ const App: React.FC = () => {
       case 'projects':
         return (
           <ProjectsInterface
+            toggleSidebar={toggleSidebar}
+          />
+        );
+      case 'forum':
+        return (
+          <ForumInterface
             toggleSidebar={toggleSidebar}
           />
         );

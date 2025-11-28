@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText } from 'lucide-react';
+import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare } from 'lucide-react';
 import { AppView } from '../types';
 
 // Icône Hamburger personnalisée (traits épais)
@@ -44,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       setOpenSection('coach');
     } else if (['docs', 'tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
       setOpenSection('resources');
-    } else if (['contacts', 'projects'].includes(currentView)) {
+    } else if (['contacts', 'projects', 'forum'].includes(currentView)) {
       setOpenSection('network');
     }
   }, [currentView]);
@@ -204,6 +204,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             `}>
                 <NavItem view="contacts" icon={Users} label="Annuaire" />
                 <NavItem view="projects" icon={ClipboardList} label="Projets" />
+                <NavItem view="forum" icon={MessagesSquare} label="Forum" />
             </div>
           </div>
 

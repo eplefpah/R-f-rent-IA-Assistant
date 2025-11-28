@@ -52,7 +52,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 justify-items-center">
             <Card3D
               icon={<MessageSquare size={48} strokeWidth={1} />}
-              label="Mon Coach"
+              label="Ma navigation IA"
               onClick={() => onNavigate('chat')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"

@@ -35,15 +35,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   isDarkMode,
   toggleTheme
 }) => {
-  // État pour l'accordéon : 'coach', 'resources', ou null (fermé)
-  const [openSection, setOpenSection] = useState<'coach' | 'resources' | null>('coach');
+  // État pour l'accordéon : 'coach', 'resources', 'network', ou null (fermé)
+  const [openSection, setOpenSection] = useState<'coach' | 'resources' | 'network' | null>('coach');
 
   // Ouvrir automatiquement la bonne section en fonction de la vue courante
   useEffect(() => {
     if (['chat', 'parcours', 'recueil'].includes(currentView)) {
       setOpenSection('coach');
-    } else if (['docs', 'tools', 'training', 'veille', 'contacts', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
+    } else if (['docs', 'tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
       setOpenSection('resources');
+    } else if (['contacts'].includes(currentView)) {
+      setOpenSection('network');
     }
   }, [currentView]);
 
@@ -54,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  const toggleSection = (section: 'coach' | 'resources') => {
+  const toggleSection = (section: 'coach' | 'resources' | 'network') => {
     if (isCollapsed) {
         // Si réduit, on ne fait rien ou on ouvre le menu complet
         toggleCollapse();
@@ -179,6 +181,27 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <NavItem view="tools" icon={Cpu} label="Catalogue outils" />
                 <NavItem view="training" icon={GraduationCap} label="Formations" />
                 <NavItem view="veille" icon={Activity} label="Veille IA (live)" />
+            </div>
+          </div>
+
+          {/* Section Mon Réseau */}
+          <div className="flex flex-col">
+            <button
+                onClick={() => toggleSection('network')}
+                className={`flex items-center justify-between w-full p-2 text-xs font-bold text-slate-400 uppercase tracking-wider hover:text-ref-blue transition-colors ${isCollapsed ? 'justify-center' : ''}`}
+            >
+                {!isCollapsed && <span>MON RÉSEAU</span>}
+                {isCollapsed ? (
+                    <Users size={20} className={openSection === 'network' ? 'text-ref-blue' : ''} />
+                ) : (
+                    openSection === 'network' ? <ChevronDown size={14} /> : <ChevronRight size={14} />
+                )}
+            </button>
+
+            <div className={`
+                overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
+                ${openSection === 'network' || isCollapsed ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+            `}>
                 <NavItem view="contacts" icon={Users} label="Annuaire Contacts" />
             </div>
           </div>

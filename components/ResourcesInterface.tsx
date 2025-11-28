@@ -40,6 +40,7 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
     setLoadingTools(true);
     try {
       const tools = await aiToolsService.getAllTools();
+      console.log('Loaded tools:', tools.length, tools);
       setAiTools(tools);
     } catch (error) {
       console.error('Failed to load AI tools:', error);

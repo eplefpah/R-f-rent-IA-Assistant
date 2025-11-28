@@ -35,7 +35,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   const activeSuggestions = customSuggestions || SUGGESTED_QUESTIONS;
   const activeTitle = welcomeTitle || "Bienvenue, Référent IA";
-  const activeMessage = welcomeMessage || "Je suis votre assistant pour vous accompagner dans vos missions, identifier les cas d'usage et sécuriser vos projets d'IA dans le respect des valeurs du service public.";
+  const activeMessage = welcomeMessage || "Je suis votre assistant pour vous accompagner dans vos missions";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

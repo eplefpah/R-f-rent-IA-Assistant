@@ -113,8 +113,6 @@ const App: React.FC = () => {
             welcomeMessage="Bonjour. Je suis là pour vous aider à qualifier un besoin IA. Nous allons remplir ensemble le formulaire de recueil des exigences, question par question. A la fin, je pourrai vous proposer une solution ou envoyer le cas à la DINUM."
           />
         );
-      case 'docs':
-        return <ResourcesInterface toggleSidebar={toggleSidebar} activeTab="docs" />;
       case 'tools':
         return <ResourcesInterface toggleSidebar={toggleSidebar} activeTab="outils" />;
       case 'training':

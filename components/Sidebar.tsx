@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   useEffect(() => {
     if (['chat', 'parcours', 'recueil'].includes(currentView)) {
       setOpenSection('coach');
-    } else if (['docs', 'tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
+    } else if (['tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
       setOpenSection('resources');
     } else if (['contacts', 'projects', 'forum'].includes(currentView)) {
       setOpenSection('network');
@@ -173,7 +173,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
                 ${openSection === 'resources' || isCollapsed ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0'}
             `}>
-                <NavItem view="docs" icon={BookOpen} label="Base documentaire" />
                 <NavItem view="missions" icon={Target} label="Missions" />
                 <NavItem view="ethics" icon={Scale} label="Éthique et réglementation" />
                 <NavItem view="charters" icon={FileText} label="Chartes" />

@@ -8,7 +8,7 @@ import { AiTool } from '../types';
 import MarkdownRenderer from './MarkdownRenderer';
 import VeilleInterface from './VeilleInterface';
 
-type ResourceTab = 'docs' | 'veille' | 'outils' | 'formations';
+type ResourceTab = 'veille' | 'outils' | 'formations';
 
 interface ResourcesInterfaceProps {
   toggleSidebar: () => void;
@@ -70,7 +70,6 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
 
   const getTitle = () => {
       switch (activeTab) {
-          case 'docs': return 'Base Documentaire';
           case 'outils': return 'Catalogue Outils';
           case 'formations': return 'Catalogue Formations';
           case 'veille': return 'Veille IA (Live)';
@@ -80,7 +79,6 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
 
   const getDescription = () => {
       switch (activeTab) {
-          case 'docs': return 'L\'essentiel des connaissances pour le Référent IA.';
           case 'outils': return 'Solutions IA validées et recommandées.';
           case 'formations': return 'Parcours de montée en compétences.';
           case 'veille': return 'Actualités et analyse en temps réel.';
@@ -110,51 +108,6 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin">
-        
-        {activeTab === 'docs' && (
-          <div className="max-w-5xl mx-auto">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {KNOWLEDGE_BASE_SECTIONS.map((section) => (
-                <div 
-                  key={section.id} 
-                  className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden group"
-                >
-                  {/* Card Header */}
-                  <div className="p-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 group-hover:bg-ref-blue/5 dark:group-hover:bg-ref-blue/10 transition-colors">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="px-2 py-1 bg-slate-200/60 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 text-xs font-medium rounded-full uppercase tracking-wider">
-                        {section.category}
-                      </span>
-                      <div className="text-ref-blue dark:text-blue-400">
-                        {getIcon(section.icon)}
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-bold text-slate-800 dark:text-white leading-tight">
-                      {section.title}
-                    </h3>
-                  </div>
-                  
-                  {/* Card Content */}
-                  <div className="p-5 flex-1 text-sm text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900">
-                    <div className="prose prose-sm prose-slate max-w-none dark:prose-invert">
-                      <div className="line-clamp-[12] group-hover:line-clamp-none transition-all">
-                          <MarkdownRenderer content={section.content} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="mt-12 p-6 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-100 dark:border-yellow-900/50">
-              <h3 className="font-bold text-yellow-800 dark:text-yellow-500 mb-2">Note de version</h3>
-              <p className="text-sm text-yellow-700 dark:text-yellow-600">
-                Ce contenu est basé sur l'analyse du "Kit Référent IA - Conception complète" (v1.0). 
-                Pour toute question spécifique non traitée ici, utilisez l'Assistant Conversationnel.
-              </p>
-            </div>
-          </div>
-        )}
 
         {activeTab === 'outils' && (
           <div className="max-w-6xl mx-auto">

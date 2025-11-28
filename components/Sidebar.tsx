@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target } from 'lucide-react';
+import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale } from 'lucide-react';
 import { AppView } from '../types';
 
 // Icône Hamburger personnalisée (traits épais)

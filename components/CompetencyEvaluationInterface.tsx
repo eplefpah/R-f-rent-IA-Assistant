@@ -350,7 +350,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
           {question.options.map((option: any) => (
             <label
               key={option.value}
-              className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 cursor-pointer transition-all"
+              className="flex items-start gap-3 p-4 bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer transition-all"
             >
               <input
                 type="radio"
@@ -360,7 +360,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                 onChange={() => handleAnswer(question.id, option.value, option.score)}
                 className="mt-1"
               />
-              <span className="text-gray-800 text-sm">{option.label}</span>
+              <span className="text-gray-800 dark:text-white text-sm">{option.label}</span>
             </label>
           ))}
         </div>
@@ -377,7 +377,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
             return (
               <label
                 key={option.value}
-                className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 cursor-pointer transition-all"
+                className="flex items-start gap-3 p-4 bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer transition-all"
               >
                 <input
                   type="checkbox"
@@ -394,7 +394,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                   }}
                   className="mt-1"
                 />
-                <span className="text-gray-800 text-sm">{option.label}</span>
+                <span className="text-gray-800 dark:text-white text-sm">{option.label}</span>
               </label>
             );
           })}
@@ -412,12 +412,12 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                 onClick={() => handleAnswer(question.id, value.toString(), value)}
                 className={`flex-1 p-4 rounded-lg border-2 transition-all ${
                   answer?.value === value.toString()
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/20'
+                    : 'border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10'
                 }`}
               >
-                <div className="text-2xl font-bold text-gray-800 mb-1">{value}</div>
-                <div className="text-xs text-gray-600">{question.labels[value - 1]}</div>
+                <div className="text-2xl font-bold text-gray-800 dark:text-white mb-1">{value}</div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">{question.labels[value - 1]}</div>
               </button>
             ))}
           </div>
@@ -434,20 +434,20 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
 
     return (
       <div className="h-full w-full relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white z-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white dark:from-[#0A1628] dark:via-[#1a2942] dark:to-[#0f1c33] z-0" />
         <SpaceBackground />
 
         <div className="relative z-10 h-full overflow-y-auto">
-          <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+          <div className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-white/10 shadow-sm">
             <div className="max-w-6xl mx-auto px-6 py-4">
               <div className="flex items-center gap-4">
                 <button
                   onClick={toggleSidebar}
-                  className="p-2 rounded-full hover:bg-gray-100 text-slate-600 transition-colors md:hidden"
+                  className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-slate-600 dark:text-white transition-colors md:hidden"
                 >
                   <Menu size={24} />
                 </button>
-                <h1 className="text-xl font-bold text-gray-800">Résultats de l'évaluation</h1>
+                <h1 className="text-xl font-bold text-gray-800 dark:text-white">Résultats de l'évaluation</h1>
               </div>
             </div>
           </div>
@@ -459,47 +459,47 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
               </div>
 
               <div>
-                <h2 className="text-4xl font-bold mb-2 text-gray-800">Évaluation terminée !</h2>
-                <p className="text-gray-600">Votre profil a été mis à jour avec votre niveau de compétence</p>
+                <h2 className="text-4xl font-bold mb-2 text-gray-800 dark:text-white">Évaluation terminée !</h2>
+                <p className="text-gray-600 dark:text-gray-400">Votre profil a été mis à jour avec votre niveau de compétence</p>
               </div>
 
-              <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-lg">
+              <div className="bg-white dark:bg-white/5 rounded-2xl p-8 border border-gray-200 dark:border-white/10 shadow-lg">
                 <div className="space-y-4">
                   <div>
-                    <div className="text-sm text-gray-500 mb-1">Score total</div>
-                    <div className="text-5xl font-bold text-blue-600">{score}/100</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Score total</div>
+                    <div className="text-5xl font-bold text-blue-600 dark:text-blue-400">{score}/100</div>
                   </div>
 
-                  <div className="h-px bg-gray-200"></div>
+                  <div className="h-px bg-gray-200 dark:bg-white/10"></div>
 
                   <div>
-                    <div className="text-sm text-gray-500 mb-2">Niveau attribué</div>
-                    <div className="text-2xl font-bold text-gray-800">{level}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">Niveau attribué</div>
+                    <div className="text-2xl font-bold text-gray-800 dark:text-white">{level}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 border border-gray-200 shadow text-left space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2 text-gray-800">
-                  <CheckCircle className="text-green-500" size={20} />
+              <div className="bg-white dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 shadow text-left space-y-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2 text-gray-800 dark:text-white">
+                  <CheckCircle className="text-green-500 dark:text-green-400" size={20} />
                   Recommandations
                 </h3>
                 {score <= 40 && (
-                  <div className="space-y-2 text-sm text-gray-700">
+                  <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     <p>• Commencez par le parcours initiatique pour découvrir les bases de l'IA</p>
                     <p>• Consultez le catalogue de formations pour identifier des modules adaptés</p>
                     <p>• Explorez les outils IA disponibles pour vous familiariser avec leur usage</p>
                   </div>
                 )}
                 {score > 40 && score <= 70 && (
-                  <div className="space-y-2 text-sm text-gray-700">
+                  <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     <p>• Approfondissez vos connaissances avec des formations avancées</p>
                     <p>• Participez aux projets IA de votre administration</p>
                     <p>• Rejoignez le forum pour échanger avec d'autres référents</p>
                   </div>
                 )}
                 {score > 70 && (
-                  <div className="space-y-2 text-sm text-gray-700">
+                  <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     <p>• Partagez votre expertise sur le forum de la communauté</p>
                     <p>• Pilotez des projets IA stratégiques dans votre administration</p>
                     <p>• Contribuez à la veille et aux ressources de la plateforme</p>
@@ -529,31 +529,31 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
 
   return (
     <div className="h-full w-full relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white z-0" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white dark:from-[#0A1628] dark:via-[#1a2942] dark:to-[#0f1c33] z-0" />
       <SpaceBackground />
 
       <div className="relative z-10 h-full overflow-y-auto">
-        <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+        <div className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-white/10 shadow-sm">
           <div className="max-w-6xl mx-auto px-6 py-4">
             <div className="flex items-center gap-4">
               <button
                 onClick={toggleSidebar}
-                className="p-2 rounded-full hover:bg-gray-100 text-slate-600 transition-colors md:hidden"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-slate-600 dark:text-white transition-colors md:hidden"
               >
                 <Menu size={24} />
               </button>
               {onBack && (
                 <button
                   onClick={onBack}
-                  className="p-2 rounded-full hover:bg-gray-100 text-slate-600 transition-colors"
+                  className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-slate-600 dark:text-white transition-colors"
                   title="Retour"
                 >
                   <ArrowLeft size={24} />
                 </button>
               )}
               <div className="flex-1">
-                <h1 className="text-xl font-bold text-gray-800">Évaluation des compétences</h1>
-                <p className="text-sm text-gray-600">Section {currentSection + 1} / {sections.length}</p>
+                <h1 className="text-xl font-bold text-gray-800 dark:text-white">Évaluation des compétences</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Section {currentSection + 1} / {sections.length}</p>
               </div>
             </div>
           </div>
@@ -561,17 +561,17 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
 
         <div ref={scrollContainerRef} className="max-w-4xl mx-auto px-6 py-8">
           <div className="space-y-6">
-            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow">
-              <h2 className="text-2xl font-bold mb-2 text-gray-800">{currentSectionData.title}</h2>
-              <p className="text-gray-600 text-sm">Maximum {currentSectionData.maxPoints} points</p>
+            <div className="bg-white dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 shadow">
+              <h2 className="text-2xl font-bold mb-2 text-gray-800 dark:text-white">{currentSectionData.title}</h2>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Maximum {currentSectionData.maxPoints} points</p>
             </div>
 
             {showAlert && (
-              <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-                <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />
+              <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+                <AlertCircle className="text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" size={20} />
                 <div className="flex-1">
-                  <h3 className="text-red-700 font-semibold mb-1">Questions non répondues</h3>
-                  <p className="text-red-600 text-sm">Veuillez répondre à toutes les questions avant de passer à la section suivante.</p>
+                  <h3 className="text-red-700 dark:text-red-400 font-semibold mb-1">Questions non répondues</h3>
+                  <p className="text-red-600 dark:text-red-300 text-sm">Veuillez répondre à toutes les questions avant de passer à la section suivante.</p>
                 </div>
               </div>
             )}
@@ -583,18 +583,18 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                   <div
                     key={question.id}
                     id={`question-${question.id}`}
-                    className={`bg-white rounded-xl p-6 border shadow transition-colors ${
+                    className={`bg-white dark:bg-white/5 rounded-xl p-6 border shadow transition-colors ${
                       showAlert && !isAnswered
-                        ? 'border-red-300 bg-red-50/50'
-                        : 'border-gray-200'
+                        ? 'border-red-300 dark:border-red-500/50 bg-red-50/50 dark:bg-red-500/5'
+                        : 'border-gray-200 dark:border-white/10'
                     }`}
                   >
                     <div className="mb-4">
-                      <span className="text-blue-600 font-semibold">Question {idx + 1}</span>
+                      <span className="text-blue-600 dark:text-blue-400 font-semibold">Question {idx + 1}</span>
                       {showAlert && !isAnswered && (
-                        <span className="ml-2 text-red-500 text-sm font-medium">• Non répondue</span>
+                        <span className="ml-2 text-red-500 dark:text-red-400 text-sm font-medium">• Non répondue</span>
                       )}
-                      <h3 className="text-lg font-medium mt-1 text-gray-800">{question.text}</h3>
+                      <h3 className="text-lg font-medium mt-1 text-gray-800 dark:text-white">{question.text}</h3>
                     </div>
                     {renderQuestion(question)}
                   </div>
@@ -609,7 +609,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                   setCurrentSection(s => Math.max(0, s - 1));
                 }}
                 disabled={currentSection === 0}
-                className="flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors text-gray-800 font-medium"
+                className="flex items-center gap-2 px-6 py-3 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors text-gray-800 dark:text-white font-medium"
               >
                 <ChevronLeft size={20} />
                 Précédent

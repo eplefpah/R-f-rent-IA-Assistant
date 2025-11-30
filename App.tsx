@@ -112,7 +112,7 @@ const App: React.FC = () => {
       case 'onboarding-manual':
         return <OnboardingManual onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'competency-evaluation':
-        return <CompetencyEvaluationInterface toggleSidebar={toggleSidebar} onComplete={() => handleNavigate('onboarding-manual')} />;
+        return <CompetencyEvaluationInterface toggleSidebar={toggleSidebar} onComplete={() => handleNavigate('onboarding-manual')} onBack={() => handleNavigate('onboarding-manual')} />;
       case 'chat':
         return (
           <ChatInterface 

@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronRight, ChevronLeft, Menu, CheckCircle, Award, AlertCircle } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Menu, CheckCircle, Award, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import SpaceBackground from './SpaceBackground';
 
 interface CompetencyEvaluationProps {
   toggleSidebar: () => void;
   onComplete?: () => void;
+  onBack?: () => void;
 }
 
 interface Answer {
@@ -13,7 +15,7 @@ interface Answer {
   score: number;
 }
 
-const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ toggleSidebar, onComplete }) => {
+const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ toggleSidebar, onComplete, onBack }) => {
   const { updateProfile, profile } = useAuth();
   const [currentSection, setCurrentSection] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -348,7 +350,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
           {question.options.map((option: any) => (
             <label
               key={option.value}
-              className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 cursor-pointer transition-all"
+              className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 cursor-pointer transition-all"
             >
               <input
                 type="radio"
@@ -358,7 +360,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                 onChange={() => handleAnswer(question.id, option.value, option.score)}
                 className="mt-1"
               />
-              <span className="text-white text-sm">{option.label}</span>
+              <span className="text-gray-800 text-sm">{option.label}</span>
             </label>
           ))}
         </div>
@@ -375,7 +377,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
             return (
               <label
                 key={option.value}
-                className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 cursor-pointer transition-all"
+                className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 cursor-pointer transition-all"
               >
                 <input
                   type="checkbox"
@@ -392,7 +394,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                   }}
                   className="mt-1"
                 />
-                <span className="text-white text-sm">{option.label}</span>
+                <span className="text-gray-800 text-sm">{option.label}</span>
               </label>
             );
           })}
@@ -410,12 +412,12 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
                 onClick={() => handleAnswer(question.id, value.toString(), value)}
                 className={`flex-1 p-4 rounded-lg border-2 transition-all ${
                   answer?.value === value.toString()
-                    ? 'border-blue-500 bg-blue-500/20'
-                    : 'border-white/10 bg-white/5 hover:bg-white/10'
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
                 }`}
               >
-                <div className="text-2xl font-bold text-white mb-1">{value}</div>
-                <div className="text-xs text-gray-400">{question.labels[value - 1]}</div>
+                <div className="text-2xl font-bold text-gray-800 mb-1">{value}</div>
+                <div className="text-xs text-gray-600">{question.labels[value - 1]}</div>
               </button>
             ))}
           </div>
@@ -431,63 +433,73 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
     const level = getLevel(score);
 
     return (
-      <div className="flex-1 flex flex-col bg-gradient-to-br from-[#0A1628] via-[#1a2942] to-[#0f1c33] text-white overflow-hidden">
-        <div className="p-4 border-b border-white/10 flex items-center gap-4 bg-black/20 backdrop-blur-sm">
-          <button onClick={toggleSidebar} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-            <Menu size={24} />
-          </button>
-          <h1 className="text-xl font-bold">Résultats de l'évaluation</h1>
-        </div>
+      <div className="h-full w-full relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white z-0" />
+        <SpaceBackground />
 
-        <div className="flex-1 overflow-y-auto p-6">
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full">
+        <div className="relative z-10 h-full overflow-y-auto">
+          <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+            <div className="max-w-6xl mx-auto px-6 py-4">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={toggleSidebar}
+                  className="p-2 rounded-full hover:bg-gray-100 text-slate-600 transition-colors md:hidden"
+                >
+                  <Menu size={24} />
+                </button>
+                <h1 className="text-xl font-bold text-gray-800">Résultats de l'évaluation</h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-4xl mx-auto px-6 py-12">
+            <div className="text-center space-y-6">
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-lg">
                 <Award size={48} className="text-white" />
               </div>
 
               <div>
-                <h2 className="text-3xl font-bold mb-2">Évaluation terminée !</h2>
-                <p className="text-gray-400">Votre profil a été mis à jour avec votre niveau de compétence</p>
+                <h2 className="text-4xl font-bold mb-2 text-gray-800">Évaluation terminée !</h2>
+                <p className="text-gray-600">Votre profil a été mis à jour avec votre niveau de compétence</p>
               </div>
 
-              <div className="bg-white/5 rounded-2xl p-8 border border-white/10">
+              <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-lg">
                 <div className="space-y-4">
                   <div>
-                    <div className="text-sm text-gray-400 mb-1">Score total</div>
-                    <div className="text-5xl font-bold text-blue-400">{score}/100</div>
+                    <div className="text-sm text-gray-500 mb-1">Score total</div>
+                    <div className="text-5xl font-bold text-blue-600">{score}/100</div>
                   </div>
 
-                  <div className="h-px bg-white/10"></div>
+                  <div className="h-px bg-gray-200"></div>
 
                   <div>
-                    <div className="text-sm text-gray-400 mb-2">Niveau attribué</div>
-                    <div className="text-2xl font-bold">{level}</div>
+                    <div className="text-sm text-gray-500 mb-2">Niveau attribué</div>
+                    <div className="text-2xl font-bold text-gray-800">{level}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10 text-left space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <CheckCircle className="text-green-400" size={20} />
+              <div className="bg-white rounded-xl p-6 border border-gray-200 shadow text-left space-y-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2 text-gray-800">
+                  <CheckCircle className="text-green-500" size={20} />
                   Recommandations
                 </h3>
                 {score <= 40 && (
-                  <div className="space-y-2 text-sm text-gray-300">
+                  <div className="space-y-2 text-sm text-gray-700">
                     <p>• Commencez par le parcours initiatique pour découvrir les bases de l'IA</p>
                     <p>• Consultez le catalogue de formations pour identifier des modules adaptés</p>
                     <p>• Explorez les outils IA disponibles pour vous familiariser avec leur usage</p>
                   </div>
                 )}
                 {score > 40 && score <= 70 && (
-                  <div className="space-y-2 text-sm text-gray-300">
+                  <div className="space-y-2 text-sm text-gray-700">
                     <p>• Approfondissez vos connaissances avec des formations avancées</p>
                     <p>• Participez aux projets IA de votre administration</p>
                     <p>• Rejoignez le forum pour échanger avec d'autres référents</p>
                   </div>
                 )}
                 {score > 70 && (
-                  <div className="space-y-2 text-sm text-gray-300">
+                  <div className="space-y-2 text-sm text-gray-700">
                     <p>• Partagez votre expertise sur le forum de la communauté</p>
                     <p>• Pilotez des projets IA stratégiques dans votre administration</p>
                     <p>• Contribuez à la veille et aux ressources de la plateforme</p>
@@ -497,7 +509,7 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
 
               <button
                 onClick={() => onComplete?.()}
-                className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
+                className="px-8 py-3 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] text-white rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
               >
                 Retour à l'accueil
               </button>
@@ -516,123 +528,144 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
   const allQuestionsAnswered = sectionAnswers.length === currentSectionData.questions.length;
 
   return (
-    <div className="flex-1 flex flex-col bg-gradient-to-br from-[#0A1628] via-[#1a2942] to-[#0f1c33] text-white overflow-hidden">
-      <div className="p-4 border-b border-white/10 flex items-center gap-4 bg-black/20 backdrop-blur-sm">
-        <button onClick={toggleSidebar} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-          <Menu size={24} />
-        </button>
-        <div className="flex-1">
-          <h1 className="text-xl font-bold">Évaluation des compétences</h1>
-          <p className="text-sm text-gray-400">Section {currentSection + 1} / {sections.length}</p>
-        </div>
-      </div>
+    <div className="h-full w-full relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white z-0" />
+      <SpaceBackground />
 
-      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-6">
-        <div className="max-w-3xl mx-auto space-y-6">
-          <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-            <h2 className="text-2xl font-bold mb-2">{currentSectionData.title}</h2>
-            <p className="text-gray-400 text-sm">Maximum {currentSectionData.maxPoints} points</p>
-          </div>
-
-          {showAlert && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
-              <AlertCircle className="text-red-400 flex-shrink-0 mt-0.5" size={20} />
+      <div className="relative z-10 h-full overflow-y-auto">
+        <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+          <div className="max-w-6xl mx-auto px-6 py-4">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={toggleSidebar}
+                className="p-2 rounded-full hover:bg-gray-100 text-slate-600 transition-colors md:hidden"
+              >
+                <Menu size={24} />
+              </button>
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="p-2 rounded-full hover:bg-gray-100 text-slate-600 transition-colors"
+                  title="Retour"
+                >
+                  <ArrowLeft size={24} />
+                </button>
+              )}
               <div className="flex-1">
-                <h3 className="text-red-400 font-semibold mb-1">Questions non répondues</h3>
-                <p className="text-red-300 text-sm">Veuillez répondre à toutes les questions avant de passer à la section suivante.</p>
+                <h1 className="text-xl font-bold text-gray-800">Évaluation des compétences</h1>
+                <p className="text-sm text-gray-600">Section {currentSection + 1} / {sections.length}</p>
               </div>
             </div>
-          )}
-
-          <div className="space-y-8">
-            {currentSectionData.questions.map((question, idx) => {
-              const isAnswered = getAnswer(question.id);
-              return (
-                <div
-                  key={question.id}
-                  id={`question-${question.id}`}
-                  className={`bg-white/5 rounded-xl p-6 border transition-colors ${
-                    showAlert && !isAnswered
-                      ? 'border-red-500/50 bg-red-500/5'
-                      : 'border-white/10'
-                  }`}
-                >
-                  <div className="mb-4">
-                    <span className="text-blue-400 font-semibold">Question {idx + 1}</span>
-                    {showAlert && !isAnswered && (
-                      <span className="ml-2 text-red-400 text-sm font-medium">• Non répondue</span>
-                    )}
-                    <h3 className="text-lg font-medium mt-1">{question.text}</h3>
-                  </div>
-                  {renderQuestion(question)}
-                </div>
-              );
-            })}
           </div>
+        </div>
 
-          <div className="flex justify-between gap-4 pt-4">
-            <button
-              onClick={() => {
-                setShowAlert(false);
-                setCurrentSection(s => Math.max(0, s - 1));
-              }}
-              disabled={currentSection === 0}
-              className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
-            >
-              <ChevronLeft size={20} />
-              Précédent
-            </button>
+        <div ref={scrollContainerRef} className="max-w-4xl mx-auto px-6 py-8">
+          <div className="space-y-6">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow">
+              <h2 className="text-2xl font-bold mb-2 text-gray-800">{currentSectionData.title}</h2>
+              <p className="text-gray-600 text-sm">Maximum {currentSectionData.maxPoints} points</p>
+            </div>
 
-            {isLastSection ? (
-              <button
-                onClick={() => {
-                  if (!allQuestionsAnswered) {
-                    setShowAlert(true);
-                    const firstUnanswered = currentSectionData.questions.find(
-                      q => !getAnswer(q.id)
-                    );
-                    if (firstUnanswered) {
-                      document.getElementById(`question-${firstUnanswered.id}`)?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                      });
-                    }
-                  } else {
-                    setShowAlert(false);
-                    handleSubmit();
-                  }
-                }}
-                disabled={loading}
-                className="flex items-center gap-2 px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
-              >
-                {loading ? 'Enregistrement...' : 'Terminer l\'évaluation'}
-                <CheckCircle size={20} />
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  if (!allQuestionsAnswered) {
-                    setShowAlert(true);
-                    const firstUnanswered = currentSectionData.questions.find(
-                      q => !getAnswer(q.id)
-                    );
-                    if (firstUnanswered) {
-                      document.getElementById(`question-${firstUnanswered.id}`)?.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                      });
-                    }
-                  } else {
-                    setShowAlert(false);
-                    setCurrentSection(s => Math.min(sections.length - 1, s + 1));
-                  }
-                }}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
-              >
-                Suivant
-                <ChevronRight size={20} />
-              </button>
+            {showAlert && (
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+                <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />
+                <div className="flex-1">
+                  <h3 className="text-red-700 font-semibold mb-1">Questions non répondues</h3>
+                  <p className="text-red-600 text-sm">Veuillez répondre à toutes les questions avant de passer à la section suivante.</p>
+                </div>
+              </div>
             )}
+
+            <div className="space-y-6">
+              {currentSectionData.questions.map((question, idx) => {
+                const isAnswered = getAnswer(question.id);
+                return (
+                  <div
+                    key={question.id}
+                    id={`question-${question.id}`}
+                    className={`bg-white rounded-xl p-6 border shadow transition-colors ${
+                      showAlert && !isAnswered
+                        ? 'border-red-300 bg-red-50/50'
+                        : 'border-gray-200'
+                    }`}
+                  >
+                    <div className="mb-4">
+                      <span className="text-blue-600 font-semibold">Question {idx + 1}</span>
+                      {showAlert && !isAnswered && (
+                        <span className="ml-2 text-red-500 text-sm font-medium">• Non répondue</span>
+                      )}
+                      <h3 className="text-lg font-medium mt-1 text-gray-800">{question.text}</h3>
+                    </div>
+                    {renderQuestion(question)}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex justify-between gap-4 pt-6">
+              <button
+                onClick={() => {
+                  setShowAlert(false);
+                  setCurrentSection(s => Math.max(0, s - 1));
+                }}
+                disabled={currentSection === 0}
+                className="flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors text-gray-800 font-medium"
+              >
+                <ChevronLeft size={20} />
+                Précédent
+              </button>
+
+              {isLastSection ? (
+                <button
+                  onClick={() => {
+                    if (!allQuestionsAnswered) {
+                      setShowAlert(true);
+                      const firstUnanswered = currentSectionData.questions.find(
+                        q => !getAnswer(q.id)
+                      );
+                      if (firstUnanswered) {
+                        document.getElementById(`question-${firstUnanswered.id}`)?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'center'
+                        });
+                      }
+                    } else {
+                      setShowAlert(false);
+                      handleSubmit();
+                    }
+                  }}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] text-white hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none rounded-lg font-medium transition-all"
+                >
+                  {loading ? 'Enregistrement...' : 'Terminer l\'évaluation'}
+                  <CheckCircle size={20} />
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    if (!allQuestionsAnswered) {
+                      setShowAlert(true);
+                      const firstUnanswered = currentSectionData.questions.find(
+                        q => !getAnswer(q.id)
+                      );
+                      if (firstUnanswered) {
+                        document.getElementById(`question-${firstUnanswered.id}`)?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'center'
+                        });
+                      }
+                    } else {
+                      setShowAlert(false);
+                      setCurrentSection(s => Math.min(sections.length - 1, s + 1));
+                    }
+                  }}
+                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] text-white hover:shadow-lg transform hover:-translate-y-0.5 rounded-lg font-medium transition-all"
+                >
+                  Suivant
+                  <ChevronRight size={20} />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

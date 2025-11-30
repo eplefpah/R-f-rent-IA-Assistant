@@ -226,14 +226,14 @@ const Sidebar: React.FC<SidebarProps> = ({
               </div>
             )}
 
-            {/* Logout Button */}
+            {/* Profile Button */}
             <button
-              onClick={signOut}
-              className={`w-full flex items-center px-3 py-2 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all ${isCollapsed ? 'justify-center' : 'space-x-3'}`}
-              title="Se déconnecter"
+              onClick={() => onNavigate('profile')}
+              className={`w-full flex items-center px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all shadow-sm hover:shadow ${isCollapsed ? 'justify-center' : 'space-x-3'}`}
+              title="Mon profil"
             >
-              <LogOut size={18} />
-              {!isCollapsed && <span className="text-sm font-medium">Déconnexion</span>}
+              <Settings size={18} />
+              {!isCollapsed && <span className="text-sm font-medium">Mon Profil</span>}
             </button>
 
             {/* Theme Toggle */}
@@ -244,6 +244,16 @@ const Sidebar: React.FC<SidebarProps> = ({
             >
               {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
               {!isCollapsed && <span className="text-sm font-medium">Mode {isDarkMode ? 'Clair' : 'Sombre'}</span>}
+            </button>
+
+            {/* Logout Button */}
+            <button
+              onClick={signOut}
+              className={`w-full flex items-center px-3 py-2 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all ${isCollapsed ? 'justify-center' : 'space-x-3'}`}
+              title="Se déconnecter"
+            >
+              <LogOut size={18} />
+              {!isCollapsed && <span className="text-sm font-medium">Déconnexion</span>}
             </button>
 
             {/* Collapse Toggle (Desktop) */}

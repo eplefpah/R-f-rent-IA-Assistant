@@ -17,6 +17,7 @@ import NetworkHub from './components/NetworkHub';
 import OnboardingChoice from './components/OnboardingChoice';
 import OnboardingManual from './components/OnboardingManual';
 import CompetencyEvaluationInterface from './components/CompetencyEvaluationInterface';
+import ProfileInterface from './components/ProfileInterface';
 import { AuthPage } from './components/AuthPage';
 import { useAuth } from './contexts/AuthContext';
 import { Message, AppView } from './types';
@@ -92,6 +93,14 @@ const App: React.FC = () => {
     setCurrentView(view);
   };
 
+  useEffect(() => {
+    const handleCustomNavigate = (event: CustomEvent<string>) => {
+      handleNavigate(event.detail as AppView);
+    };
+    window.addEventListener('navigate' as any, handleCustomNavigate);
+    return () => window.removeEventListener('navigate' as any, handleCustomNavigate);
+  }, []);
+
   const renderView = () => {
     switch (currentView) {
       case 'welcome':
@@ -113,6 +122,8 @@ const App: React.FC = () => {
         return <OnboardingManual onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'competency-evaluation':
         return <CompetencyEvaluationInterface toggleSidebar={toggleSidebar} onComplete={() => handleNavigate('onboarding-manual')} onBack={() => handleNavigate('onboarding-manual')} />;
+      case 'profile':
+        return <ProfileInterface toggleSidebar={toggleSidebar} />;
       case 'chat':
         return (
           <ChatInterface 

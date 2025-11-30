@@ -55,6 +55,14 @@ const App: React.FC = () => {
     }
   }, [isDarkMode]);
 
+  useEffect(() => {
+    const handleCustomNavigate = (event: CustomEvent<string>) => {
+      setCurrentView(event.detail as AppView);
+    };
+    window.addEventListener('navigate' as any, handleCustomNavigate);
+    return () => window.removeEventListener('navigate' as any, handleCustomNavigate);
+  }, []);
+
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-gradient-to-br from-[#0A1628] via-[#1a2942] to-[#0f1c33]">
@@ -92,14 +100,6 @@ const App: React.FC = () => {
   const handleNavigate = (view: AppView) => {
     setCurrentView(view);
   };
-
-  useEffect(() => {
-    const handleCustomNavigate = (event: CustomEvent<string>) => {
-      handleNavigate(event.detail as AppView);
-    };
-    window.addEventListener('navigate' as any, handleCustomNavigate);
-    return () => window.removeEventListener('navigate' as any, handleCustomNavigate);
-  }, []);
 
   const renderView = () => {
     switch (currentView) {

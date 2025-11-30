@@ -228,7 +228,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
             {/* Profile Button */}
             <button
-              onClick={() => onNavigate('profile')}
+              onClick={() => handleNavigation('profile')}
               className={`w-full flex items-center px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all shadow-sm hover:shadow ${isCollapsed ? 'justify-center' : 'space-x-3'}`}
               title="Mon profil"
             >

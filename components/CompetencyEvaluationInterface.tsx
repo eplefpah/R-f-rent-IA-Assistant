@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronRight, ChevronLeft, Menu, CheckCircle, Award } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronRight, ChevronLeft, Menu, CheckCircle, Award, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface CompetencyEvaluationProps {
@@ -19,6 +19,14 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentSection]);
 
   const sections = [
     {
@@ -519,28 +527,55 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-6">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="bg-white/5 rounded-xl p-6 border border-white/10">
             <h2 className="text-2xl font-bold mb-2">{currentSectionData.title}</h2>
             <p className="text-gray-400 text-sm">Maximum {currentSectionData.maxPoints} points</p>
           </div>
 
-          <div className="space-y-8">
-            {currentSectionData.questions.map((question, idx) => (
-              <div key={question.id} className="bg-white/5 rounded-xl p-6 border border-white/10">
-                <div className="mb-4">
-                  <span className="text-blue-400 font-semibold">Question {idx + 1}</span>
-                  <h3 className="text-lg font-medium mt-1">{question.text}</h3>
-                </div>
-                {renderQuestion(question)}
+          {showAlert && (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-start gap-3">
+              <AlertCircle className="text-red-400 flex-shrink-0 mt-0.5" size={20} />
+              <div className="flex-1">
+                <h3 className="text-red-400 font-semibold mb-1">Questions non répondues</h3>
+                <p className="text-red-300 text-sm">Veuillez répondre à toutes les questions avant de passer à la section suivante.</p>
               </div>
-            ))}
+            </div>
+          )}
+
+          <div className="space-y-8">
+            {currentSectionData.questions.map((question, idx) => {
+              const isAnswered = getAnswer(question.id);
+              return (
+                <div
+                  key={question.id}
+                  id={`question-${question.id}`}
+                  className={`bg-white/5 rounded-xl p-6 border transition-colors ${
+                    showAlert && !isAnswered
+                      ? 'border-red-500/50 bg-red-500/5'
+                      : 'border-white/10'
+                  }`}
+                >
+                  <div className="mb-4">
+                    <span className="text-blue-400 font-semibold">Question {idx + 1}</span>
+                    {showAlert && !isAnswered && (
+                      <span className="ml-2 text-red-400 text-sm font-medium">• Non répondue</span>
+                    )}
+                    <h3 className="text-lg font-medium mt-1">{question.text}</h3>
+                  </div>
+                  {renderQuestion(question)}
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex justify-between gap-4 pt-4">
             <button
-              onClick={() => setCurrentSection(s => Math.max(0, s - 1))}
+              onClick={() => {
+                setShowAlert(false);
+                setCurrentSection(s => Math.max(0, s - 1));
+              }}
               disabled={currentSection === 0}
               className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
             >
@@ -550,8 +585,24 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
 
             {isLastSection ? (
               <button
-                onClick={handleSubmit}
-                disabled={!allQuestionsAnswered || loading}
+                onClick={() => {
+                  if (!allQuestionsAnswered) {
+                    setShowAlert(true);
+                    const firstUnanswered = currentSectionData.questions.find(
+                      q => !getAnswer(q.id)
+                    );
+                    if (firstUnanswered) {
+                      document.getElementById(`question-${firstUnanswered.id}`)?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                      });
+                    }
+                  } else {
+                    setShowAlert(false);
+                    handleSubmit();
+                  }
+                }}
+                disabled={loading}
                 className="flex items-center gap-2 px-8 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
               >
                 {loading ? 'Enregistrement...' : 'Terminer l\'évaluation'}
@@ -559,9 +610,24 @@ const CompetencyEvaluationInterface: React.FC<CompetencyEvaluationProps> = ({ to
               </button>
             ) : (
               <button
-                onClick={() => setCurrentSection(s => Math.min(sections.length - 1, s + 1))}
-                disabled={!allQuestionsAnswered}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
+                onClick={() => {
+                  if (!allQuestionsAnswered) {
+                    setShowAlert(true);
+                    const firstUnanswered = currentSectionData.questions.find(
+                      q => !getAnswer(q.id)
+                    );
+                    if (firstUnanswered) {
+                      document.getElementById(`question-${firstUnanswered.id}`)?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                      });
+                    }
+                  } else {
+                    setShowAlert(false);
+                    setCurrentSection(s => Math.min(sections.length - 1, s + 1));
+                  }
+                }}
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
               >
                 Suivant
                 <ChevronRight size={20} />

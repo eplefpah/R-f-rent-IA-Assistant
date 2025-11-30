@@ -42,20 +42,16 @@ const MissionsInterface: React.FC<MissionsInterfaceProps> = ({ toggleSidebar }) 
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => {
-                  const link = document.createElement('a');
-                  link.href = '/lettres-missions-refia.pdf';
-                  link.download = 'lettres-missions-refia.pdf';
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                }}
+              <a
+                href="/lettres-missions-refia.pdf"
+                download="lettres-missions-refia.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 dark:bg-white/5 text-[#6B9BD2] dark:text-cyan-400 rounded-lg hover:bg-white/20 dark:hover:bg-white/10 backdrop-blur-sm border border-white/20 dark:border-white/10 transition-all text-sm font-medium shadow-lg flex-shrink-0"
               >
                 <Download size={18} />
                 <span>Télécharger (PDF)</span>
-              </button>
+              </a>
             </div>
           </div>
 

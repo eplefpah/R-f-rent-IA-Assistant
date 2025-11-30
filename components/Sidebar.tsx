@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare } from 'lucide-react';
+import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare, Settings } from 'lucide-react';
 import { AppView } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 

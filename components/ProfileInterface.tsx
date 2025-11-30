@@ -31,10 +31,15 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      await updateProfile(formData);
-      setIsEditing(false);
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
+      const { error } = await updateProfile(formData);
+      if (error) {
+        console.error('Error updating profile:', error);
+        alert('Erreur lors de la mise à jour du profil');
+      } else {
+        setIsEditing(false);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      }
     } catch (error) {
       console.error('Error updating profile:', error);
       alert('Erreur lors de la mise à jour du profil');

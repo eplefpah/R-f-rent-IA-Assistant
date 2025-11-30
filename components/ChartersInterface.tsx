@@ -113,7 +113,7 @@ const ChartersInterface: React.FC<ChartersInterfaceProps> = ({ toggleSidebar }) 
               </div>
               <button
                 onClick={handleDownloadCharte}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#6B9BD2] rounded-lg hover:bg-white/90 transition-colors text-sm font-medium shadow-md flex-shrink-0"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 dark:bg-white/5 text-[#6B9BD2] dark:text-cyan-400 rounded-lg hover:bg-white/20 dark:hover:bg-white/10 backdrop-blur-sm border border-white/20 dark:border-white/10 transition-all text-sm font-medium shadow-lg flex-shrink-0"
               >
                 <Download size={18} />
                 <span>Télécharger la charte (PDF)</span>

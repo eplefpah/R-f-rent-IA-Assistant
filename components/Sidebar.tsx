@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare } from 'lucide-react';
 import { AppView } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 
 // Icône Hamburger personnalisée (traits épais)
 const ThickHamburger = ({ className }: { className?: string }) => (
@@ -24,18 +25,18 @@ interface SidebarProps {
   toggleTheme: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ 
-  isOpen, 
-  toggleSidebar, 
+const Sidebar: React.FC<SidebarProps> = ({
+  isOpen,
+  toggleSidebar,
   isCollapsed,
   toggleCollapse,
-  onClearChat, 
-  currentView, 
+  onClearChat,
+  currentView,
   onNavigate,
   isDarkMode,
   toggleTheme
 }) => {
-  // État pour l'accordéon : 'coach', 'resources', 'network', ou null (fermé)
+  const { signOut, profile } = useAuth();
   const [openSection, setOpenSection] = useState<'coach' | 'resources' | 'network' | null>('coach');
 
   // Ouvrir automatiquement la bonne section en fonction de la vue courante
@@ -211,25 +212,49 @@ const Sidebar: React.FC<SidebarProps> = ({
 
         {/* Footer Actions */}
         <div className="border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-3 space-y-2">
-            {/* Theme Toggle */}
-            <button 
-                onClick={toggleTheme}
-                className={`w-full flex items-center px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all shadow-sm hover:shadow ${isCollapsed ? 'justify-center' : 'space-x-3'}`}
-                title={isDarkMode ? "Passer en mode clair" : "Passer en mode sombre"}
+            {/* User Profile Info */}
+            {!isCollapsed && profile && (
+              <div className="px-3 py-2 mb-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                  {profile.full_name || profile.email}
+                </p>
+                {profile.organization && (
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                    {profile.organization}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Logout Button */}
+            <button
+              onClick={signOut}
+              className={`w-full flex items-center px-3 py-2 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all ${isCollapsed ? 'justify-center' : 'space-x-3'}`}
+              title="Se déconnecter"
             >
-                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-                {!isCollapsed && <span className="text-sm font-medium">Mode {isDarkMode ? 'Clair' : 'Sombre'}</span>}
+              <LogOut size={18} />
+              {!isCollapsed && <span className="text-sm font-medium">Déconnexion</span>}
+            </button>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className={`w-full flex items-center px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800 rounded-lg transition-all shadow-sm hover:shadow ${isCollapsed ? 'justify-center' : 'space-x-3'}`}
+              title={isDarkMode ? "Passer en mode clair" : "Passer en mode sombre"}
+            >
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+              {!isCollapsed && <span className="text-sm font-medium">Mode {isDarkMode ? 'Clair' : 'Sombre'}</span>}
             </button>
 
             {/* Collapse Toggle (Desktop) */}
-            <button 
-                onClick={toggleCollapse}
-                className="hidden md:flex w-full items-center justify-center py-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-                title={isCollapsed ? "Déplier le menu" : "Réduire le menu"}
+            <button
+              onClick={toggleCollapse}
+              className="hidden md:flex w-full items-center justify-center py-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+              title={isCollapsed ? "Déplier le menu" : "Réduire le menu"}
             >
-                <div className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700">
-                    {isCollapsed ? <ThickHamburger className="w-5 h-5" /> : <ThickHamburger className="w-5 h-5" />}
-                </div>
+              <div className="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700">
+                {isCollapsed ? <ThickHamburger className="w-5 h-5" /> : <ThickHamburger className="w-5 h-5" />}
+              </div>
             </button>
         </div>
 

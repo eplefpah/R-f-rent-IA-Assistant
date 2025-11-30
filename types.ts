@@ -28,6 +28,16 @@ export interface KnowledgeBaseSection {
 
 export type AppView = 'welcome' | 'navigation-hub' | 'resources-hub' | 'network-hub' | 'chat' | 'parcours' | 'recueil' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum' | 'onboarding-choice' | 'onboarding-manual';
 
+export interface Profile {
+  id: string;
+  email: string;
+  full_name: string | null;
+  organization: string | null;
+  role: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 // Types pour la Veille
 export interface VeilleNewsItem {
   titre: string;

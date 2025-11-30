@@ -16,6 +16,8 @@ import ResourcesHub from './components/ResourcesHub';
 import NetworkHub from './components/NetworkHub';
 import OnboardingChoice from './components/OnboardingChoice';
 import OnboardingManual from './components/OnboardingManual';
+import { AuthPage } from './components/AuthPage';
+import { useAuth } from './contexts/AuthContext';
 import { Message, AppView } from './types';
 import { PARCOURS_SYSTEM_INSTRUCTION, PARCOURS_SUGGESTIONS, RECUEIL_SYSTEM_INSTRUCTION, RECUEIL_SUGGESTIONS } from './constants';
 
@@ -29,20 +31,20 @@ const FloatingHamburger = () => (
 );
 
 const App: React.FC = () => {
+  const { user, loading } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true); // Menu fermé par défaut
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [parcoursMessages, setParcoursMessages] = useState<Message[]>([]);
   const [recueilMessages, setRecueilMessages] = useState<Message[]>([]);
   const [currentView, setCurrentView] = useState<AppView>('welcome');
-  const [resetKey, setResetKey] = useState(0); // Clé pour forcer le re-render des composants
+  const [resetKey, setResetKey] = useState(0);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const toggleSidebarCollapse = () => setIsSidebarCollapsed(!isSidebarCollapsed);
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
-  
-  // Apply dark mode class to html element
+
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -50,6 +52,21 @@ const App: React.FC = () => {
       document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-gradient-to-br from-[#0A1628] via-[#1a2942] to-[#0f1c33]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+          <p className="text-white text-lg">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <AuthPage />;
+  }
 
   const handleClearChat = () => {
     // Action immédiate sans confirmation

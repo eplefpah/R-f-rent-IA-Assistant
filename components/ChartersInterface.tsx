@@ -51,6 +51,16 @@ const ChartersInterface: React.FC<ChartersInterfaceProps> = ({ toggleSidebar }) 
 
   const levels = ['all', ...Array.from(new Set(charters.map(c => c.niveau)))];
 
+  const handleDownloadCharte = () => {
+    const link = document.createElement('a');
+    link.href = '/charte-referents-ia.pdf';
+    link.download = 'charte-referents-ia.pdf';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const getLevelColor = (niveau: string) => {
     switch (niveau) {
       case 'Interministériel':
@@ -101,14 +111,13 @@ const ChartersInterface: React.FC<ChartersInterfaceProps> = ({ toggleSidebar }) 
                   </p>
                 </div>
               </div>
-              <a
-                href="/charte-referents-ia.pdf"
-                download
+              <button
+                onClick={handleDownloadCharte}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#6B9BD2] rounded-lg hover:bg-white/90 transition-colors text-sm font-medium shadow-md flex-shrink-0"
               >
                 <Download size={18} />
                 <span>Télécharger la charte (PDF)</span>
-              </a>
+              </button>
             </div>
           </div>
 

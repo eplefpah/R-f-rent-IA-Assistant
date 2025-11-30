@@ -84,7 +84,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
           <div className="flex justify-center mt-8">
             <button
               onClick={() => onNavigate('onboarding-choice')}
-              className="px-8 py-4 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] text-white rounded-xl font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-lg"
+              className="px-8 py-4 bg-white/10 dark:bg-white/5 text-[#6B9BD2] dark:text-cyan-300 rounded-xl font-medium backdrop-blur-md border border-white/30 dark:border-white/10 hover:bg-white/20 dark:hover:bg-white/10 hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-lg shadow-xl"
             >
               Je suis nouveau
             </button>

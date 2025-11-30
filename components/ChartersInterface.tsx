@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, FileText, ExternalLink, Calendar, Building, Shield, Target } from 'lucide-react';
+import { Menu, FileText, ExternalLink, Calendar, Building, Shield, Target, Download } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 
 interface ChartersInterfaceProps {
@@ -87,6 +87,31 @@ const ChartersInterface: React.FC<ChartersInterfaceProps> = ({ toggleSidebar }) 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 scrollbar-thin">
         <div className="max-w-6xl mx-auto">
+          {/* Charte Référent IA - Featured */}
+          <div className="mb-8 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] rounded-xl p-6 shadow-lg">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <FileText className="text-white" size={24} />
+                </div>
+                <div className="text-white">
+                  <h3 className="text-xl font-bold mb-1">Charte du Référent IA</h3>
+                  <p className="text-white/90 text-sm">
+                    Le document de référence pour tous les Référents IA de l'administration publique
+                  </p>
+                </div>
+              </div>
+              <a
+                href="/charte-referents-ia.pdf"
+                download
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#6B9BD2] rounded-lg hover:bg-white/90 transition-colors text-sm font-medium shadow-md flex-shrink-0"
+              >
+                <Download size={18} />
+                <span>Télécharger la charte (PDF)</span>
+              </a>
+            </div>
+          </div>
+
           {/* Filters */}
           <div className="mb-6 flex flex-wrap gap-2">
             {levels.map((level) => (

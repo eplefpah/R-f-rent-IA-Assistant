@@ -26,7 +26,7 @@ export interface KnowledgeBaseSection {
   category: string;
 }
 
-export type AppView = 'welcome' | 'navigation-hub' | 'resources-hub' | 'network-hub' | 'chat' | 'parcours' | 'recueil' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum' | 'onboarding-choice' | 'onboarding-manual';
+export type AppView = 'welcome' | 'navigation-hub' | 'resources-hub' | 'network-hub' | 'chat' | 'parcours' | 'recueil' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum' | 'onboarding-choice' | 'onboarding-manual' | 'competency-evaluation';
 
 export interface Profile {
   id: string;
@@ -34,6 +34,9 @@ export interface Profile {
   full_name: string | null;
   organization: string | null;
   role: string | null;
+  competency_level: string | null;
+  competency_score: number | null;
+  competency_evaluated_at: string | null;
   created_at: string;
   updated_at: string;
 }

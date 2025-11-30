@@ -16,6 +16,7 @@ import ResourcesHub from './components/ResourcesHub';
 import NetworkHub from './components/NetworkHub';
 import OnboardingChoice from './components/OnboardingChoice';
 import OnboardingManual from './components/OnboardingManual';
+import CompetencyEvaluationInterface from './components/CompetencyEvaluationInterface';
 import { AuthPage } from './components/AuthPage';
 import { useAuth } from './contexts/AuthContext';
 import { Message, AppView } from './types';
@@ -110,6 +111,8 @@ const App: React.FC = () => {
         return <OnboardingChoice onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'onboarding-manual':
         return <OnboardingManual onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
+      case 'competency-evaluation':
+        return <CompetencyEvaluationInterface toggleSidebar={toggleSidebar} onComplete={() => handleNavigate('onboarding-manual')} />;
       case 'chat':
         return (
           <ChatInterface 

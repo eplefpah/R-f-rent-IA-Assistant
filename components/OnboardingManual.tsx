@@ -152,13 +152,22 @@ const OnboardingManual: React.FC<OnboardingManualProps> = ({ onNavigate, toggleS
                 </div>
               </div>
 
-              <button
-                onClick={() => scrollToStep(2)}
-                className="mt-8 flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] text-white rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
-              >
-                <span>Commencer mon parcours</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <button
+                  onClick={() => onNavigate('competency-evaluation')}
+                  className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
+                >
+                  <ClipboardCheck className="w-5 h-5" />
+                  <span>Évaluer mon niveau de compétence</span>
+                </button>
+                <button
+                  onClick={() => scrollToStep(2)}
+                  className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] text-white rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
+                >
+                  <span>Commencer mon parcours</span>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </section>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Target, TrendingUp, Rocket, CheckCircle, Circle, Award } from 'lucide-react';
+import { Menu, Target, TrendingUp, Rocket, CheckCircle, Circle, Award, Download } from 'lucide-react';
 
 interface MissionsInterfaceProps {
   toggleSidebar: () => void;
@@ -29,6 +29,35 @@ const MissionsInterface: React.FC<MissionsInterfaceProps> = ({ toggleSidebar }) 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 scrollbar-thin">
         <div className="max-w-5xl mx-auto space-y-8">
+
+          {/* Lettres de missions - Download Button */}
+          <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 rounded-xl border border-blue-200 dark:border-blue-800 p-6 shadow-sm">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <Download className="text-ref-blue dark:text-blue-400 flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <h2 className="text-lg font-bold text-slate-800 dark:text-white mb-1">Lettres de missions RefIA</h2>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                    Le document officiel détaillant les missions par niveau d'expertise
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/lettres-missions-refia.pdf';
+                  link.download = 'lettres-missions-refia.pdf';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 dark:bg-white/5 text-[#6B9BD2] dark:text-cyan-400 rounded-lg hover:bg-white/20 dark:hover:bg-white/10 backdrop-blur-sm border border-white/20 dark:border-white/10 transition-all text-sm font-medium shadow-lg flex-shrink-0"
+              >
+                <Download size={18} />
+                <span>Télécharger (PDF)</span>
+              </button>
+            </div>
+          </div>
 
           {/* Rôle et responsabilités */}
           <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">

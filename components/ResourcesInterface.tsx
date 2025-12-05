@@ -33,6 +33,11 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
   const [filterModality, setFilterModality] = useState<string>('all');
   const [filterCost, setFilterCost] = useState<string>('all');
 
+  // Filtres pour les outils IA
+  const [filterToolDifficulty, setFilterToolDifficulty] = useState<string>('all');
+  const [filterToolHosting, setFilterToolHosting] = useState<string>('all');
+  const [filterToolSector, setFilterToolSector] = useState<string>('all');
+
   useEffect(() => {
     if (activeTab === 'outils') {
       loadAiTools();
@@ -122,8 +127,87 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
                 <p className="text-slate-500 dark:text-slate-400">Aucun outil disponible</p>
               </div>
             ) : (
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {aiTools.map((tool) => (
+              <>
+                {/* Filtres pour les outils */}
+                <div className="mb-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Filtres</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Filtre Niveau de difficulté */}
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 block">Niveau de difficulté</label>
+                      <select
+                        value={filterToolDifficulty}
+                        onChange={(e) => setFilterToolDifficulty(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ref-blue dark:focus:ring-blue-500 text-slate-700 dark:text-slate-300"
+                      >
+                        <option value="all">Tous les niveaux</option>
+                        <option value="Débutant">Débutant</option>
+                        <option value="Intermédiaire">Intermédiaire</option>
+                        <option value="Avancé">Avancé</option>
+                      </select>
+                    </div>
+
+                    {/* Filtre Type d'hébergement */}
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 block">Type d'hébergement</label>
+                      <select
+                        value={filterToolHosting}
+                        onChange={(e) => setFilterToolHosting(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ref-blue dark:focus:ring-blue-500 text-slate-700 dark:text-slate-300"
+                      >
+                        <option value="all">Tous les types</option>
+                        <option value="SecNumCloud">SecNumCloud</option>
+                        <option value="Cloud">Cloud</option>
+                        <option value="Hybride">Hybride</option>
+                        <option value="On-premise">On-premise</option>
+                      </select>
+                    </div>
+
+                    {/* Filtre Secteur */}
+                    <div>
+                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 block">Secteur d'usage</label>
+                      <select
+                        value={filterToolSector}
+                        onChange={(e) => setFilterToolSector(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-ref-blue dark:focus:ring-blue-500 text-slate-700 dark:text-slate-300"
+                      >
+                        <option value="all">Tous les secteurs</option>
+                        <option value="Transversal">Transversal</option>
+                        <option value="Juridique">Juridique</option>
+                        <option value="Santé">Santé</option>
+                        <option value="Culture et patrimoine">Culture et patrimoine</option>
+                        <option value="Education/Recherche scientifique">Éducation/Recherche</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Compteur de résultats */}
+                <div className="mb-6 flex justify-between items-center">
+                  <div className="text-sm text-slate-500 dark:text-slate-400">
+                    <span className="font-semibold text-slate-700 dark:text-slate-200">
+                      {aiTools.filter(tool => {
+                        const difficultyMatch = filterToolDifficulty === 'all' || tool.difficulty_level === filterToolDifficulty;
+                        const hostingMatch = filterToolHosting === 'all' || tool.hosting_type === filterToolHosting;
+                        const sectorMatch = filterToolSector === 'all' ||
+                          tool.usage_domains.some(domain => domain.includes(filterToolSector)) ||
+                          (filterToolSector === 'Transversal' && tool.usage_domains.includes('Usage transversal'));
+                        return difficultyMatch && hostingMatch && sectorMatch;
+                      }).length}
+                    </span> outils trouvés
+                  </div>
+                  <div className="text-xs text-slate-400 dark:text-slate-500">Mise à jour : Décembre 2025</div>
+                </div>
+
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {aiTools.filter(tool => {
+                  const difficultyMatch = filterToolDifficulty === 'all' || tool.difficulty_level === filterToolDifficulty;
+                  const hostingMatch = filterToolHosting === 'all' || tool.hosting_type === filterToolHosting;
+                  const sectorMatch = filterToolSector === 'all' ||
+                    tool.usage_domains.some(domain => domain.includes(filterToolSector)) ||
+                    (filterToolSector === 'Transversal' && tool.usage_domains.includes('Usage transversal'));
+                  return difficultyMatch && hostingMatch && sectorMatch;
+                }).map((tool) => (
                 <div key={tool.id} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all flex flex-col">
                    <div className="p-5 border-b border-slate-50 dark:border-slate-800 flex justify-between items-start">
                       <div>
@@ -185,7 +269,8 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
                    </div>
                 </div>
                 ))}
-              </div>
+                </div>
+              </>
             )}
           </div>
         )}

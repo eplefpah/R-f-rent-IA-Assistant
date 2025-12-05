@@ -382,9 +382,9 @@ PHASE 4 : Production & Valorisation (J+60 à J+90)
 `;
 
 export const PARCOURS_SUGGESTIONS = [
-    "Je suis prêt à commencer le diagnostic.",
-    "Quels sont les profils types ?",
-    "Je veux suivre le parcours Médiateur directement."
+    "idée 1 :Je suis prêt à commencer le diagnostic.",
+    "idée 2 :Quels sont les profils types ?",
+    "idée 3 :Je veux suivre le parcours Médiateur directement."
 ];
 
 export const RECUEIL_SYSTEM_INSTRUCTION = `

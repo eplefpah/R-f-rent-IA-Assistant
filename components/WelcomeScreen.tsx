@@ -50,7 +50,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
         {/* Curved Container visual effect */}
         <div className="w-full max-w-5xl relative">
           {/* Decorative Arc */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[500px] bg-white/50 dark:bg-[#1e1b4b]/40 blur-3xl rounded-[100%] -z-10" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[500px] bg-white/50 dark:bg-transparent blur-3xl rounded-[100%] -z-10" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 justify-items-center">
             <Card3D

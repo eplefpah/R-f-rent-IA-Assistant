@@ -36,7 +36,7 @@ const App: React.FC = () => {
   const { user, loading } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
   const [parcoursMessages, setParcoursMessages] = useState<Message[]>([]);
   const [recueilMessages, setRecueilMessages] = useState<Message[]>([]);

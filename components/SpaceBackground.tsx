@@ -19,7 +19,11 @@ interface Satellite {
   startTime: number;
 }
 
-const SpaceBackground: React.FC = () => {
+interface SpaceBackgroundProps {
+  satellitesEnabled?: boolean;
+}
+
+const SpaceBackground: React.FC<SpaceBackgroundProps> = ({ satellitesEnabled = false }) => {
   const [stars, setStars] = useState<Star[]>([]);
   const [satellites, setSatellites] = useState<Satellite[]>([]);
   const [satellitePositions, setSatellitePositions] = useState<Record<number, { x: number; y: number; opacity: number }>>({});
@@ -35,35 +39,39 @@ const SpaceBackground: React.FC = () => {
     }));
     setStars(generatedStars);
 
-    const now = Date.now();
-    const generatedSatellites: Satellite[] = Array.from({ length: 12 }, (_, i) => {
-      const startSide = Math.random() > 0.5 ? 'left' : 'top';
-      let startX, startY, endX, endY;
+    if (satellitesEnabled) {
+      const now = Date.now();
+      const generatedSatellites: Satellite[] = Array.from({ length: 12 }, (_, i) => {
+        const startSide = Math.random() > 0.5 ? 'left' : 'top';
+        let startX, startY, endX, endY;
 
-      if (startSide === 'left') {
-        startX = -5;
-        startY = Math.random() * 100;
-        endX = 105;
-        endY = startY + (Math.random() - 0.5) * 40;
-      } else {
-        startX = Math.random() * 100;
-        startY = -5;
-        endX = startX + (Math.random() - 0.5) * 40;
-        endY = 105;
-      }
+        if (startSide === 'left') {
+          startX = -5;
+          startY = Math.random() * 100;
+          endX = 105;
+          endY = startY + (Math.random() - 0.5) * 40;
+        } else {
+          startX = Math.random() * 100;
+          startY = -5;
+          endX = startX + (Math.random() - 0.5) * 40;
+          endY = 105;
+        }
 
-      return {
-        id: i,
-        startX,
-        startY,
-        endX,
-        endY,
-        duration: Math.random() * 15 + 20,
-        startTime: now + i * 2000,
-      };
-    });
-    setSatellites(generatedSatellites);
-  }, []);
+        return {
+          id: i,
+          startX,
+          startY,
+          endX,
+          endY,
+          duration: Math.random() * 15 + 20,
+          startTime: now + i * 2000,
+        };
+      });
+      setSatellites(generatedSatellites);
+    } else {
+      setSatellites([]);
+    }
+  }, [satellitesEnabled]);
 
   useEffect(() => {
     let animationFrameId: number;

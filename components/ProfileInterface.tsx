@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, User, Building2, Briefcase, Award, Calendar, Save, Edit2, X, CheckCircle } from 'lucide-react';
+import { Menu, User, Building2, Briefcase, Award, Calendar, Save, Edit2, X, CheckCircle, Sparkles } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import SpaceBackground from './SpaceBackground';
 
@@ -15,7 +15,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
   const [formData, setFormData] = useState({
     full_name: '',
     organization: '',
-    role: ''
+    role: '',
+    satellites_enabled: false
   });
 
   useEffect(() => {
@@ -23,7 +24,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
       setFormData({
         full_name: profile.full_name || '',
         organization: profile.organization || '',
-        role: profile.role || ''
+        role: profile.role || '',
+        satellites_enabled: profile.satellites_enabled || false
       });
     }
   }, [profile]);
@@ -52,7 +54,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
     setFormData({
       full_name: profile?.full_name || '',
       organization: profile?.organization || '',
-      role: profile?.role || ''
+      role: profile?.role || '',
+      satellites_enabled: profile?.satellites_enabled || false
     });
     setIsEditing(false);
   };
@@ -84,7 +87,7 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
   return (
     <div className="h-full w-full relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white dark:from-[#0A1628] dark:via-[#1a2942] dark:to-[#0f1c33] z-0" />
-      <SpaceBackground />
+      <SpaceBackground satellitesEnabled={profile?.satellites_enabled || false} />
 
       <div className="relative z-10 h-full overflow-y-auto">
         <div className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-white/10 shadow-sm">
@@ -315,6 +318,39 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
                     year: 'numeric'
                   }) : 'N/A'}
                 </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-white/5 rounded-2xl p-8 border border-gray-200 dark:border-white/10 shadow-sm">
+            <div className="flex items-center space-x-3 mb-6">
+              <Sparkles className="w-8 h-8 text-[#6B9BD2]" />
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white">Préférences</h3>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10">
+                <input
+                  type="checkbox"
+                  id="satellites_enabled"
+                  checked={formData.satellites_enabled}
+                  onChange={(e) => {
+                    const newValue = e.target.checked;
+                    setFormData({ ...formData, satellites_enabled: newValue });
+                    if (!isEditing) {
+                      updateProfile({ satellites_enabled: newValue });
+                    }
+                  }}
+                  className="mt-1 w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-[#6B9BD2] focus:ring-[#6B9BD2] dark:bg-white/10"
+                />
+                <label htmlFor="satellites_enabled" className="flex-1 cursor-pointer">
+                  <div className="font-medium text-gray-800 dark:text-white mb-1">
+                    Animations spatiales
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Activer les satellites animés en mode sombre pour une expérience visuelle immersive
+                  </p>
+                </label>
               </div>
             </div>
           </div>

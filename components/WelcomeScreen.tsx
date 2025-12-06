@@ -4,6 +4,7 @@ import { MessageSquare, FolderOpen, Users, Settings, Menu } from 'lucide-react';
 import { AppView } from '../types';
 import Card3D from './Card3D';
 import SpaceBackground from './SpaceBackground';
+import { useAuth } from '../contexts/AuthContext';
 
 interface WelcomeScreenProps {
   onNavigate: (view: AppView) => void;
@@ -11,13 +12,15 @@ interface WelcomeScreenProps {
 }
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar }) => {
+  const { profile } = useAuth();
+
   return (
     <div className="h-full w-full relative overflow-hidden flex flex-col">
       {/* Background Gradient - Adapts to Dark Mode */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-200 via-blue-50 to-white dark:from-[#1e1b4b] dark:via-[#172554] dark:to-[#0f172a] z-0" />
 
       {/* Space Background with Stars and Satellites */}
-      <SpaceBackground />
+      <SpaceBackground satellitesEnabled={profile?.satellites_enabled || false} />
       
       {/* Top Bar (Mobile only or decorative) */}
       <div className="relative z-10 w-full p-6 flex justify-between items-start">

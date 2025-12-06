@@ -86,7 +86,7 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
 
   return (
     <div className="h-full w-full relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white dark:from-[#0A1628] dark:via-[#1a2942] dark:to-[#0f1c33] z-0" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white dark:bg-slate-900 z-0" />
       <SpaceBackground satellitesEnabled={profile?.satellites_enabled || false} />
 
       <div className="relative z-10 h-full overflow-y-auto">

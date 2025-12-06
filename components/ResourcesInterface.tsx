@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, Trophy, Target, Cpu, Shield, Scale, FileText, ExternalLink, CheckCircle, GraduationCap, Clock, Euro, MapPin, Loader2 } from 'lucide-react';
+import { Menu, Trophy, Target, Cpu, Shield, Scale, FileText, ExternalLink, CheckCircle, GraduationCap, Clock, Euro, MapPin, Loader2, HelpCircle, X } from 'lucide-react';
 import { KNOWLEDGE_BASE_SECTIONS } from '../constants';
 import { TRAINING_COURSES } from '../trainingData';
 import { aiToolsService } from '../services/aiToolsService';
@@ -37,6 +37,7 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
   const [filterToolDifficulty, setFilterToolDifficulty] = useState<string>('all');
   const [filterToolHosting, setFilterToolHosting] = useState<string>('all');
   const [filterToolSector, setFilterToolSector] = useState<string>('all');
+  const [showHostingHelp, setShowHostingHelp] = useState(false);
 
   useEffect(() => {
     if (activeTab === 'outils') {
@@ -149,7 +150,16 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
 
                     {/* Filtre Type d'hébergement */}
                     <div>
-                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 block">Type d'hébergement</label>
+                      <label className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 flex items-center">
+                        Type d'hébergement
+                        <button
+                          onClick={() => setShowHostingHelp(true)}
+                          className="ml-2 text-ref-blue dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                          title="Aide sur les types d'hébergement"
+                        >
+                          <HelpCircle size={14} />
+                        </button>
+                      </label>
                       <select
                         value={filterToolHosting}
                         onChange={(e) => setFilterToolHosting(e.target.value)}
@@ -420,6 +430,113 @@ const ResourcesInterface: React.FC<ResourcesInterfaceProps> = ({ toggleSidebar, 
         )}
 
       </div>
+
+      {/* Modal d'aide pour les types d'hébergement */}
+      {showHostingHelp && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowHostingHelp(false)}>
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-between items-center">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">Types d'hébergement : Guide pratique</h3>
+              <button
+                onClick={() => setShowHostingHelp(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 space-y-6">
+              {/* SecNumCloud */}
+              <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-xl p-4">
+                <div className="flex items-start">
+                  <Shield className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-indigo-900 dark:text-indigo-300 mb-2">SecNumCloud</h4>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      C'est un cloud <strong>certifié et ultra-sécurisé</strong>, approuvé par l'<strong>ANSSI</strong> (l'agence française de cybersécurité).
+                      En gros, c'est du cloud "made in France" avec des garanties fortes sur la protection des données sensibles.
+                    </p>
+                    <div className="mt-2 inline-flex items-center px-2 py-1 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300 text-xs rounded-full">
+                      <Shield size={12} className="mr-1" /> Recommandé pour données sensibles
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cloud */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
+                <div className="flex items-start">
+                  <Cpu className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-blue-900 dark:text-blue-300 mb-2">Cloud</h4>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      Les données et logiciels sont hébergés sur <strong>internet</strong> (dans des serveurs à distance, souvent gérés par des
+                      entreprises comme AWS, Microsoft, Google, etc.). Tu n'as rien à entretenir localement.
+                    </p>
+                    <div className="mt-2 inline-flex items-center px-2 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 text-xs rounded-full">
+                      Accessible partout, maintenance simplifiée
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Hybride */}
+              <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4">
+                <div className="flex items-start">
+                  <Target className="w-5 h-5 text-purple-600 dark:text-purple-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-purple-900 dark:text-purple-300 mb-2">Hybride</h4>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      Une combinaison du cloud et de serveurs locaux. Par exemple, <strong>les données sensibles restent chez toi</strong>, mais
+                      le reste est dans le cloud. C'est un peu le meilleur des deux mondes.
+                    </p>
+                    <div className="mt-2 inline-flex items-center px-2 py-1 bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300 text-xs rounded-full">
+                      Flexibilité et contrôle sélectif
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* On-premise */}
+              <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
+                <div className="flex items-start">
+                  <Scale className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-emerald-900 dark:text-emerald-300 mb-2">On-premise (sur site)</h4>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">
+                      Tout est hébergé et géré dans <strong>tes propres locaux</strong>, sur tes machines. Tu as le contrôle total,
+                      mais cela demande plus d'entretien et de compétences techniques.
+                    </p>
+                    <div className="mt-2 inline-flex items-center px-2 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-xs rounded-full">
+                      Contrôle maximal, maintenance requise
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Note de bas de page */}
+              <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4 mt-6">
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  <strong>Conseil :</strong> Pour les administrations publiques, privilégiez les solutions <strong>SecNumCloud</strong> ou
+                  <strong> On-premise</strong> pour les données sensibles, conformément aux recommandations de l'ANSSI.
+                </p>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="border-t border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-end">
+              <button
+                onClick={() => setShowHostingHelp(false)}
+                className="px-4 py-2 bg-ref-blue dark:bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-700 transition-colors font-medium text-sm"
+              >
+                J'ai compris
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

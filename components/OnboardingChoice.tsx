@@ -15,7 +15,7 @@ const OnboardingChoice: React.FC<OnboardingChoiceProps> = ({ onNavigate, toggleS
 
   return (
     <div className="h-full w-full relative overflow-hidden flex flex-col">
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-200 via-blue-50 to-white dark:bg-slate-900 z-0" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-200 via-blue-50 to-white dark:from-[#1e1b4b] dark:via-[#172554] dark:to-[#0f172a] z-0" />
       <SpaceBackground satellitesEnabled={profile?.satellites_enabled || false} />
 
       <div className="relative z-10 w-full p-6 flex justify-between items-start">

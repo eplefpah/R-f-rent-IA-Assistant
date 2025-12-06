@@ -17,7 +17,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
   return (
     <div className="h-full w-full relative overflow-hidden flex flex-col">
       {/* Background Gradient - Adapts to Dark Mode */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-200 via-blue-50 to-white dark:from-[#1e1b4b] dark:via-[#172554] dark:to-[#0f172a] z-0" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-200 via-blue-50 to-white dark:bg-[#0f172a] z-0" />
 
       {/* Space Background with Stars and Satellites */}
       <SpaceBackground satellitesEnabled={profile?.satellites_enabled || false} />

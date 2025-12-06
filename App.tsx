@@ -18,6 +18,7 @@ import OnboardingChoice from './components/OnboardingChoice';
 import OnboardingManual from './components/OnboardingManual';
 import CompetencyEvaluationInterface from './components/CompetencyEvaluationInterface';
 import ProfileInterface from './components/ProfileInterface';
+import DashboardInterface from './components/DashboardInterface';
 import { AuthPage } from './components/AuthPage';
 import { useAuth } from './contexts/AuthContext';
 import { Message, AppView } from './types';
@@ -124,6 +125,8 @@ const App: React.FC = () => {
         return <CompetencyEvaluationInterface toggleSidebar={toggleSidebar} onComplete={() => handleNavigate('onboarding-manual')} onBack={() => handleNavigate('onboarding-manual')} />;
       case 'profile':
         return <ProfileInterface toggleSidebar={toggleSidebar} />;
+      case 'dashboard':
+        return <DashboardInterface onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'chat':
         return (
           <ChatInterface 

@@ -26,7 +26,7 @@ export interface KnowledgeBaseSection {
   category: string;
 }
 
-export type AppView = 'welcome' | 'navigation-hub' | 'resources-hub' | 'network-hub' | 'chat' | 'parcours' | 'recueil' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum' | 'onboarding-choice' | 'onboarding-manual' | 'competency-evaluation' | 'profile';
+export type AppView = 'welcome' | 'navigation-hub' | 'resources-hub' | 'network-hub' | 'chat' | 'parcours' | 'recueil' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum' | 'onboarding-choice' | 'onboarding-manual' | 'competency-evaluation' | 'profile' | 'dashboard';
 
 export interface Profile {
   id: string;
@@ -38,6 +38,7 @@ export interface Profile {
   competency_score: number | null;
   competency_evaluated_at: string | null;
   satellites_enabled: boolean;
+  dashboard_config: DashboardConfig | null;
   created_at: string;
   updated_at: string;
 }
@@ -222,4 +223,36 @@ export interface ForumReply {
     role: string;
     organization: string;
   };
+}
+
+export type WidgetType =
+  | 'resources'
+  | 'projects'
+  | 'contacts'
+  | 'forum'
+  | 'veille'
+  | 'training'
+  | 'requirements'
+  | 'missions'
+  | 'competency'
+  | 'ethics'
+  | 'charters'
+  | 'environmental'
+  | 'tools';
+
+export type WidgetStatus = 'not_started' | 'in_progress' | 'completed';
+
+export interface DashboardWidget {
+  id: string;
+  type: WidgetType;
+  enabled: boolean;
+  order: number;
+  status: WidgetStatus;
+  progress: number;
+  metadata?: Record<string, any>;
+}
+
+export interface DashboardConfig {
+  widgets: DashboardWidget[];
+  updated_at: string;
 }

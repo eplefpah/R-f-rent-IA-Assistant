@@ -31,9 +31,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
           <Menu size={28} />
         </button>
         <div className="flex-1" /> {/* Spacer */}
-        <button 
+        <button
+          onClick={() => onNavigate('dashboard')}
           className="p-2 rounded-full hover:bg-white/10 text-slate-400 dark:text-white/60 transition-colors"
-          title="Paramètres"
+          title="Tableau de bord"
         >
           <Settings size={28} strokeWidth={1.5} />
         </button>

@@ -38,7 +38,7 @@ const VeilleAIChatInterface: React.FC<VeilleAIChatInterfaceProps> = ({ toggleSid
     perplexityService.setWebSearchEnabled(webSearchEnabled);
     const welcomeMessage: Message = {
       id: '1',
-      text: 'Bonjour ! Je suis votre assistant de veille IA pour l\'administration publique française. Posez-moi vos questions ou utilisez les exemples ci-dessous.',
+      text: 'Bonjour ! Je suis votre assistant de veille IA pour l\'administration publique française. Posez-moi vos questions ou utilisez les exemples ci-dessus.',
       isUser: false,
       timestamp: new Date()
     };

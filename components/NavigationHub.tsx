@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Map, ClipboardList, Menu, ArrowLeft } from 'lucide-react';
+import { MessageSquare, Map, ClipboardList, Newspaper, Menu, ArrowLeft } from 'lucide-react';
 import { AppView } from '../types';
 import Card3D from './Card3D';
 import SpaceBackground from './SpaceBackground';
@@ -47,7 +47,7 @@ const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar
         <div className="w-full max-w-5xl relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[500px] bg-white/50 dark:bg-transparent blur-3xl rounded-[100%] -z-10" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 justify-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8 justify-items-center">
             <Card3D
               icon={<MessageSquare size={48} strokeWidth={1} />}
               label="J'ai une question !"
@@ -66,6 +66,13 @@ const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar
               icon={<ClipboardList size={48} strokeWidth={1} />}
               label="Je recueille des usages"
               onClick={() => onNavigate('recueil')}
+              hoverColor="ref-blue"
+              shadowColor="ref-blue/20"
+            />
+            <Card3D
+              icon={<Newspaper size={48} strokeWidth={1} />}
+              label="Veille IA"
+              onClick={() => onNavigate('veille-chat')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"
             />

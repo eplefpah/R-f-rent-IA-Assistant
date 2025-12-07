@@ -26,7 +26,7 @@ export interface KnowledgeBaseSection {
   category: string;
 }
 
-export type AppView = 'welcome' | 'navigation-hub' | 'resources-hub' | 'network-hub' | 'chat' | 'parcours' | 'recueil' | 'tools' | 'training' | 'veille' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum' | 'onboarding-choice' | 'onboarding-manual' | 'competency-evaluation' | 'profile' | 'dashboard';
+export type AppView = 'welcome' | 'navigation-hub' | 'resources-hub' | 'network-hub' | 'chat' | 'parcours' | 'recueil' | 'tools' | 'training' | 'veille' | 'veille-chat' | 'contacts' | 'missions' | 'ethics' | 'charters' | 'environmental' | 'projects' | 'forum' | 'onboarding-choice' | 'onboarding-manual' | 'competency-evaluation' | 'profile' | 'dashboard';
 
 export interface Profile {
   id: string;

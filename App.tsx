@@ -19,6 +19,7 @@ import OnboardingManual from './components/OnboardingManual';
 import CompetencyEvaluationInterface from './components/CompetencyEvaluationInterface';
 import ProfileInterface from './components/ProfileInterface';
 import DashboardInterface from './components/DashboardInterface';
+import VeilleAIChatInterface from './components/VeilleAIChatInterface';
 import { AuthPage } from './components/AuthPage';
 import { useAuth } from './contexts/AuthContext';
 import { Message, AppView } from './types';
@@ -168,6 +169,8 @@ const App: React.FC = () => {
         return <ResourcesInterface toggleSidebar={toggleSidebar} activeTab="formations" />;
       case 'veille':
         return <ResourcesInterface toggleSidebar={toggleSidebar} activeTab="veille" />;
+      case 'veille-chat':
+        return <VeilleAIChatInterface toggleSidebar={toggleSidebar} onNavigate={handleNavigate} />;
       case 'contacts':
         return (
           <ContactsInterface

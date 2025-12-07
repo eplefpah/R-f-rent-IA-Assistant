@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare, Settings } from 'lucide-react';
+import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, Newspaper, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare, Settings } from 'lucide-react';
 import { AppView } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   // Ouvrir automatiquement la bonne section en fonction de la vue courante
   useEffect(() => {
-    if (['chat', 'parcours', 'recueil'].includes(currentView)) {
+    if (['chat', 'parcours', 'recueil', 'veille-chat'].includes(currentView)) {
       setOpenSection('coach');
     } else if (['tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
       setOpenSection('resources');
@@ -153,6 +153,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <NavItem view="chat" icon={MessageSquare} label="J'ai une question !" />
                 <NavItem view="parcours" icon={Map} label="Mon onboarding" />
                 <NavItem view="recueil" icon={ClipboardList} label="Je recueille des usages" />
+                <NavItem view="veille-chat" icon={Newspaper} label="Veille IA" />
             </div>
           </div>
 

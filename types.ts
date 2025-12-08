@@ -39,6 +39,7 @@ export interface Profile {
   competency_evaluated_at: string | null;
   satellites_enabled: boolean;
   tooltips_enabled: boolean;
+  allow_contact: boolean;
   dashboard_config: DashboardConfig | null;
   created_at: string;
   updated_at: string;
@@ -86,6 +87,7 @@ export interface Contact {
   linkedin_url: string | null;
   is_reference: boolean;
   contact_type: string | null;
+  allow_contact?: boolean;
   created_at: string;
   updated_at: string;
 }

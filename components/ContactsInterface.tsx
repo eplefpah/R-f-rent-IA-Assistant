@@ -173,7 +173,7 @@ const ContactsInterface: React.FC<ContactsInterfaceProps> = ({ toggleSidebar }) 
                      {contact.location || 'Non spécifié'}
                    </div>
                    <div className="flex space-x-3">
-                     {contact.email && (
+                     {contact.email && contact.allow_contact !== false && (
                        <a href={`mailto:${contact.email}`} className="text-slate-400 hover:text-ref-blue dark:hover:text-blue-400 transition-colors" title="Email">
                          <Mail size={16} />
                        </a>

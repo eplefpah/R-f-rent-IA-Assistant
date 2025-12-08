@@ -17,7 +17,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
     organization: '',
     role: '',
     satellites_enabled: false,
-    tooltips_enabled: true
+    tooltips_enabled: true,
+    allow_contact: true
   });
 
   useEffect(() => {
@@ -27,7 +28,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
         organization: profile.organization || '',
         role: profile.role || '',
         satellites_enabled: profile.satellites_enabled || false,
-        tooltips_enabled: profile.tooltips_enabled !== false
+        tooltips_enabled: profile.tooltips_enabled !== false,
+        allow_contact: profile.allow_contact !== false
       });
     }
   }, [profile]);
@@ -58,7 +60,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
       organization: profile?.organization || '',
       role: profile?.role || '',
       satellites_enabled: profile?.satellites_enabled || false,
-      tooltips_enabled: profile?.tooltips_enabled !== false
+      tooltips_enabled: profile?.tooltips_enabled !== false,
+      allow_contact: profile?.allow_contact !== false
     });
     setIsEditing(false);
   };
@@ -307,20 +310,48 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
 
           <div className="bg-gradient-to-br from-blue-50 to-slate-50 dark:from-blue-500/10 dark:to-slate-500/10 rounded-2xl p-8 border border-blue-200 dark:border-blue-500/20">
             <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4">Informations du compte</h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Email</span>
-                <span className="text-gray-800 dark:text-white font-medium">{user?.email}</span>
+            <div className="space-y-4">
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Email</span>
+                  <span className="text-gray-800 dark:text-white font-medium">{user?.email}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Membre depuis</span>
+                  <span className="text-gray-800 dark:text-white font-medium">
+                    {profile?.created_at ? new Date(profile.created_at).toLocaleDateString('fr-FR', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    }) : 'N/A'}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Membre depuis</span>
-                <span className="text-gray-800 dark:text-white font-medium">
-                  {profile?.created_at ? new Date(profile.created_at).toLocaleDateString('fr-FR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                  }) : 'N/A'}
-                </span>
+
+              <div className="pt-4 border-t border-blue-200 dark:border-blue-500/20">
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id="allow_contact"
+                    checked={formData.allow_contact}
+                    onChange={(e) => {
+                      const newValue = e.target.checked;
+                      setFormData({ ...formData, allow_contact: newValue });
+                      if (!isEditing) {
+                        updateProfile({ allow_contact: newValue });
+                      }
+                    }}
+                    className="mt-1 w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-[#6B9BD2] focus:ring-[#6B9BD2] dark:bg-white/10"
+                  />
+                  <label htmlFor="allow_contact" className="flex-1 cursor-pointer">
+                    <div className="font-medium text-gray-800 dark:text-white mb-1 text-sm">
+                      Autoriser les autres utilisateurs à me contacter
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      Votre adresse email sera visible dans l'annuaire des Référents IA
+                    </p>
+                  </label>
+                </div>
               </div>
             </div>
           </div>

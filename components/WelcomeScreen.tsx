@@ -93,6 +93,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
             <button
               onClick={() => onNavigate('onboarding-choice')}
               className="px-8 py-4 bg-white/10 dark:bg-white/5 text-[#6B9BD2] dark:text-cyan-300 rounded-xl font-medium backdrop-blur-md border border-white/30 dark:border-white/10 hover:bg-white/20 dark:hover:bg-white/10 hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-lg shadow-xl"
+              title={showTooltips ? "Démarrez votre parcours d'intégration en tant que Référent IA" : undefined}
             >
               Je suis nouvelle / nouveau
             </button>

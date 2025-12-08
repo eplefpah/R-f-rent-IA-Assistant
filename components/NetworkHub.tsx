@@ -12,6 +12,7 @@ interface NetworkHubProps {
 
 const NetworkHub: React.FC<NetworkHubProps> = ({ onNavigate, toggleSidebar }) => {
   const { profile } = useAuth();
+  const showTooltips = profile?.tooltips_enabled !== false;
 
   return (
     <div className="h-full w-full relative overflow-hidden flex flex-col">
@@ -53,6 +54,7 @@ const NetworkHub: React.FC<NetworkHubProps> = ({ onNavigate, toggleSidebar }) =>
               onClick={() => onNavigate('contacts')}
               hoverColor="ref-yellow"
               shadowColor="ref-yellow/20"
+              tooltip={showTooltips ? "Consultez l'annuaire des Référents IA et experts" : undefined}
             />
             <Card3D
               icon={<ClipboardList size={48} strokeWidth={1} />}
@@ -60,6 +62,7 @@ const NetworkHub: React.FC<NetworkHubProps> = ({ onNavigate, toggleSidebar }) =>
               onClick={() => onNavigate('projects')}
               hoverColor="ref-yellow"
               shadowColor="ref-yellow/20"
+              tooltip={showTooltips ? "Gérez vos projets et recueils d'usages" : undefined}
             />
             <Card3D
               icon={<MessagesSquare size={48} strokeWidth={1} />}
@@ -67,6 +70,7 @@ const NetworkHub: React.FC<NetworkHubProps> = ({ onNavigate, toggleSidebar }) =>
               onClick={() => onNavigate('forum')}
               hoverColor="ref-yellow"
               shadowColor="ref-yellow/20"
+              tooltip={showTooltips ? "Échangez avec la communauté des Référents IA" : undefined}
             />
           </div>
         </div>

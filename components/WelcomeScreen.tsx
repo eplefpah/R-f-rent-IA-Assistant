@@ -13,6 +13,7 @@ interface WelcomeScreenProps {
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar }) => {
   const { profile } = useAuth();
+  const showTooltips = profile?.tooltips_enabled !== false;
 
   return (
     <div className="h-full w-full relative overflow-hidden flex flex-col">
@@ -60,6 +61,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
               onClick={() => onNavigate('navigation-hub')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"
+              tooltip={showTooltips ? "Accédez à vos outils de navigation IA : questions, onboarding, recueil d'usages" : undefined}
             />
             <Card3D
               icon={<FolderOpen size={48} strokeWidth={1} />}
@@ -67,6 +69,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
               onClick={() => onNavigate('resources-hub')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Explorez les ressources documentaires, outils et formations IA" : undefined}
             />
             <Card3D
               icon={<Users size={48} strokeWidth={1} />}
@@ -74,6 +77,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
               onClick={() => onNavigate('network-hub')}
               hoverColor="ref-yellow"
               shadowColor="ref-yellow/20"
+              tooltip={showTooltips ? "Connectez-vous avec la communauté des Référents IA" : undefined}
             />
           </div>
         </div>

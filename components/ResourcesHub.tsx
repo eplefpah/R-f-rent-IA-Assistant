@@ -12,6 +12,7 @@ interface ResourcesHubProps {
 
 const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }) => {
   const { profile } = useAuth();
+  const showTooltips = profile?.tooltips_enabled !== false;
 
   return (
     <div className="h-full w-full relative overflow-hidden flex flex-col">
@@ -53,6 +54,7 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               onClick={() => onNavigate('missions')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Consultez vos missions et responsabilités en tant que Référent IA" : undefined}
             />
             <Card3D
               icon={<Scale size={48} strokeWidth={1} />}
@@ -60,6 +62,7 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               onClick={() => onNavigate('ethics')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Explorez les principes éthiques et déontologiques de l'IA" : undefined}
             />
             <Card3D
               icon={<FileText size={48} strokeWidth={1} />}
@@ -67,6 +70,7 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               onClick={() => onNavigate('charters')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Accédez aux chartes et documents de référence" : undefined}
             />
             <Card3D
               icon={<Leaf size={48} strokeWidth={1} />}
@@ -74,6 +78,7 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               onClick={() => onNavigate('environmental')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Découvrez l'impact environnemental de l'IA" : undefined}
             />
             <Card3D
               icon={<Cpu size={48} strokeWidth={1} />}
@@ -81,6 +86,7 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               onClick={() => onNavigate('tools')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Explorez le catalogue d'outils IA recommandés" : undefined}
             />
             <Card3D
               icon={<GraduationCap size={48} strokeWidth={1} />}
@@ -88,6 +94,7 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               onClick={() => onNavigate('training')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Trouvez des formations adaptées à votre niveau" : undefined}
             />
             <Card3D
               icon={<Activity size={48} strokeWidth={1} />}
@@ -95,6 +102,7 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               onClick={() => onNavigate('veille')}
               hoverColor="ref-green"
               shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Suivez les actualités IA en temps réel" : undefined}
             />
           </div>
         </div>

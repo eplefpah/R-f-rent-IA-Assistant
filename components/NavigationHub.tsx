@@ -12,6 +12,7 @@ interface NavigationHubProps {
 
 const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar }) => {
   const { profile } = useAuth();
+  const showTooltips = profile?.tooltips_enabled !== false;
 
   return (
     <div className="h-full w-full relative overflow-hidden flex flex-col">
@@ -54,6 +55,7 @@ const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar
               onClick={() => onNavigate('chat')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"
+              tooltip={showTooltips ? "Posez vos questions à votre assistant virtuel sur tout ce qui concerne les informations présentes sur la plateforme" : undefined}
             />
             <Card3D
               icon={<Map size={48} strokeWidth={1} />}
@@ -61,6 +63,7 @@ const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar
               onClick={() => onNavigate('parcours')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"
+              tooltip={showTooltips ? "Découvrez votre parcours personnalisé de Référent IA" : undefined}
             />
             <Card3D
               icon={<ClipboardList size={48} strokeWidth={1} />}
@@ -68,6 +71,7 @@ const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar
               onClick={() => onNavigate('recueil')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"
+              tooltip={showTooltips ? "Identifiez et documentez les cas d'usage IA dans votre organisation" : undefined}
             />
             <Card3D
               icon={<Newspaper size={48} strokeWidth={1} />}
@@ -75,6 +79,7 @@ const NavigationHub: React.FC<NavigationHubProps> = ({ onNavigate, toggleSidebar
               onClick={() => onNavigate('veille-chat')}
               hoverColor="ref-blue"
               shadowColor="ref-blue/20"
+              tooltip={showTooltips ? "Accédez aux dernières actualités et tendances en IA" : undefined}
             />
           </div>
         </div>

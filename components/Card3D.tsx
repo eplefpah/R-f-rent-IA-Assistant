@@ -6,9 +6,10 @@ interface Card3DProps {
   onClick: () => void;
   hoverColor: string;
   shadowColor: string;
+  tooltip?: string;
 }
 
-const Card3D: React.FC<Card3DProps> = ({ icon, label, onClick, hoverColor, shadowColor }) => {
+const Card3D: React.FC<Card3DProps> = ({ icon, label, onClick, hoverColor, shadowColor, tooltip }) => {
   const cardRef = useRef<HTMLButtonElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -40,6 +41,7 @@ const Card3D: React.FC<Card3DProps> = ({ icon, label, onClick, hoverColor, shado
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={() => setIsHovering(true)}
+      title={tooltip}
       className="group flex flex-col items-center space-y-4 transition-transform focus:outline-none perspective"
       style={{
         perspective: '1000px',

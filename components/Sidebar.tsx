@@ -67,16 +67,18 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  const NavItem = ({ view, icon: Icon, label }: { view: AppView, icon: any, label: string }) => {
+  const NavItem = ({ view, icon: Icon, label, tooltip }: { view: AppView, icon: any, label: string, tooltip?: string }) => {
     const isActive = currentView === view;
+    const showTooltip = profile?.tooltips_enabled !== false && !isCollapsed && tooltip;
+
     return (
-      <button 
+      <button
         onClick={() => handleNavigation(view)}
-        title={isCollapsed ? label : undefined}
+        title={isCollapsed ? label : (showTooltip ? tooltip : undefined)}
         className={`
-          w-full flex items-center space-x-3 px-4 py-2.5 transition-all duration-200 rounded-lg mb-1
-          ${isActive 
-            ? 'bg-ref-blue/10 text-ref-blue' 
+          w-full flex items-center space-x-3 px-4 py-2.5 transition-all duration-200 rounded-lg mb-1 group relative
+          ${isActive
+            ? 'bg-ref-blue/10 text-ref-blue'
             : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'}
           ${isCollapsed ? 'justify-center px-2' : 'ml-2 w-[calc(100%-8px)]'}
         `}
@@ -150,10 +152,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
                 ${openSection === 'coach' || isCollapsed ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
             `}>
-                <NavItem view="chat" icon={MessageSquare} label="J'ai une question !" />
-                <NavItem view="parcours" icon={Map} label="Mon onboarding" />
-                <NavItem view="recueil" icon={ClipboardList} label="Je recueille des usages" />
-                <NavItem view="veille-chat" icon={Newspaper} label="Veille IA" />
+                <NavItem view="chat" icon={MessageSquare} label="J'ai une question !" tooltip="Posez vos questions sur l'IA à votre assistant virtuel" />
+                <NavItem view="parcours" icon={Map} label="Mon onboarding" tooltip="Découvrez votre parcours personnalisé de Référent IA" />
+                <NavItem view="recueil" icon={ClipboardList} label="Je recueille des usages" tooltip="Identifiez et documentez les cas d'usage IA dans votre organisation" />
+                <NavItem view="veille-chat" icon={Newspaper} label="Veille IA" tooltip="Accédez aux dernières actualités et tendances en IA" />
             </div>
           </div>
 
@@ -175,13 +177,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
                 ${openSection === 'resources' || isCollapsed ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0'}
             `}>
-                <NavItem view="missions" icon={Target} label="Missions du Réf’IA" />
-                <NavItem view="ethics" icon={Scale} label="Déontologie & éthique" />
-                <NavItem view="charters" icon={FileText} label="Charte du Réf'IA" />
-                <NavItem view="environmental" icon={Leaf} label="Impact Environnemental" />
-                <NavItem view="tools" icon={Cpu} label="Outils disponibles" />
-                <NavItem view="training" icon={GraduationCap} label="Formations IA" />
-                <NavItem view="veille" icon={Activity} label="Veille IA (live)" />
+                <NavItem view="missions" icon={Target} label="Missions du Réf'IA" tooltip="Consultez vos missions et responsabilités en tant que Référent IA" />
+                <NavItem view="ethics" icon={Scale} label="Déontologie & éthique" tooltip="Explorez les principes éthiques et déontologiques de l'IA" />
+                <NavItem view="charters" icon={FileText} label="Charte du Réf'IA" tooltip="Accédez aux chartes et documents de référence" />
+                <NavItem view="environmental" icon={Leaf} label="Impact Environnemental" tooltip="Découvrez l'impact environnemental de l'IA" />
+                <NavItem view="tools" icon={Cpu} label="Outils disponibles" tooltip="Explorez le catalogue d'outils IA recommandés" />
+                <NavItem view="training" icon={GraduationCap} label="Formations IA" tooltip="Trouvez des formations adaptées à votre niveau" />
+                <NavItem view="veille" icon={Activity} label="Veille IA (live)" tooltip="Suivez les actualités IA en temps réel" />
             </div>
           </div>
 
@@ -203,9 +205,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
                 ${openSection === 'network' || isCollapsed ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
             `}>
-                <NavItem view="contacts" icon={Users} label="Annuaire" />
-                <NavItem view="projects" icon={ClipboardList} label="Projets" />
-                <NavItem view="forum" icon={MessagesSquare} label="Forum" />
+                <NavItem view="contacts" icon={Users} label="Annuaire" tooltip="Consultez l'annuaire des Référents IA et experts" />
+                <NavItem view="projects" icon={ClipboardList} label="Projets" tooltip="Gérez vos projets et recueils d'usages" />
+                <NavItem view="forum" icon={MessagesSquare} label="Forum" tooltip="Échangez avec la communauté des Référents IA" />
             </div>
           </div>
 

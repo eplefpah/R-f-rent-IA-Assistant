@@ -38,6 +38,7 @@ export interface Profile {
   competency_score: number | null;
   competency_evaluated_at: string | null;
   satellites_enabled: boolean;
+  tooltips_enabled: boolean;
   dashboard_config: DashboardConfig | null;
   created_at: string;
   updated_at: string;

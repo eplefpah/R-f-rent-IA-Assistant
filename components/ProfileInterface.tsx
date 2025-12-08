@@ -16,7 +16,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
     full_name: '',
     organization: '',
     role: '',
-    satellites_enabled: false
+    satellites_enabled: false,
+    tooltips_enabled: true
   });
 
   useEffect(() => {
@@ -25,7 +26,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
         full_name: profile.full_name || '',
         organization: profile.organization || '',
         role: profile.role || '',
-        satellites_enabled: profile.satellites_enabled || false
+        satellites_enabled: profile.satellites_enabled || false,
+        tooltips_enabled: profile.tooltips_enabled !== false
       });
     }
   }, [profile]);
@@ -55,7 +57,8 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
       full_name: profile?.full_name || '',
       organization: profile?.organization || '',
       role: profile?.role || '',
-      satellites_enabled: profile?.satellites_enabled || false
+      satellites_enabled: profile?.satellites_enabled || false,
+      tooltips_enabled: profile?.tooltips_enabled !== false
     });
     setIsEditing(false);
   };
@@ -349,6 +352,30 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Activer les satellites animés en mode sombre pour une expérience visuelle immersive
+                  </p>
+                </label>
+              </div>
+
+              <div className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/10">
+                <input
+                  type="checkbox"
+                  id="tooltips_enabled"
+                  checked={formData.tooltips_enabled}
+                  onChange={(e) => {
+                    const newValue = e.target.checked;
+                    setFormData({ ...formData, tooltips_enabled: newValue });
+                    if (!isEditing) {
+                      updateProfile({ tooltips_enabled: newValue });
+                    }
+                  }}
+                  className="mt-1 w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-[#6B9BD2] focus:ring-[#6B9BD2] dark:bg-white/10"
+                />
+                <label htmlFor="tooltips_enabled" className="flex-1 cursor-pointer">
+                  <div className="font-medium text-gray-800 dark:text-white mb-1">
+                    Infos-bulles de navigation
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Afficher des descriptions au survol des éléments de navigation pour faciliter votre orientation
                   </p>
                 </label>
               </div>

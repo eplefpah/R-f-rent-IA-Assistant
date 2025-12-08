@@ -152,7 +152,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 overflow-hidden transition-all duration-300 ease-in-out space-y-1 mt-1
                 ${openSection === 'coach' || isCollapsed ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
             `}>
-                <NavItem view="chat" icon={MessageSquare} label="J'ai une question !" tooltip="Posez vos questions sur l'IA à votre assistant virtuel" />
+                <NavItem view="chat" icon={MessageSquare} label="J'ai une question !" tooltip="Posez vos questions à votre assistant virtuel sur tout ce qui concerne les informations présentes sur la plateforme" />
                 <NavItem view="parcours" icon={Map} label="Mon onboarding" tooltip="Découvrez votre parcours personnalisé de Référent IA" />
                 <NavItem view="recueil" icon={ClipboardList} label="Je recueille des usages" tooltip="Identifiez et documentez les cas d'usage IA dans votre organisation" />
                 <NavItem view="veille-chat" icon={Newspaper} label="Veille IA" tooltip="Accédez aux dernières actualités et tendances en IA" />

@@ -6,6 +6,24 @@ interface MissionsInterfaceProps {
 }
 
 const MissionsInterface: React.FC<MissionsInterfaceProps> = ({ toggleSidebar }) => {
+  const handleDownloadMissions = async () => {
+    try {
+      const response = await fetch('https://pe2.eu/refia/docs/Lettres-missions-refia.pdf');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Lettres-missions-refia.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Erreur lors du téléchargement:', error);
+      window.open('https://pe2.eu/refia/docs/Lettres-missions-refia.pdf', '_blank');
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col h-full bg-slate-50 dark:bg-slate-950 relative overflow-hidden transition-colors duration-300">
       {/* Header Mobile */}
@@ -42,16 +60,13 @@ const MissionsInterface: React.FC<MissionsInterfaceProps> = ({ toggleSidebar }) 
                   </p>
                 </div>
               </div>
-              <a
-                href="/lettres-missions-refia.pdf"
-                download="lettres-missions-refia.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={handleDownloadMissions}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 dark:bg-white/5 text-[#6B9BD2] dark:text-cyan-400 rounded-lg hover:bg-white/20 dark:hover:bg-white/10 backdrop-blur-sm border border-white/20 dark:border-white/10 transition-all text-sm font-medium shadow-lg flex-shrink-0"
               >
                 <Download size={18} />
                 <span>Télécharger (PDF)</span>
-              </a>
+              </button>
             </div>
           </div>
 

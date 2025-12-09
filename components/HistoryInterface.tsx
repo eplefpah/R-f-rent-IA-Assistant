@@ -246,13 +246,66 @@ const HistoryInterface: React.FC<HistoryInterfaceProps> = ({ toggleSidebar }) =>
                 {timelineData.map((event, index) => {
                   const isLeft = index % 2 === 0;
                   return (
-                    <div key={event.id} className={`relative flex ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-center`}>
-                      {/* Point central */}
-                      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-ref-blue dark:bg-blue-500 rounded-full border-4 border-white dark:border-slate-900 z-10"></div>
+                    <div key={event.id} className="relative">
+                      {/* Structure desktop avec deux colonnes */}
+                      <div className="hidden md:grid md:grid-cols-2 gap-8 items-center">
+                        {/* Colonne gauche */}
+                        <div className={`${isLeft ? '' : 'invisible'}`}>
+                          {isLeft && (
+                            <div className="pr-8 text-right">
+                              <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                                {event.image && (
+                                  <img
+                                    src={event.image}
+                                    alt={event.title}
+                                    className="w-full h-32 object-cover rounded-lg mb-3"
+                                  />
+                                )}
+                                <div className="flex items-center gap-2 mb-2 justify-end">
+                                  <span className={`px-2 py-0.5 rounded text-xs font-semibold ${getCategoryColor(event.category)}`}>
+                                    {getCategoryLabel(event.category)}
+                                  </span>
+                                  <span className="text-lg font-bold text-ref-blue dark:text-blue-400">{event.year}</span>
+                                </div>
+                                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">{event.title}</h3>
+                                <p className="text-sm text-slate-600 dark:text-slate-400">{event.description}</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
 
-                      {/* Contenu */}
-                      <div className={`flex-1 ${isLeft ? 'md:pr-8 md:text-right' : 'md:pl-8 md:text-left'}`}>
-                        <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                        {/* Colonne droite */}
+                        <div className={`${!isLeft ? '' : 'invisible'}`}>
+                          {!isLeft && (
+                            <div className="pl-8 text-left">
+                              <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                                {event.image && (
+                                  <img
+                                    src={event.image}
+                                    alt={event.title}
+                                    className="w-full h-32 object-cover rounded-lg mb-3"
+                                  />
+                                )}
+                                <div className="flex items-center gap-2 mb-2">
+                                  <span className="text-lg font-bold text-ref-blue dark:text-blue-400">{event.year}</span>
+                                  <span className={`px-2 py-0.5 rounded text-xs font-semibold ${getCategoryColor(event.category)}`}>
+                                    {getCategoryLabel(event.category)}
+                                  </span>
+                                </div>
+                                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">{event.title}</h3>
+                                <p className="text-sm text-slate-600 dark:text-slate-400">{event.description}</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Point central */}
+                        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-ref-blue dark:bg-blue-500 rounded-full border-4 border-white dark:border-slate-900 z-10"></div>
+                      </div>
+
+                      {/* Structure mobile (pleine largeur) */}
+                      <div className="md:hidden">
+                        <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
                           {event.image && (
                             <img
                               src={event.image}

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, Newspaper, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare, Settings } from 'lucide-react';
+import { MessageSquare, BookOpen, X, Users, Map, ClipboardList, Newspaper, GraduationCap, Cpu, Activity, ChevronDown, ChevronRight, LogOut, Sun, Moon, ShieldCheck, Target, Scale, Leaf, FileText, MessagesSquare, Settings, Clock } from 'lucide-react';
 import { AppView } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -43,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   useEffect(() => {
     if (['chat', 'parcours', 'recueil', 'veille-chat'].includes(currentView)) {
       setOpenSection('coach');
-    } else if (['tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental'].includes(currentView)) {
+    } else if (['tools', 'training', 'veille', 'missions', 'ethics', 'charters', 'environmental', 'history'].includes(currentView)) {
       setOpenSection('resources');
     } else if (['contacts', 'projects', 'forum'].includes(currentView)) {
       setOpenSection('network');
@@ -181,6 +181,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <NavItem view="ethics" icon={Scale} label="Déontologie & éthique" tooltip="Explorez les principes éthiques et déontologiques de l'IA" />
                 <NavItem view="charters" icon={FileText} label="Charte du Réf'IA" tooltip="Accédez aux chartes et documents de référence" />
                 <NavItem view="environmental" icon={Leaf} label="Impact Environnemental" tooltip="Découvrez l'impact environnemental de l'IA" />
+                <NavItem view="history" icon={Clock} label="Histoire de l'IA" tooltip="Découvrez l'histoire et l'évolution de l'intelligence artificielle" />
                 <NavItem view="tools" icon={Cpu} label="Outils disponibles" tooltip="Explorez le catalogue d'outils IA recommandés" />
                 <NavItem view="training" icon={GraduationCap} label="Formations IA" tooltip="Trouvez des formations adaptées à votre niveau" />
                 <NavItem view="veille" icon={Activity} label="Veille IA (live)" tooltip="Suivez les actualités IA en temps réel" />

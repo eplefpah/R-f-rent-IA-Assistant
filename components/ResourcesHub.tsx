@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Scale, FileText, Leaf, Cpu, GraduationCap, Activity, Menu, ArrowLeft } from 'lucide-react';
+import { Target, Scale, FileText, Leaf, Cpu, GraduationCap, Activity, Menu, ArrowLeft, Clock } from 'lucide-react';
 import { AppView } from '../types';
 import Card3D from './Card3D';
 import SpaceBackground from './SpaceBackground';
@@ -79,6 +79,14 @@ const ResourcesHub: React.FC<ResourcesHubProps> = ({ onNavigate, toggleSidebar }
               hoverColor="ref-green"
               shadowColor="ref-green/20"
               tooltip={showTooltips ? "Découvrez l'impact environnemental de l'IA" : undefined}
+            />
+            <Card3D
+              icon={<Clock size={48} strokeWidth={1} />}
+              label="Histoire de l'IA"
+              onClick={() => onNavigate('history')}
+              hoverColor="ref-green"
+              shadowColor="ref-green/20"
+              tooltip={showTooltips ? "Découvrez l'histoire et l'évolution de l'intelligence artificielle" : undefined}
             />
             <Card3D
               icon={<Cpu size={48} strokeWidth={1} />}

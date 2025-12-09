@@ -8,6 +8,7 @@ import MissionsInterface from './components/MissionsInterface';
 import EthicsInterface from './components/EthicsInterface';
 import ChartersInterface from './components/ChartersInterface';
 import EnvironmentalImpactInterface from './components/EnvironmentalImpactInterface';
+import HistoryInterface from './components/HistoryInterface';
 import ProjectsInterface from './components/ProjectsInterface';
 import ForumInterface from './components/ForumInterface';
 import WelcomeScreen from './components/WelcomeScreen';
@@ -198,6 +199,12 @@ const App: React.FC = () => {
       case 'environmental':
         return (
           <EnvironmentalImpactInterface
+            toggleSidebar={toggleSidebar}
+          />
+        );
+      case 'history':
+        return (
+          <HistoryInterface
             toggleSidebar={toggleSidebar}
           />
         );

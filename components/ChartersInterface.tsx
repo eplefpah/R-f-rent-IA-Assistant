@@ -51,14 +51,22 @@ const ChartersInterface: React.FC<ChartersInterfaceProps> = ({ toggleSidebar }) 
 
   const levels = ['all', ...Array.from(new Set(charters.map(c => c.niveau)))];
 
-  const handleDownloadCharte = () => {
-    const link = document.createElement('a');
-    link.href = '/charte-referents-ia.pdf';
-    link.download = 'charte-referents-ia.pdf';
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownloadCharte = async () => {
+    try {
+      const response = await fetch('https://pe2.eu/refia/docs/Charte-referents-IA.pdf');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Charte-referents-IA.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Erreur lors du téléchargement:', error);
+      window.open('https://pe2.eu/refia/docs/Charte-referents-IA.pdf', '_blank');
+    }
   };
 
   const getLevelColor = (niveau: string) => {

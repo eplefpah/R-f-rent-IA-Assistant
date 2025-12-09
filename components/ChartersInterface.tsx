@@ -106,15 +106,13 @@ const ChartersInterface: React.FC<ChartersInterfaceProps> = ({ toggleSidebar }) 
       <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 scrollbar-thin">
         <div className="max-w-6xl mx-auto">
           {/* Charte Référent IA - Featured */}
-          <div className="mb-8 bg-gradient-to-r from-[#6B9BD2] to-[#90E4C1] rounded-xl p-6 shadow-lg">
+          <div className="mb-8 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 rounded-xl border border-blue-200 dark:border-blue-800 p-6 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0">
-                  <FileText className="text-white" size={24} />
-                </div>
-                <div className="text-white">
-                  <h3 className="text-xl font-bold mb-1">Charte du Référent IA</h3>
-                  <p className="text-white/90 text-sm">
+              <div className="flex items-start gap-3">
+                <FileText className="text-ref-blue dark:text-blue-400 flex-shrink-0 mt-1" size={24} />
+                <div>
+                  <h2 className="text-lg font-bold text-slate-800 dark:text-white mb-1">Charte du Référent IA</h2>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">
                     Le document de référence pour tous les Référents IA de l'administration publique
                   </p>
                 </div>

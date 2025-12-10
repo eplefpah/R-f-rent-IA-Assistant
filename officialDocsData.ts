@@ -47,7 +47,7 @@ Cette charte définit les principes et engagements pour un usage éthique, sécu
 
 **2.1. Lettre de mission – Référent IA Débutant**
 *Contexte* : Nouveau référent IA, besoin d’acculturation et de structuration.
-*Durée et moyens* : 1 an, 10% de décharge horaire. Outils : Kit RefIA, plateforme formation, mentorat.
+*Durée et moyens* : 1 an, 10% de décharge horaire. Outils : Hub RefIA, plateforme formation, mentorat.
 *Missions principales* :
 1. Participer au parcours d’onboarding Niveau 1 (6 semaines)
 2. Alimenter la veille réglementaire et écologique

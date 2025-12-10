@@ -102,7 +102,8 @@ const MissionsInterface: React.FC<MissionsInterfaceProps> = ({ toggleSidebar }) 
                   <span className="font-semibold text-slate-600 dark:text-slate-300">Durée :</span> 1 an (10% de décharge horaire)
                 </div>
                 <div className="bg-white dark:bg-slate-800 px-4 py-2 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                  <span className="font-semibold text-slate-600 dark:text-slate-300">Outils :</span> Kit RefIA, plateforme de formation, mentorat
+                  <span className="font-semibold text-slate-600 dark:text-slate-300">Outils :</span> Hub
+                  RefIA, plateforme de formation, mentorat
                 </div>
               </div>
 

@@ -292,7 +292,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         {/* Version Info */}
         {!isCollapsed && (
           <div className="py-2 text-[10px] text-slate-400 text-center bg-slate-50 dark:bg-slate-950">
-            v1.5.0 &bull; Kit Référent IA
+            v1.5.0 &bull; Hub Référent IA
           </div>
         )}
       </div>

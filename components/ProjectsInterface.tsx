@@ -62,7 +62,7 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
       case 'moyen':
         return 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800';
       case 'fort':
-        return 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800';
+        return 'bg-orange-50 dark:bg-orange-900/20 text-orange-900 dark:text-orange-300 border-orange-200 dark:border-orange-800';
       case 'critique':
         return 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800';
       default:

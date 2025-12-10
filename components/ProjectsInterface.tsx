@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Plus, FileText, AlertCircle, Loader2, Sparkles } from 'lucide-react';
+import { Menu, Plus, FileText, AlertCircle, Loader2, Sparkles, TrendingUp, Users, Download, BookOpen, Activity } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 import { RequirementForm } from '../types';
 import RequirementsFormModal from './RequirementsFormModal';
 import { generateAISolution } from '../services/aiSolutionService';
 import MarkdownRenderer from './MarkdownRenderer';
+import { getProjectKPIs, trackProjectView, trackResourceDownload, ProjectKPI, getEngagementLevel } from '../services/projectKpiService';
 
 interface ProjectsInterfaceProps {
   toggleSidebar: () => void;
@@ -18,10 +19,25 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
   const [generatingSolution, setGeneratingSolution] = useState<string | null>(null);
   const [aiSolution, setAiSolution] = useState<string>('');
   const [showSolutionModal, setShowSolutionModal] = useState(false);
+  const [projectKPIs, setProjectKPIs] = useState<Map<string, ProjectKPI>>(new Map());
 
   useEffect(() => {
     loadRequirementsForms();
+    loadKPIs();
   }, []);
+
+  const loadKPIs = async () => {
+    try {
+      const kpis = await getProjectKPIs();
+      const kpiMap = new Map<string, ProjectKPI>();
+      kpis.forEach(kpi => {
+        kpiMap.set(kpi.project_id, kpi);
+      });
+      setProjectKPIs(kpiMap);
+    } catch (error) {
+      console.error('Error loading KPIs:', error);
+    }
+  };
 
   const loadRequirementsForms = async () => {
     try {
@@ -94,6 +110,9 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
 
       if (error) throw error;
       setSelectedRequirement(data);
+
+      await trackProjectView(id);
+      loadKPIs();
     } catch (error) {
       console.error('Error loading requirement details:', error);
     }
@@ -194,73 +213,133 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
             </div>
 
             <div className="space-y-4">
-              {requirementsForms.map((form) => (
-                <div
-                  key={form.id}
-                  className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-ref-blue dark:hover:border-blue-600 hover:shadow-lg transition-all group"
-                >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start space-x-4 mb-4">
-                          <div className="w-12 h-12 bg-gradient-to-br from-ref-blue/10 to-blue-400/10 dark:from-blue-500/10 dark:to-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-ref-blue/20 group-hover:to-blue-400/20 dark:group-hover:from-blue-500/20 dark:group-hover:to-blue-600/20 transition">
-                            <FileText className="w-6 h-6 text-ref-blue dark:text-blue-500" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-ref-blue dark:group-hover:text-blue-500 transition mb-2">
-                              {form.title}
-                            </h3>
-                            <div className="flex flex-wrap items-center gap-3 mb-3">
-                              <span className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border ${getImpactColor(form.business_impact)}`}>
-                                <span>{getImpactIcon(form.business_impact)}</span>
-                                <span>{getImpactLabel(form.business_impact)}</span>
-                              </span>
-                              <span className="text-sm text-slate-500 dark:text-slate-400">
-                                Créé le {new Date(form.created_at).toLocaleDateString('fr-FR', {
-                                  day: 'numeric',
-                                  month: 'long',
-                                  year: 'numeric'
-                                })}
-                              </span>
-                            </div>
+              {requirementsForms.map((form) => {
+                const kpi = projectKPIs.get(form.id);
+                const engagement = kpi ? getEngagementLevel(kpi) : null;
 
-                            {form.problem_description && (
-                              <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
-                                {form.problem_description}
-                              </p>
-                            )}
+                return (
+                  <div
+                    key={form.id}
+                    className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-ref-blue dark:hover:border-blue-600 hover:shadow-lg transition-all group"
+                  >
+                    <div className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start space-x-4 mb-4">
+                            <div className="w-12 h-12 bg-gradient-to-br from-ref-blue/10 to-blue-400/10 dark:from-blue-500/10 dark:to-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:from-ref-blue/20 group-hover:to-blue-400/20 dark:group-hover:from-blue-500/20 dark:group-hover:to-blue-600/20 transition">
+                              <FileText className="w-6 h-6 text-ref-blue dark:text-blue-500" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-ref-blue dark:group-hover:text-blue-500 transition mb-2">
+                                {form.title}
+                              </h3>
+                              <div className="flex flex-wrap items-center gap-3 mb-3">
+                                <span className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border ${getImpactColor(form.business_impact)}`}>
+                                  <span>{getImpactIcon(form.business_impact)}</span>
+                                  <span>{getImpactLabel(form.business_impact)}</span>
+                                </span>
+                                {engagement && (
+                                  <span className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${engagement.color} bg-current bg-opacity-10`}>
+                                    <Activity className="w-3 h-3" />
+                                    <span>{engagement.label}</span>
+                                  </span>
+                                )}
+                                <span className="text-sm text-slate-500 dark:text-slate-400">
+                                  Créé le {new Date(form.created_at).toLocaleDateString('fr-FR', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric'
+                                  })}
+                                </span>
+                              </div>
+
+                              {form.problem_description && (
+                                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-4">
+                                  {form.problem_description}
+                                </p>
+                              )}
+
+                              {kpi && (
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                                  <div className="flex items-center space-x-2">
+                                    <div className="w-8 h-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                                      <Users className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                                    </div>
+                                    <div>
+                                      <p className="text-xs text-slate-500 dark:text-slate-400">Connexions</p>
+                                      <p className="text-sm font-bold text-slate-900 dark:text-white">
+                                        {kpi.monthly_logins}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <div className="w-8 h-8 bg-green-50 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+                                      <BookOpen className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                    </div>
+                                    <div>
+                                      <p className="text-xs text-slate-500 dark:text-slate-400">Parcours</p>
+                                      <p className="text-sm font-bold text-slate-900 dark:text-white">
+                                        {kpi.trainings_completed}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <div className="w-8 h-8 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                                      <Download className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                                    </div>
+                                    <div>
+                                      <p className="text-xs text-slate-500 dark:text-slate-400">Téléchargements</p>
+                                      <p className="text-sm font-bold text-slate-900 dark:text-white">
+                                        {kpi.resources_downloaded}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <div className="w-8 h-8 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
+                                      <TrendingUp className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                                    </div>
+                                    <div>
+                                      <p className="text-xs text-slate-500 dark:text-slate-400">Activités</p>
+                                      <p className="text-sm font-bold text-slate-900 dark:text-white">
+                                        {kpi.total_activities}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="ml-6 flex flex-col space-y-2">
-                        <button
-                          onClick={() => handleViewRequirement(form.id)}
-                          className="px-6 py-2.5 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-sm font-medium whitespace-nowrap"
-                        >
-                          Consulter
-                        </button>
-                        <button
-                          onClick={() => handleGenerateSolution(form)}
-                          disabled={generatingSolution === form.id}
-                          className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-600 dark:to-pink-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-sm font-medium whitespace-nowrap flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {generatingSolution === form.id ? (
-                            <>
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                              <span>Génération...</span>
-                            </>
-                          ) : (
-                            <>
-                              <Sparkles className="w-4 h-4" />
-                              <span>Solution IA</span>
-                            </>
-                          )}
-                        </button>
+                        <div className="ml-6 flex flex-col space-y-2">
+                          <button
+                            onClick={() => handleViewRequirement(form.id)}
+                            className="px-6 py-2.5 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-sm font-medium whitespace-nowrap"
+                          >
+                            Consulter
+                          </button>
+                          <button
+                            onClick={() => handleGenerateSolution(form)}
+                            disabled={generatingSolution === form.id}
+                            className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-600 dark:to-pink-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-sm font-medium whitespace-nowrap flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {generatingSolution === form.id ? (
+                              <>
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                                <span>Génération...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Sparkles className="w-4 h-4" />
+                                <span>Solution IA</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -381,6 +460,10 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
                             href={file.url}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={async () => {
+                              await trackResourceDownload(selectedRequirement.id, file.name);
+                              loadKPIs();
+                            }}
                             className="text-xs font-semibold text-ref-blue dark:text-blue-400 hover:underline"
                           >
                             Télécharger

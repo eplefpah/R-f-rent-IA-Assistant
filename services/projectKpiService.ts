@@ -119,19 +119,19 @@ export function getEngagementLevel(kpi: ProjectKPI): {
   if (totalEngagement >= 50) {
     return {
       level: 'high',
-      color: 'text-green-600 dark:text-green-400',
+      color: 'bg-green-50 dark:bg-green-900/20 text-green-900 dark:text-green-300 border border-green-200 dark:border-green-800',
       label: 'Engagement élevé'
     };
   } else if (totalEngagement >= 20) {
     return {
       level: 'medium',
-      color: 'text-blue-600 dark:text-blue-400',
+      color: 'bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-300 border border-blue-200 dark:border-blue-800',
       label: 'Engagement moyen'
     };
   } else {
     return {
       level: 'low',
-      color: 'text-orange-600 dark:text-orange-400',
+      color: 'bg-orange-50 dark:bg-orange-900/20 text-orange-900 dark:text-orange-300 border border-orange-200 dark:border-orange-800',
       label: 'Engagement faible'
     };
   }

@@ -239,7 +239,7 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
                                   <span>{getImpactLabel(form.business_impact)}</span>
                                 </span>
                                 {engagement && (
-                                  <span className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${engagement.color} bg-current bg-opacity-10`}>
+                                  <span className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${engagement.color}`}>
                                     <Activity className="w-3 h-3" />
                                     <span>{engagement.label}</span>
                                   </span>

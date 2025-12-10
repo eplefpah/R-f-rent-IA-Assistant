@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageSquare, FolderOpen, Users, Settings, Menu } from 'lucide-react';
+import { MessageSquare, FolderOpen, Users, Settings, Menu, Briefcase } from 'lucide-react';
 import { AppView } from '../types';
 import Card3D from './Card3D';
 import SpaceBackground from './SpaceBackground';
@@ -25,20 +25,29 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
       
       {/* Top Bar (Mobile only or decorative) */}
       <div className="relative z-10 w-full p-6 flex justify-between items-start">
-        <button 
+        <button
           onClick={toggleSidebar}
           className="p-2 rounded-full hover:bg-white/10 text-slate-600 dark:text-white/80 transition-colors md:hidden"
         >
           <Menu size={28} />
         </button>
         <div className="flex-1" /> {/* Spacer */}
-        <button
-          onClick={() => onNavigate('dashboard')}
-          className="p-2 rounded-full hover:bg-white/10 text-slate-400 dark:text-white/60 transition-colors"
-          title="Tableau de bord"
-        >
-          <Settings size={28} strokeWidth={1.5} />
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => onNavigate('projects')}
+            className="p-2 rounded-full hover:bg-white/10 text-slate-400 dark:text-white/60 transition-colors"
+            title="Mes Projets"
+          >
+            <Briefcase size={28} strokeWidth={1.5} />
+          </button>
+          <button
+            onClick={() => onNavigate('dashboard')}
+            className="p-2 rounded-full hover:bg-white/10 text-slate-400 dark:text-white/60 transition-colors"
+            title="Tableau de bord"
+          >
+            <Settings size={28} strokeWidth={1.5} />
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}

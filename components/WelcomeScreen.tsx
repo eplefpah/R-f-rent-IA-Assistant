@@ -5,6 +5,7 @@ import { AppView } from '../types';
 import Card3D from './Card3D';
 import SpaceBackground from './SpaceBackground';
 import { useAuth } from '../contexts/AuthContext';
+import GlobalSearch from './GlobalSearch';
 
 interface WelcomeScreenProps {
   onNavigate: (view: AppView) => void;
@@ -33,6 +34,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
         </button>
         <div className="flex-1" /> {/* Spacer */}
         <div className="flex gap-2">
+          <GlobalSearch onNavigate={onNavigate} />
           <button
             onClick={() => onNavigate('glossary')}
             className="p-2 rounded-full hover:bg-white/10 text-slate-400 dark:text-white/60 transition-colors"

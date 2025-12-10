@@ -57,7 +57,7 @@ const glossaryData: GlossaryTerm[] = [
   },
   {
     term: "MOOC",
-    definition: "Cours de formation en ligne, souvent gratuit, permettant de se former à l'intelligence artificielle à son rythme. Le Kit propose des MOOC recommandés (ex : Elements of AI)."
+    definition: "Cours de formation en ligne, souvent gratuit, permettant de se former à l'intelligence artificielle à son rythme. Le Hub propose des MOOC recommandés (ex : Elements of AI)."
   },
   {
     term: "FAQ IA",
@@ -65,7 +65,7 @@ const glossaryData: GlossaryTerm[] = [
   },
   {
     term: "Veille IA",
-    definition: "Activité de suivi des actualités, tendances, usages, réglementations et innovations en matière d'IA. Le kit propose un assistant et des ressources pour suivre ces évolutions."
+    definition: "Activité de suivi des actualités, tendances, usages, réglementations et innovations en matière d'IA. Le Hub propose un assistant et des ressources pour suivre ces évolutions."
   },
   {
     term: "Accès à l'annuaire",

@@ -352,7 +352,7 @@ IMPORTANT :
 PARTIE 1 : PARCOURS D'ONBOARDING (6 ÉTAPES)
 ────────────────────────────────────────────────────────────────────────
 
-=== ÉTAPE 1 : BIENVENUE DANS VOTRE KIT RÉFÉRENT IA ===
+=== ÉTAPE 1 : BIENVENUE DANS VOTRE HUB RÉFÉRENT IA ===
 
 **Message d'accueil :**
 "Félicitations pour votre nomination en tant que Référent Intelligence Artificielle ! Ce parcours a été conçu pour vous accompagner pas à pas dans votre prise de fonction."

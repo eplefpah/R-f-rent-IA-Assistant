@@ -236,74 +236,74 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ onNavigate }) => {
 
       {isOpen && (
         <>
-          <div className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40" onClick={handleClose} />
+          <div className="fixed inset-0 z-40" onClick={handleClose} />
 
-          <div className="absolute right-0 top-full mt-2 w-screen max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden z-50">
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800">
-              <div className="flex items-center gap-3">
-                <Search className="w-5 h-5 text-slate-400 dark:text-slate-500 flex-shrink-0" />
+          <div className="absolute right-0 top-full mt-3 w-[90vw] md:w-[500px] lg:w-[600px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 overflow-hidden z-50">
+            <div className="p-3 border-b border-slate-200/50 dark:border-slate-700/50">
+              <div className="flex items-center gap-2">
+                <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 flex-shrink-0" />
                 <input
                   ref={inputRef}
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Rechercher dans la plateforme..."
-                  className="flex-1 bg-transparent text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 outline-none text-lg"
+                  className="flex-1 bg-transparent text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 outline-none text-base"
                 />
+                {loading && (
+                  <Loader2 className="w-4 h-4 text-blue-500 dark:text-blue-400 animate-spin flex-shrink-0" />
+                )}
                 {query && (
                   <button
                     onClick={() => setQuery('')}
-                    className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition"
+                    className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition flex-shrink-0"
                   >
-                    <X className="w-5 h-5 text-slate-400 dark:text-slate-500" />
+                    <X className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                   </button>
-                )}
-                {loading && (
-                  <Loader2 className="w-5 h-5 text-ref-blue dark:text-blue-500 animate-spin" />
                 )}
               </div>
             </div>
 
-            <div className="max-h-[60vh] overflow-y-auto">
+            <div className="max-h-[400px] overflow-y-auto">
               {query && results.length === 0 && !loading && (
-                <div className="p-8 text-center">
-                  <p className="text-slate-500 dark:text-slate-400">Aucun résultat trouvé</p>
-                  <p className="text-sm text-slate-400 dark:text-slate-500 mt-2">
+                <div className="p-6 text-center">
+                  <p className="text-slate-500 dark:text-slate-400 text-sm">Aucun résultat trouvé</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
                     Essayez avec d'autres mots-clés
                   </p>
                 </div>
               )}
 
               {!query && (
-                <div className="p-8 text-center">
-                  <Search className="w-12 h-12 text-slate-300 dark:text-slate-700 mx-auto mb-3" />
-                  <p className="text-slate-500 dark:text-slate-400">
+                <div className="p-6 text-center">
+                  <Search className="w-8 h-8 text-slate-300 dark:text-slate-700 mx-auto mb-2" />
+                  <p className="text-slate-500 dark:text-slate-400 text-sm">
                     Recherchez des formations, contacts, ressources...
                   </p>
                 </div>
               )}
 
               {results.length > 0 && (
-                <div className="py-2">
+                <div className="py-1">
                   {results.map((result) => (
                     <button
                       key={result.id}
                       onClick={() => handleResultClick(result)}
-                      className="w-full px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left flex items-start gap-3"
+                      className="w-full px-3 py-2.5 hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-colors text-left flex items-start gap-2.5"
                     >
-                      <div className={`mt-1 ${TYPE_COLORS[result.type]}`}>
+                      <div className={`mt-0.5 ${TYPE_COLORS[result.type]} flex-shrink-0`}>
                         {TYPE_ICONS[result.type]}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="text-slate-900 dark:text-white font-medium truncate">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <h3 className="text-sm text-slate-900 dark:text-white font-medium truncate">
                             {result.title}
                           </h3>
-                          <span className={`text-xs px-2 py-0.5 rounded-full ${TYPE_COLORS[result.type]} bg-current bg-opacity-10`}>
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${TYPE_COLORS[result.type]} bg-current bg-opacity-10 flex-shrink-0`}>
                             {TYPE_LABELS[result.type]}
                           </span>
                         </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-1">
                           {result.description}
                         </p>
                       </div>
@@ -313,11 +313,10 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ onNavigate }) => {
               )}
             </div>
 
-            <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
-              <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-                <span>Utilisez les touches pour naviguer</span>
-                <span className="flex items-center gap-2">
-                  <kbd className="px-2 py-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded">ESC</kbd>
+            <div className="px-3 py-2 border-t border-slate-200/50 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30">
+              <div className="flex items-center justify-end text-[10px] text-slate-400 dark:text-slate-500">
+                <span className="flex items-center gap-1.5">
+                  <kbd className="px-1.5 py-0.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded text-[10px]">ESC</kbd>
                   pour fermer
                 </span>
               </div>

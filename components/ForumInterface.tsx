@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Plus, MessageSquare, Eye, Clock, Pin, Lock, TrendingUp, Send, ThumbsUp, CheckCircle, ArrowLeft } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 import { ForumCategory, ForumThread, ForumReply } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 import MarkdownRenderer from './MarkdownRenderer';
 
 interface ForumInterfaceProps {
@@ -11,6 +12,7 @@ interface ForumInterfaceProps {
 type ViewMode = 'categories' | 'threads' | 'thread-detail';
 
 const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<ForumCategory[]>([]);
   const [threads, setThreads] = useState<ForumThread[]>([]);
@@ -136,7 +138,7 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
   };
 
   const handleCreateThread = async () => {
-    if (!newThreadTitle.trim() || !newThreadContent.trim() || !selectedCategory) return;
+    if (!newThreadTitle.trim() || !newThreadContent.trim() || !selectedCategory || !user) return;
 
     setSubmitting(true);
     try {
@@ -144,7 +146,7 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
         .from('forum_threads')
         .insert([{
           category_id: selectedCategory.id,
-          author_id: '00000000-0000-0000-0000-000000000000',
+          author_id: user.id,
           title: newThreadTitle,
           content: newThreadContent,
         }]);
@@ -163,7 +165,7 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
   };
 
   const handleCreateReply = async () => {
-    if (!newReplyContent.trim() || !selectedThread) return;
+    if (!newReplyContent.trim() || !selectedThread || !user) return;
 
     setSubmitting(true);
     try {
@@ -171,7 +173,7 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
         .from('forum_replies')
         .insert([{
           thread_id: selectedThread.id,
-          author_id: '00000000-0000-0000-0000-000000000000',
+          author_id: user.id,
           content: newReplyContent,
         }]);
 
@@ -182,7 +184,7 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
         .update({
           replies_count: (selectedThread.replies_count || 0) + 1,
           last_reply_at: new Date().toISOString(),
-          last_reply_by: '00000000-0000-0000-0000-000000000000',
+          last_reply_by: user.id,
         })
         .eq('id', selectedThread.id);
 
@@ -244,7 +246,7 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
               </p>
             </div>
 
-            {viewMode === 'threads' && (
+            {viewMode === 'threads' && user && (
               <button
                 onClick={() => setShowNewThreadModal(true)}
                 className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all font-medium"
@@ -302,15 +304,17 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
                   Aucune discussion pour le moment
                 </h3>
                 <p className="text-slate-600 dark:text-slate-400 mb-6">
-                  Soyez le premier à lancer une discussion dans cette catégorie
+                  {user ? 'Soyez le premier à lancer une discussion dans cette catégorie' : 'Connectez-vous pour créer une discussion'}
                 </p>
-                <button
-                  onClick={() => setShowNewThreadModal(true)}
-                  className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transition-all font-medium"
-                >
-                  <Plus className="w-5 h-5" />
-                  <span>Créer une discussion</span>
-                </button>
+                {user && (
+                  <button
+                    onClick={() => setShowNewThreadModal(true)}
+                    className="inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-ref-blue to-blue-500 dark:from-blue-600 dark:to-blue-700 text-white rounded-lg hover:shadow-lg transition-all font-medium"
+                  >
+                    <Plus className="w-5 h-5" />
+                    <span>Créer une discussion</span>
+                  </button>
+                )}
               </div>
             ) : (
               threads.map((thread) => (
@@ -422,7 +426,7 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
                 ))}
               </div>
 
-              {!selectedThread.is_locked && (
+              {!selectedThread.is_locked && user && (
                 <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6">
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
                     Répondre à cette discussion
@@ -444,6 +448,13 @@ const ForumInterface: React.FC<ForumInterfaceProps> = ({ toggleSidebar }) => {
                       <span>{submitting ? 'Envoi...' : 'Envoyer'}</span>
                     </button>
                   </div>
+                </div>
+              )}
+              {!selectedThread.is_locked && !user && (
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800 p-6 text-center">
+                  <p className="text-blue-800 dark:text-blue-300">
+                    Connectez-vous pour répondre à cette discussion
+                  </p>
                 </div>
               )}
             </div>

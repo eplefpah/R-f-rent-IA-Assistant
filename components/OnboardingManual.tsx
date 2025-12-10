@@ -115,7 +115,7 @@ const OnboardingManual: React.FC<OnboardingManualProps> = ({ onNavigate, toggleS
                 </div>
                 <div>
                   <div className="text-sm text-[#6B9BD2] font-semibold">ÉTAPE 1</div>
-                  <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Bienvenue dans votre Kit Référent IA</h2>
+                  <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Bienvenue dans votre Hub Référent IA</h2>
                 </div>
               </div>
 

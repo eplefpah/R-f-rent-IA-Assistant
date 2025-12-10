@@ -667,7 +667,7 @@ DÉROULEMENT GLOBAL
 export const PARCOURS_SUGGESTIONS = [
     "Je veux découvrir le parcours d'onboarding complet",
     "Je suis prêt à évaluer mon niveau de compétence",
-    "Quelles sont les 6 étapes du Kit Référent IA ?",
+    "Quelles sont les 6 étapes du Hub Référent IA ?",
     "Comment se déroule l'évaluation des compétences ?"
 ];
 

@@ -11,6 +11,7 @@ import EnvironmentalImpactInterface from './components/EnvironmentalImpactInterf
 import HistoryInterface from './components/HistoryInterface';
 import ProjectsInterface from './components/ProjectsInterface';
 import ForumInterface from './components/ForumInterface';
+import GlossaryInterface from './components/GlossaryInterface';
 import WelcomeScreen from './components/WelcomeScreen';
 import NavigationHub from './components/NavigationHub';
 import ResourcesHub from './components/ResourcesHub';
@@ -217,6 +218,12 @@ const App: React.FC = () => {
       case 'forum':
         return (
           <ForumInterface
+            toggleSidebar={toggleSidebar}
+          />
+        );
+      case 'glossary':
+        return (
+          <GlossaryInterface
             toggleSidebar={toggleSidebar}
           />
         );

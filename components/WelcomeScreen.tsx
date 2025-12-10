@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageSquare, FolderOpen, Users, Settings, Menu, Briefcase } from 'lucide-react';
+import { MessageSquare, FolderOpen, Users, Settings, Menu, Briefcase, BookOpen } from 'lucide-react';
 import { AppView } from '../types';
 import Card3D from './Card3D';
 import SpaceBackground from './SpaceBackground';
@@ -33,6 +33,13 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigate, toggleSidebar
         </button>
         <div className="flex-1" /> {/* Spacer */}
         <div className="flex gap-2">
+          <button
+            onClick={() => onNavigate('glossary')}
+            className="p-2 rounded-full hover:bg-white/10 text-slate-400 dark:text-white/60 transition-colors"
+            title="Glossaire IA"
+          >
+            <BookOpen size={28} strokeWidth={1.5} />
+          </button>
           <button
             onClick={() => onNavigate('projects')}
             className="p-2 rounded-full hover:bg-white/10 text-slate-400 dark:text-white/60 transition-colors"

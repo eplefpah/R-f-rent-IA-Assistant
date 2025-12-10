@@ -69,7 +69,7 @@ const OnboardingManual: React.FC<OnboardingManualProps> = ({ onNavigate, toggleS
                 >
                   <ArrowLeft size={24} />
                 </button>
-                <h1 className="text-xl font-bold text-gray-800 dark:text-white">Kit Référent IA</h1>
+                <h1 className="text-xl font-bold text-gray-800 dark:text-white">Hub Référent IA</h1>
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 Étape <span className="font-bold text-[#6B9BD2] dark:text-[#90E4C1]">{currentStep}</span>/6

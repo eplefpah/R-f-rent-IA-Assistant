@@ -267,8 +267,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ onNavigate }) => {
             <div className="max-h-[400px] overflow-y-auto">
               {query && results.length === 0 && !loading && (
                 <div className="p-6 text-center">
-                  <p className="text-slate-500 dark:text-slate-400 text-sm">Aucun résultat trouvé</p>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+                  <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Aucun résultat trouvé</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                     Essayez avec d'autres mots-clés
                   </p>
                 </div>
@@ -276,8 +276,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ onNavigate }) => {
 
               {!query && (
                 <div className="p-6 text-center">
-                  <Search className="w-8 h-8 text-slate-300 dark:text-slate-700 mx-auto mb-2" />
-                  <p className="text-slate-500 dark:text-slate-400 text-sm">
+                  <Search className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-2" />
+                  <p className="text-slate-700 dark:text-slate-300 text-sm">
                     Recherchez des formations, contacts, ressources...
                   </p>
                 </div>

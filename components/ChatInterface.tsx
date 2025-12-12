@@ -189,24 +189,56 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-thin">
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto text-center space-y-8">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">{activeTitle}</h2>
-              <p className="text-slate-600 dark:text-slate-400">
+          <div className="flex flex-col items-center justify-center h-full max-w-3xl mx-auto space-y-8 py-8">
+            <div className="text-center mb-4">
+              <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-3">{activeTitle}</h2>
+              <p className="text-slate-600 dark:text-slate-400 text-lg">
                 {activeMessage}
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full text-left">
-              {activeSuggestions.map((q, idx) => (
-                <button 
-                  key={idx}
-                  onClick={() => handleSendMessage(q)}
-                  className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-ref-blue dark:hover:border-ref-blue hover:shadow-md transition-all text-sm text-slate-700 dark:text-slate-300 font-medium"
-                >
-                  {q}
-                </button>
-              ))}
+
+            <div className="w-full">
+              <div className="relative flex items-end gap-2">
+                <div className="relative w-full">
+                  <textarea
+                    ref={textareaRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Posez votre question..."
+                    className="w-full pl-5 pr-14 py-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-ref-blue/50 focus:border-ref-blue outline-none resize-none max-h-48 min-h-[56px] text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 shadow-lg transition-all text-base leading-relaxed"
+                    rows={1}
+                    style={{ overflow: 'hidden' }}
+                  />
+                  <button
+                    onClick={() => handleSendMessage()}
+                    disabled={!input.trim() || isLoading}
+                    className={`
+                      absolute right-2 bottom-2 p-2.5 rounded-xl transition-all duration-200 flex items-center justify-center
+                      ${!input.trim() || isLoading
+                        ? 'bg-transparent text-slate-300 dark:text-slate-600 cursor-not-allowed'
+                        : 'bg-ref-blue text-white shadow-md hover:bg-sky-600 hover:scale-105'}
+                    `}
+                  >
+                    {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 text-center">Exemples de questions</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full text-left">
+                {activeSuggestions.map((q, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendMessage(q)}
+                    className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-ref-blue dark:hover:border-ref-blue hover:shadow-md transition-all text-sm text-slate-700 dark:text-slate-300 font-medium"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         ) : (

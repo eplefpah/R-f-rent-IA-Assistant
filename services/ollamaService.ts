@@ -1,4 +1,5 @@
 import { Message } from "../types";
+import { GLOBAL_SYSTEM_INSTRUCTION } from "../constants";
 
 const OLLAMA_BASE_URL = "https://seasnail-becoming-likely.ngrok-free.app";
 const MODEL = "qwen2.5:14b-instruct-q4_K_M";
@@ -31,7 +32,7 @@ export const streamOllamaResponse = async (
         model: MODEL,
         messages: messages,
         stream: true,
-        system: systemInstruction || "You are a helpful assistant."
+        system: systemInstruction || GLOBAL_SYSTEM_INSTRUCTION
       })
     });
 

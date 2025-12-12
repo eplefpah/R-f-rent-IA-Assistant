@@ -18,9 +18,9 @@ interface ChatInterfaceProps {
   welcomeMessage?: string;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ 
-  toggleSidebar, 
-  messages, 
+const ChatInterface: React.FC<ChatInterfaceProps> = ({
+  toggleSidebar,
+  messages,
   setMessages,
   systemInstruction,
   customSuggestions,
@@ -32,6 +32,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [recueilJson, setRecueilJson] = useState<RecueilData | null>(null);
+
+  console.log('[ChatInterface] System instruction received:', systemInstruction ? systemInstruction.substring(0, 150) + '...' : 'UNDEFINED');
 
   const activeSuggestions = customSuggestions || SUGGESTED_QUESTIONS;
   const activeTitle = welcomeTitle || "Bienvenue, Référent IA";

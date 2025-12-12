@@ -20,17 +20,20 @@ export const streamChatResponse = async (
   onChunk: (text: string) => void,
   systemInstruction?: string
 ): Promise<string> => {
-  
+
   try {
+    const finalSystemInstruction = systemInstruction || GLOBAL_SYSTEM_INSTRUCTION;
+    console.log('[Gemini Service] Using system instruction:', finalSystemInstruction.substring(0, 200) + '...');
+
     // Format history for the SDK
     // System instruction is passed via config, not as a message in the history for this SDK version usually,
     // but the @google/genai SDK allows systemInstruction in the generateContent config.
     // However, for chat, we initialize the chat with system instructions if possible or pass it in config.
-    
+
     // Convert app history to SDK contents
     // We exclude the very last message which is 'newMessage' to avoid duplication if the caller added it to UI state already
     const validHistory = history.filter(m => !m.isStreaming && m.text.trim() !== "");
-    
+
     // Map to SDK format. Note: 'user' role is 'user', 'model' role is 'model'.
     const chatHistory: Content[] = validHistory.map(m => ({
       role: m.role,
@@ -40,7 +43,7 @@ export const streamChatResponse = async (
     const chat = ai.chats.create({
       model: modelId,
       config: {
-        systemInstruction: systemInstruction || GLOBAL_SYSTEM_INSTRUCTION,
+        systemInstruction: finalSystemInstruction,
         temperature: 0.7,
         maxOutputTokens: 2048,
       },

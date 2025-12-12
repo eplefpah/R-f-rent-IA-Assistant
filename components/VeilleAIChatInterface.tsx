@@ -267,31 +267,34 @@ const VeilleAIChatInterface: React.FC<VeilleAIChatInterfaceProps> = ({ toggleSid
           </div>
         </div>
 
-        <div className="relative z-10 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border-t border-white/30 dark:border-white/10 p-4">
-          <div className="max-w-5xl mx-auto flex gap-2">
-            <textarea
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Posez votre question sur l'IA dans l'administration..."
-              className="flex-1 p-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              rows={2}
-              disabled={isLoading}
-            />
-            <button
-              onClick={() => handleSendMessage()}
-              disabled={!inputValue.trim() || isLoading}
-              className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 self-end"
-            >
-              {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <Send className="w-5 h-5" />
-              )}
-              <span className="hidden sm:inline">Envoyer</span>
-            </button>
+        {/* Input Area - Only show when there are messages beyond welcome */}
+        {messages.length > 1 && (
+          <div className="relative z-10 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border-t border-white/30 dark:border-white/10 p-4">
+            <div className="max-w-5xl mx-auto flex gap-2">
+              <textarea
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Posez votre question sur l'IA dans l'administration..."
+                className="flex-1 p-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                rows={2}
+                disabled={isLoading}
+              />
+              <button
+                onClick={() => handleSendMessage()}
+                disabled={!inputValue.trim() || isLoading}
+                className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 self-end"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Send className="w-5 h-5" />
+                )}
+                <span className="hidden sm:inline">Envoyer</span>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

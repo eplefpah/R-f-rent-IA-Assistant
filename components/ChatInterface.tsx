@@ -303,38 +303,40 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         )}
       </div>
 
-      {/* Input Area */}
-      <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div className="max-w-3xl mx-auto relative flex items-end gap-2">
-          <div className="relative w-full">
-            <textarea
-              ref={textareaRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Posez votre question..."
-              className="w-full pl-5 pr-14 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-ref-blue/50 focus:border-ref-blue outline-none resize-none max-h-48 min-h-[56px] text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 shadow-sm transition-all text-sm leading-relaxed"
-              rows={1}
-              style={{ overflow: 'hidden' }}
-            />
-            <button
-              onClick={() => handleSendMessage()}
-              disabled={!input.trim() || isLoading}
-              className={`
-                absolute right-2 bottom-2 p-2.5 rounded-xl transition-all duration-200 flex items-center justify-center
-                ${!input.trim() || isLoading 
-                  ? 'bg-transparent text-slate-300 dark:text-slate-600 cursor-not-allowed' 
-                  : 'bg-ref-blue text-white shadow-md hover:bg-sky-600 hover:scale-105'}
-              `}
-            >
-              {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
-            </button>
+      {/* Input Area - Only show when there are messages */}
+      {messages.length > 0 && (
+        <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
+          <div className="max-w-3xl mx-auto relative flex items-end gap-2">
+            <div className="relative w-full">
+              <textarea
+                ref={textareaRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Posez votre question..."
+                className="w-full pl-5 pr-14 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-2 focus:ring-ref-blue/50 focus:border-ref-blue outline-none resize-none max-h-48 min-h-[56px] text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 shadow-sm transition-all text-sm leading-relaxed"
+                rows={1}
+                style={{ overflow: 'hidden' }}
+              />
+              <button
+                onClick={() => handleSendMessage()}
+                disabled={!input.trim() || isLoading}
+                className={`
+                  absolute right-2 bottom-2 p-2.5 rounded-xl transition-all duration-200 flex items-center justify-center
+                  ${!input.trim() || isLoading
+                    ? 'bg-transparent text-slate-300 dark:text-slate-600 cursor-not-allowed'
+                    : 'bg-ref-blue text-white shadow-md hover:bg-sky-600 hover:scale-105'}
+                `}
+              >
+                {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
+              </button>
+            </div>
           </div>
+          <p className="text-center text-[10px] md:text-xs text-slate-400 dark:text-slate-500 mt-3 select-none">
+            L'IA peut faire des erreurs. Vérifiez les informations auprès de votre direction juridique ou DSI.
+          </p>
         </div>
-        <p className="text-center text-[10px] md:text-xs text-slate-400 dark:text-slate-500 mt-3 select-none">
-          L'IA peut faire des erreurs. Vérifiez les informations auprès de votre direction juridique ou DSI.
-        </p>
-      </div>
+      )}
     </div>
   );
 };

@@ -25,7 +25,7 @@ import VeilleAIChatInterface from './components/VeilleAIChatInterface';
 import { AuthPage } from './components/AuthPage';
 import { useAuth } from './contexts/AuthContext';
 import { Message, AppView } from './types';
-import { PARCOURS_SYSTEM_INSTRUCTION, PARCOURS_SUGGESTIONS, RECUEIL_SYSTEM_INSTRUCTION, RECUEIL_SUGGESTIONS } from './constants';
+import { GLOBAL_SYSTEM_INSTRUCTION, PARCOURS_SYSTEM_INSTRUCTION, PARCOURS_SUGGESTIONS, RECUEIL_SYSTEM_INSTRUCTION, RECUEIL_SUGGESTIONS } from './constants';
 
 // Icône Hamburger pour le bouton flottant
 const FloatingHamburger = () => (
@@ -132,11 +132,12 @@ const App: React.FC = () => {
         return <DashboardInterface onNavigate={handleNavigate} toggleSidebar={toggleSidebar} />;
       case 'chat':
         return (
-          <ChatInterface 
+          <ChatInterface
             key={`chat-${resetKey}`} // Force refresh
-            toggleSidebar={toggleSidebar} 
+            toggleSidebar={toggleSidebar}
             messages={messages}
             setMessages={setMessages}
+            systemInstruction={GLOBAL_SYSTEM_INSTRUCTION}
           />
         );
       case 'parcours':

@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Content, GenerativeModel } from "@google/genai";
-import { SYSTEM_INSTRUCTION } from "../constants";
+import { GLOBAL_SYSTEM_INSTRUCTION } from "../constants";
 import { Message, Role } from "../types";
 
 // Ensure API key is present
@@ -40,7 +40,7 @@ export const streamChatResponse = async (
     const chat = ai.chats.create({
       model: modelId,
       config: {
-        systemInstruction: systemInstruction || SYSTEM_INSTRUCTION,
+        systemInstruction: systemInstruction || GLOBAL_SYSTEM_INSTRUCTION,
         temperature: 0.7,
         maxOutputTokens: 2048,
       },

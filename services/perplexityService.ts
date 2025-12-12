@@ -1,3 +1,4 @@
+import { VEILLE_SYSTEM_INSTRUCTION } from '../constants';
 
 // Utilisation de la clé API fournie via les variables d'environnement ou fallback
 // Supporte à la fois Vite (import.meta.env) et process.env standard
@@ -153,10 +154,7 @@ export class PerplexityService {
     const messages = [
       {
         role: 'system',
-        content: `Tu es un assistant expert en intelligence artificielle pour l'administration publique française.
-        Tu dois répondre de manière précise, factuelle et sourcée aux questions sur l'IA dans le secteur public français.
-        Si la question concerne l'actualité récente, fournis les informations les plus à jour possibles.
-        Si tu ne trouves pas d'information pertinente, dis-le clairement plutôt que d'inventer.`
+        content: VEILLE_SYSTEM_INSTRUCTION
       },
       {
         role: 'user',

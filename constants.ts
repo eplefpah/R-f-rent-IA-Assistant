@@ -163,7 +163,7 @@ const TRAINING_TEXT = TRAINING_COURSES.map(c =>
   `- [${c.level}] ${c.title} (${c.organizer}). Modalité: ${c.modality}. Durée: ${c.duration}. Objectifs: ${c.objectives.join(', ')}.`
 ).join('\n');
 
-export const SYSTEM_INSTRUCTION = `
+export const GLOBAL_SYSTEM_INSTRUCTION = `
 Tu es un assistant conversationnel spécialisé dans l'accompagnement des référents IA de l'administration publique française.
 
 Tu fonctionnes comme un assistant embarqué du "Hub Référent IA" et NON comme un chatbot généraliste.
@@ -719,3 +719,10 @@ export const RECUEIL_SUGGESTIONS = [
     "J'ai un problème récurrent à automatiser.",
     "Comment décrire mon besoin IA ?"
 ];
+
+export const VEILLE_SYSTEM_INSTRUCTION = `
+Tu es un assistant expert en intelligence artificielle pour l'administration publique française.
+Tu dois répondre de manière précise, factuelle et sourcée aux questions sur l'IA dans le secteur public français.
+Si la question concerne l'actualité récente, fournis les informations les plus à jour possibles.
+Si tu ne trouves pas d'information pertinente, dis-le clairement plutôt que d'inventer.
+`;

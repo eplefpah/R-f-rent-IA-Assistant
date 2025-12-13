@@ -50,72 +50,72 @@ Réponds de manière concrète, opérationnelle et adaptée au contexte de l'adm
 
 export const generateAISolution = async (
   requirement: RequirementForm,
-  onChunk?: (text: string) => void
+  onChunk?: (text: string) => void,
+  preferredProvider?: 'gemini' | 'ollama',
+  preferredOllamaModel?: string
 ): Promise<string> => {
   const prompt = buildPrompt(requirement);
+  const systemInstruction = 'Tu es un expert en solutions IA pour l\'administration publique française.';
+  const provider = preferredProvider || 'gemini';
+
+  const callGemini = async (): Promise<string> => {
+    if (!ai) throw new Error('Gemini not configured');
+
+    const chat = ai.chats.create({
+      model: 'gemini-2.5-flash',
+      config: {
+        temperature: 0.7,
+        maxOutputTokens: 4096,
+      }
+    });
+
+    const result = await chat.sendMessageStream({ message: prompt });
+    let fullText = "";
+
+    for await (const chunk of result) {
+      const chunkText = chunk.text;
+      if (chunkText) {
+        fullText += chunkText;
+        if (onChunk) onChunk(chunkText);
+      }
+    }
+
+    return fullText;
+  };
+
+  const callOllama = async (): Promise<string> => {
+    let fullText = "";
+    await streamOllamaResponse(
+      [],
+      prompt,
+      (text) => {
+        fullText += text;
+        if (onChunk) onChunk(text);
+      },
+      systemInstruction,
+      preferredOllamaModel
+    );
+    return fullText;
+  };
 
   try {
-    if (ai) {
-      const chat = ai.chats.create({
-        model: 'gemini-2.5-flash',
-        config: {
-          temperature: 0.7,
-          maxOutputTokens: 4096,
-        }
-      });
-
-      const result = await chat.sendMessageStream({ message: prompt });
-      let fullText = "";
-
-      for await (const chunk of result) {
-        const chunkText = chunk.text;
-        if (chunkText) {
-          fullText += chunkText;
-          if (onChunk) onChunk(chunkText);
-        }
-      }
-
-      return fullText;
+    if (provider === 'ollama') {
+      return await callOllama();
+    } else {
+      return await callGemini();
     }
-  } catch (geminiError) {
-    console.warn('Gemini failed, trying Perplexity:', geminiError);
+  } catch (primaryError) {
+    console.warn(`${provider} failed, trying fallback:`, primaryError);
 
     try {
-      const messages = [
-        {
-          role: 'system',
-          content: 'Tu es un expert en solutions IA pour l\'administration publique française.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
-      ];
-
-      const response = await perplexityService['makeRequest'](messages);
-      if (onChunk) onChunk(response);
-      return response;
-    } catch (perplexityError) {
-      console.warn('Perplexity failed, trying Ollama:', perplexityError);
-
-      try {
-        let fullText = "";
-        await streamOllamaResponse(
-          [],
-          prompt,
-          (text) => {
-            fullText += text;
-            if (onChunk) onChunk(text);
-          },
-          'Tu es un expert en solutions IA pour l\'administration publique française.'
-        );
-        return fullText;
-      } catch (ollamaError) {
-        console.error('All AI services failed:', ollamaError);
-        throw new Error('Tous les services IA sont indisponibles. Veuillez réessayer plus tard.');
+      if (provider === 'ollama') {
+        return await callGemini();
+      } else {
+        return await callOllama();
       }
+    } catch (fallbackError) {
+      console.error('Both providers failed:', fallbackError);
+      throw new Error('Tous les services IA sont indisponibles. Veuillez réessayer plus tard.');
     }
   }
-
-  throw new Error('Aucun service IA n\'est configuré.');
 };

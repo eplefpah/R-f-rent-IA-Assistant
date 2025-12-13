@@ -41,6 +41,8 @@ export interface Profile {
   tooltips_enabled: boolean;
   allow_contact: boolean;
   dashboard_config: DashboardConfig | null;
+  preferred_model_provider: string | null;
+  preferred_ollama_model: string | null;
   created_at: string;
   updated_at: string;
 }

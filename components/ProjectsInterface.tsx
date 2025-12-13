@@ -6,12 +6,14 @@ import RequirementsFormModal from './RequirementsFormModal';
 import { generateAISolution } from '../services/aiSolutionService';
 import MarkdownRenderer from './MarkdownRenderer';
 import { getProjectKPIs, trackProjectView, trackResourceDownload, ProjectKPI, getEngagementLevel } from '../services/projectKpiService';
+import { useAuth } from '../contexts/AuthContext';
 
 interface ProjectsInterfaceProps {
   toggleSidebar: () => void;
 }
 
 const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) => {
+  const { profile } = useAuth();
   const [loading, setLoading] = useState(true);
   const [requirementsForms, setRequirementsForms] = useState<RequirementForm[]>([]);
   const [selectedRequirement, setSelectedRequirement] = useState<RequirementForm | null>(null);
@@ -128,7 +130,9 @@ const ProjectsInterface: React.FC<ProjectsInterfaceProps> = ({ toggleSidebar }) 
         requirement,
         (chunk) => {
           setAiSolution(prev => prev + chunk);
-        }
+        },
+        profile?.preferred_model_provider as 'gemini' | 'ollama' | undefined,
+        profile?.preferred_ollama_model
       );
     } catch (error) {
       console.error('Error generating solution:', error);

@@ -7,6 +7,7 @@ import { streamOllamaResponse } from '../services/ollamaService';
 import MarkdownRenderer from './MarkdownRenderer';
 import { APP_NAME, SUGGESTED_QUESTIONS } from '../constants';
 import { generateRecueilPDF } from '../utils/pdfGenerator';
+import { useAuth } from '../contexts/AuthContext';
 
 interface ChatInterfaceProps {
   toggleSidebar: () => void;
@@ -27,6 +28,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   welcomeTitle,
   welcomeMessage
 }) => {
+  const { profile } = useAuth();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -112,7 +114,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     
     setMessages(prev => [...prev, aiMsgPlaceholder]);
 
-    try {
+    const preferredProvider = profile?.preferred_model_provider || 'gemini';
+    const preferredOllamaModel = profile?.preferred_ollama_model;
+
+    const callGemini = async () => {
       await streamChatResponse(
         [...messages, userMsg],
         text,
@@ -125,8 +130,32 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         },
         systemInstruction
       );
+    };
+
+    const callOllama = async () => {
+      await streamOllamaResponse(
+        [...messages, userMsg],
+        text,
+        (chunk) => {
+          setMessages(prev => prev.map(msg =>
+            msg.id === aiMsgId
+              ? { ...msg, text: msg.text + chunk }
+              : msg
+          ));
+        },
+        systemInstruction,
+        preferredOllamaModel
+      );
+    };
+
+    try {
+      if (preferredProvider === 'ollama') {
+        await callOllama();
+      } else {
+        await callGemini();
+      }
     } catch (error) {
-      console.warn("Gemini failed, trying Ollama fallback...", error);
+      console.warn(`${preferredProvider} failed, trying fallback...`, error);
 
       try {
         setMessages(prev => prev.map(msg =>
@@ -135,20 +164,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             : msg
         ));
 
-        await streamOllamaResponse(
-          [...messages, userMsg],
-          text,
-          (chunk) => {
-            setMessages(prev => prev.map(msg =>
-              msg.id === aiMsgId
-                ? { ...msg, text: msg.text + chunk }
-                : msg
-            ));
-          },
-          systemInstruction
-        );
-      } catch (ollamaError) {
-        console.error("Both Gemini and Ollama failed:", ollamaError);
+        if (preferredProvider === 'ollama') {
+          await callGemini();
+        } else {
+          await callOllama();
+        }
+      } catch (fallbackError) {
+        console.error("Both providers failed:", fallbackError);
         setMessages(prev => prev.map(msg =>
           msg.id === aiMsgId
             ? { ...msg, text: "Désolé, une erreur est survenue lors de la connexion aux assistants IA. Veuillez vérifier votre connexion et réessayer." }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, User, Building2, Briefcase, Award, Calendar, Save, Edit2, X, CheckCircle, Sparkles } from 'lucide-react';
+import { Menu, User, Building2, Briefcase, Award, Calendar, Save, Edit2, X, CheckCircle, Sparkles, Brain, Cloud, Server } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import SpaceBackground from './SpaceBackground';
+import { AVAILABLE_OLLAMA_MODELS, OllamaModel } from '../services/ollamaService';
 
 interface ProfileInterfaceProps {
   toggleSidebar: () => void;
@@ -18,7 +19,9 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
     role: '',
     satellites_enabled: false,
     tooltips_enabled: true,
-    allow_contact: true
+    allow_contact: true,
+    preferred_model_provider: 'gemini' as 'gemini' | 'ollama',
+    preferred_ollama_model: ''
   });
 
   useEffect(() => {
@@ -29,7 +32,9 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
         role: profile.role || '',
         satellites_enabled: profile.satellites_enabled || false,
         tooltips_enabled: profile.tooltips_enabled !== false,
-        allow_contact: profile.allow_contact !== false
+        allow_contact: profile.allow_contact !== false,
+        preferred_model_provider: (profile.preferred_model_provider as 'gemini' | 'ollama') || 'gemini',
+        preferred_ollama_model: profile.preferred_ollama_model || ''
       });
     }
   }, [profile]);
@@ -61,7 +66,9 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
       role: profile?.role || '',
       satellites_enabled: profile?.satellites_enabled || false,
       tooltips_enabled: profile?.tooltips_enabled !== false,
-      allow_contact: profile?.allow_contact !== false
+      allow_contact: profile?.allow_contact !== false,
+      preferred_model_provider: (profile?.preferred_model_provider as 'gemini' | 'ollama') || 'gemini',
+      preferred_ollama_model: profile?.preferred_ollama_model || ''
     });
     setIsEditing(false);
   };
@@ -410,6 +417,155 @@ const ProfileInterface: React.FC<ProfileInterfaceProps> = ({ toggleSidebar }) =>
                   </p>
                 </label>
               </div>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-white/5 rounded-2xl p-8 border border-gray-200 dark:border-white/10 shadow-sm">
+            <div className="flex items-center space-x-3 mb-6">
+              <Brain className="w-8 h-8 text-[#6B9BD2]" />
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white">Modèle d'IA</h3>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Fournisseur d'IA
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newProvider = 'gemini';
+                      setFormData({ ...formData, preferred_model_provider: newProvider });
+                      if (!isEditing) {
+                        updateProfile({ preferred_model_provider: newProvider });
+                      }
+                    }}
+                    className={`flex items-center space-x-3 p-4 rounded-xl border-2 transition-all ${
+                      formData.preferred_model_provider === 'gemini'
+                        ? 'border-[#6B9BD2] bg-blue-50 dark:bg-blue-500/10'
+                        : 'border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20'
+                    }`}
+                  >
+                    <Cloud className={`w-6 h-6 ${
+                      formData.preferred_model_provider === 'gemini'
+                        ? 'text-[#6B9BD2]'
+                        : 'text-gray-400 dark:text-gray-600'
+                    }`} />
+                    <div className="flex-1 text-left">
+                      <div className={`font-semibold ${
+                        formData.preferred_model_provider === 'gemini'
+                          ? 'text-[#6B9BD2]'
+                          : 'text-gray-700 dark:text-gray-300'
+                      }`}>
+                        Gemini
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Cloud Google</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newProvider = 'ollama';
+                      setFormData({ ...formData, preferred_model_provider: newProvider });
+                      if (!isEditing) {
+                        updateProfile({ preferred_model_provider: newProvider });
+                      }
+                    }}
+                    className={`flex items-center space-x-3 p-4 rounded-xl border-2 transition-all ${
+                      formData.preferred_model_provider === 'ollama'
+                        ? 'border-[#90E4C1] bg-green-50 dark:bg-green-500/10'
+                        : 'border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20'
+                    }`}
+                  >
+                    <Server className={`w-6 h-6 ${
+                      formData.preferred_model_provider === 'ollama'
+                        ? 'text-[#90E4C1]'
+                        : 'text-gray-400 dark:text-gray-600'
+                    }`} />
+                    <div className="flex-1 text-left">
+                      <div className={`font-semibold ${
+                        formData.preferred_model_provider === 'ollama'
+                          ? 'text-[#90E4C1]'
+                          : 'text-gray-700 dark:text-gray-300'
+                      }`}>
+                        Ollama
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">On-premise</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {formData.preferred_model_provider === 'ollama' && (
+                <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-white/10">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    Modèle Ollama
+                  </label>
+
+                  {['recommended', 'optimized', 'specialized', 'generalist'].map((category) => {
+                    const categoryModels = AVAILABLE_OLLAMA_MODELS.filter(m => m.category === category);
+                    if (categoryModels.length === 0) return null;
+
+                    const categoryLabels = {
+                      recommended: '🚀 Recommandés',
+                      optimized: '⚡ Optimisés',
+                      specialized: '🎯 Spécialisés',
+                      generalist: '💬 Généralistes'
+                    };
+
+                    return (
+                      <div key={category} className="space-y-2">
+                        <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                          {categoryLabels[category as keyof typeof categoryLabels]}
+                        </div>
+                        <div className="grid gap-2">
+                          {categoryModels.map((model) => (
+                            <button
+                              key={model.name}
+                              type="button"
+                              onClick={() => {
+                                const newModel = model.name;
+                                setFormData({ ...formData, preferred_ollama_model: newModel });
+                                if (!isEditing) {
+                                  updateProfile({ preferred_ollama_model: newModel });
+                                }
+                              }}
+                              className={`flex items-start p-3 rounded-lg border transition-all text-left ${
+                                formData.preferred_ollama_model === model.name
+                                  ? 'border-[#90E4C1] bg-green-50 dark:bg-green-500/10'
+                                  : 'border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20'
+                              }`}
+                            >
+                              <div className="flex-1">
+                                <div className={`font-medium text-sm ${
+                                  formData.preferred_ollama_model === model.name
+                                    ? 'text-[#90E4C1]'
+                                    : 'text-gray-800 dark:text-white'
+                                }`}>
+                                  {model.displayName}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                                  {model.description}
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {formData.preferred_model_provider === 'gemini' && (
+                <div className="p-4 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 rounded-lg">
+                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                    Gemini est un modèle cloud performant de Google. Idéal pour une utilisation immédiate sans configuration.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

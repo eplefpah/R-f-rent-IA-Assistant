@@ -52,10 +52,21 @@ export const streamOllamaResponse = async (
   try {
     const validHistory = history.filter(m => !m.isStreaming && m.text.trim() !== "");
 
-    const messages = validHistory.map(m => ({
-      role: m.role === "model" ? "assistant" : "user",
-      content: m.text
-    }));
+    const messages: Array<{ role: string; content: string }> = [];
+
+    if (systemInstruction || GLOBAL_SYSTEM_INSTRUCTION) {
+      messages.push({
+        role: "system",
+        content: systemInstruction || GLOBAL_SYSTEM_INSTRUCTION
+      });
+    }
+
+    validHistory.forEach(m => {
+      messages.push({
+        role: m.role === "model" ? "assistant" : "user",
+        content: m.text
+      });
+    });
 
     messages.push({
       role: "user",
@@ -70,8 +81,7 @@ export const streamOllamaResponse = async (
       body: JSON.stringify({
         model: model || DEFAULT_MODEL,
         messages: messages,
-        stream: true,
-        system: systemInstruction || GLOBAL_SYSTEM_INSTRUCTION
+        stream: true
       })
     });
 
